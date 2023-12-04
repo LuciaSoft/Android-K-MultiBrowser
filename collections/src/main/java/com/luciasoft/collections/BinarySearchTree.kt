@@ -90,10 +90,7 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
         }
     }
 
-    override fun iterator(): Iterator<T>
-    {
-        return MyIterator(this)
-    }
+    override fun iterator(): Iterator<T> = MyIterator(this)
 
     private class MyIterator<T>(private val tree: BinarySearchTree<T>) : Iterator<T>
     {
