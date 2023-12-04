@@ -97,12 +97,7 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
 
     private class MyIterator<T>(private val tree: BinarySearchTree<T>) : Iterator<T>
     {
-        private var current: Node<T>? = null;
-
-        init
-        {
-            current = getFirst()
-        }
+        private var current = getFirst()
 
         override fun hasNext(): Boolean
         {
