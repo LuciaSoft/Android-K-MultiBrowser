@@ -1,6 +1,6 @@
 package com.luciasoft.collections
 
-open class DirectoryItem(val path: String, var date: Long? = null, var info: String? = null)
+abstract class DirectoryItem(val path: String, var date: Long? = null, var info: String? = null)
 {
     val name: String = getShortName(path)
 }
