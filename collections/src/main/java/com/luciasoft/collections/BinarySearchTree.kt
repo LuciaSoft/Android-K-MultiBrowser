@@ -20,10 +20,33 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
         for (item in this) if (comparator.compare(item, data) == 0) return item
         return null
     }
-
-    private fun compare (data1: T, data2: T): Int
+    
+    fun add(data: T)
     {
-        return comparator.compare(data1, data2);
+        add(data, root)
+    }
+
+    fun add(vararg data: T)
+    {
+        for (datum in data) add(datum)
+    }
+
+    fun add(randomize: Boolean, vararg data: T)
+    {
+        add(data.toList(), randomize)
+    }
+
+    fun add(data: Collection<T>, randomize: Boolean)
+    {
+        if (!randomize)
+        {
+            for (datum in data) add(datum)
+        }
+        else
+        {
+            val list = randomize(data);
+            for (datum in list) add(datum)
+        }
     }
 
     private fun add(data: T, node: Node<T>?)
@@ -37,7 +60,7 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
 
         checkNotNull(node) {"node cannot be null."}
 
-        var compare = compare(data, node.data)
+        var compare = comparator.compare(data, node.data)
         if (allowDupes && compare == 0) compare = -1
 
         if (compare < 0)
@@ -64,34 +87,6 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
 
             add(data, node.rght)
             return
-        }
-    }
-
-    fun add(data: T)
-    {
-        add(data, root)
-    }
-
-    fun add(vararg data: T)
-    {
-        for (datum in data) add(datum)
-    }
-
-    fun add(randomize: Boolean, vararg data: T)
-    {
-        add(data.toList(), randomize)
-    }
-
-    fun add(data: Collection<T>, randomize: Boolean)
-    {
-        if (!randomize)
-        {
-            for (datum in data) add(datum)
-        }
-        else
-        {
-            val list = randomize(data);
-            for (datum in list) add(datum)
         }
     }
 
