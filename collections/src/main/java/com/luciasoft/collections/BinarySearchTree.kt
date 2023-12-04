@@ -61,7 +61,7 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
         checkNotNull(node) {"node cannot be null."}
 
         var compare = comparator.compare(data, node.data)
-        if (allowDupes && compare == 0) compare = -1
+        if (allowDupes && compare == 0) compare = 1
 
         if (compare < 0)
         {
