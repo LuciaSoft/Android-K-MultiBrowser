@@ -3,12 +3,12 @@ package com.luciasoft.collections
 import java.io.File
 import kotlin.random.Random
 
-fun<T> randomize(data: Collection<T>): ArrayList<T>
+fun<T> randomize(data: Collection<T>, seed: Int = 0): ArrayList<T>
 {
-    val r = Random(0)
+    val r = Random(seed)
     val len = data.size
-    val list = ArrayList(data)
-    for (i in 0..len)
+    val list = ArrayList<T>(data)
+    for (i in 0 until len)
     {
         val pos = (r.nextDouble() * len).toInt()
         val tmp = list[i];

@@ -15,10 +15,23 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
     var count: Int = 0
     private set
 
-    fun get(data: T): T?
+    fun getSameAs(data: T): T?
     {
-        for (item in this) if (comparator.compare(item, data) == 0) return item
-        return null
+        return getSameAs(data, root)
+    }
+
+    private fun getSameAs(data: T, node: Node<T>?): T?
+    {
+        if (root == null) return null
+
+        checkNotNull(node) {"node cannot be null"}
+
+        val compare = comparator.compare(data, node.data)
+
+        if (compare < 0) return getSameAs(data, node.left)
+        if (compare > 0) return getSameAs(data, node.rght)
+
+        return node.data
     }
     
     fun add(data: T)
@@ -33,7 +46,8 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
 
     fun add(randomize: Boolean, vararg data: T)
     {
-        add(data.toList(), randomize)
+        if (!randomize) for (datum in data) add(datum)
+        else add(data.toList(), randomize)
     }
 
     fun add(data: Collection<T>, randomize: Boolean)
@@ -96,10 +110,7 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
     {
         private var current = getFirst()
 
-        override fun hasNext(): Boolean
-        {
-            return current != null
-        }
+        override fun hasNext(): Boolean = current != null
 
         override fun next(): T
         {

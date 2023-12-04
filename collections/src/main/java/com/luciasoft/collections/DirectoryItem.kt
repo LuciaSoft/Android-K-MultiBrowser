@@ -13,7 +13,7 @@ class MediaStoreImageInfoTree() : BinarySearchTree<FileItem>(false, FileItemPath
 {
     fun getFileItem(path: String): FileItem?
     {
-        return super.get(FileItem(path))
+        return super.getSameAs(FileItem(path))
     }
 
     fun getImageId(path: String): Int?
