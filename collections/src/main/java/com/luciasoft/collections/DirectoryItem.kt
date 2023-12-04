@@ -18,8 +18,7 @@ class MediaStoreImageInfoTree() : BinarySearchTree<FileItem>(false, FileItemPath
 
     fun getImageId(path: String): Int?
     {
-        val item = getFileItem(path)
-        if (item == null) return null
+        val item = getFileItem(path) ?: return null
         return item.imageId
     }
 }
