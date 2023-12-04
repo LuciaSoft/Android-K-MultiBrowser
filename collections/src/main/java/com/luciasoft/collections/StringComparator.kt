@@ -7,7 +7,7 @@ class StringComparator(private val ignoreCase: Boolean, private val special: Boo
         checkNotNull(s1)
         checkNotNull(s2)
 
-        if (special || ignoreCase)
+        if (ignoreCase || special)
         {
             val compare = s1.compareTo(s2, true)
             if (ignoreCase || compare != 0) return compare
