@@ -1,6 +1,6 @@
 package com.luciasoft.collections
 
-class StringComparator(private val ignoreCase: Boolean, private val special: Boolean) : Comparator<String>
+class StringComparator(var ignoreCase: Boolean, var special: Boolean) : Comparator<String>
 {
     override fun compare(s1: String?, s2: String?): Int
     {
