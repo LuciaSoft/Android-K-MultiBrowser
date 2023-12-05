@@ -119,13 +119,6 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
             return data
         }
 
-        private fun getLeftMost(node: Node<T>): Node<T>
-        {
-            var n = node
-            while (n.left != null) n = n.left as Node<T>
-            return n
-        }
-
         private fun getFirst(): Node<T>?
         {
             if (tree.root == null) return null;
@@ -138,6 +131,13 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
             if (n.rght != null) return getLeftMost(n.rght!!);
             while (n.prnt != null && n == n.prnt!!.rght) n = n.prnt!!
             return n.prnt
+        }
+        
+        private fun getLeftMost(node: Node<T>): Node<T>
+        {
+            var n = node
+            while (n.left != null) n = n.left as Node<T>
+            return n
         }
     }
 }
