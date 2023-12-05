@@ -117,7 +117,8 @@ open class BinarySearchTree<T>(var allowDupes: Boolean, protected val comparator
 
     override fun iterator(): Iterator<T> = MyIterator(this)
 
-    private class MyIterator<T>(private val tree: BinarySearchTree<T>) : Iterator<T>
+    private class MyIterator<T>(private val tree: BinarySearchTree<T>)
+        : Iterator<T>
     {
         private var current = getFirst()
 
