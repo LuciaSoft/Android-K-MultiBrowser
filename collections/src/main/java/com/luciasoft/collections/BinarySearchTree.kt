@@ -2,7 +2,7 @@ package com.luciasoft.collections
 
 class BSTofString(allowDupes: Boolean, ignoreCase: Boolean, special: Boolean) : BinarySearchTree<String>(allowDupes, StringComparator(ignoreCase, special))
 
-open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comparator: Comparator<T>) : Iterable<T>
+open class BinarySearchTree<T>(var allowDupes: Boolean, private val comparator: Comparator<T>) : Iterable<T>
 {
     private class Node<T>(val data: T, val prnt: Node<T>?)
     {
@@ -32,36 +32,36 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
         return node.data
     }
     
-    fun add(data: T, allowDupes: Boolean = this.allowDupes)
+    fun add(data: T)
     {
-        add(data, root, allowDupes)
+        add(data, root)
     }
 
-    fun add(allowDupes: Boolean = this.allowDupes, vararg data: T)
+    fun add(vararg data: T)
     {
-        for (datum in data) add(datum, allowDupes)
+        for (datum in data) add(datum)
     }
 
-    fun add(randomize: Boolean, allowDupes: Boolean = this.allowDupes, vararg data: T)
+    fun add(randomize: Boolean, vararg data: T)
     {
-        if (!randomize) for (datum in data) add(datum, allowDupes)
-        else add(data.toList(), allowDupes, randomize)
+        if (!randomize) for (datum in data) add(datum)
+        else add(data.toList(), randomize)
     }
 
-    fun add(data: Collection<T>, allowDupes: Boolean = this.allowDupes, randomize: Boolean)
+    fun add(data: Collection<T>, randomize: Boolean)
     {
         if (!randomize)
         {
-            for (datum in data) add(datum, allowDupes)
+            for (datum in data) add(datum)
         }
         else
         {
             val list = randomize(data);
-            for (datum in list) add(datum, allowDupes)
+            for (datum in list) add(datum)
         }
     }
 
-    private fun add(data: T, node: Node<T>?, allowDupes: Boolean = this.allowDupes)
+    private fun add(data: T, node: Node<T>?)
     {
         if (root == null)
         {
