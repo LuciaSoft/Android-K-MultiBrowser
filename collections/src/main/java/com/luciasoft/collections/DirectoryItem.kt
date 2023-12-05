@@ -12,7 +12,7 @@ class FolderItem(path: String, date: Long? = null, info: String? = null)
     : DirectoryItem(path, date, info)
 
 class MediaStoreImageInfoTree()
-   : BinarySearchTree<FileItem>(false, FileItemPathComparator.getComparator())
+    : BinarySearchTree<FileItem>(false, FileItemPathComparator.getComparator())
 {
     fun getFileItem(path: String): FileItem?
     {
