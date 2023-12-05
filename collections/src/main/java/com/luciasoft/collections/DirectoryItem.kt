@@ -5,11 +5,14 @@ abstract class DirectoryItem(val path: String, var date: Long? = null, var info:
     val name: String = getShortName(path)
 }
 
-class FileItem(path: String, date: Long? = null, var size: Long? = null, info: String? = null, var imageId: Int? = null) : DirectoryItem(path, date, info)
+class FileItem(path: String, date: Long? = null, var size: Long? = null, info: String? = null, var imageId: Int? = null)
+    : DirectoryItem(path, date, info)
 
-class FolderItem(path: String, date: Long? = null, info: String? = null) : DirectoryItem(path, date, info)
+class FolderItem(path: String, date: Long? = null, info: String? = null)
+    : DirectoryItem(path, date, info)
 
-class MediaStoreImageInfoTree() : BinarySearchTree<FileItem>(false, FileItemPathComparator.getComparator())
+class MediaStoreImageInfoTree()
+   : BinarySearchTree<FileItem>(false, FileItemPathComparator.getComparator())
 {
     fun getFileItem(path: String): FileItem?
     {
