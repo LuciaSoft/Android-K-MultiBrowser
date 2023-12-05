@@ -22,9 +22,7 @@ open class BinarySearchTree<T>(private val allowDupes: Boolean, private val comp
 
     private fun getSameAs(data: T, node: Node<T>?): T?
     {
-        if (root == null) return null
-
-        checkNotNull(node) {"node cannot be null."}
+        if (node == null) return null
 
         val compare = comparator.compare(data, node.data)
 
