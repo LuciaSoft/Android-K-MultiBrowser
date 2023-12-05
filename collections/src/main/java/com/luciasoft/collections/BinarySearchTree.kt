@@ -1,6 +1,7 @@
 package com.luciasoft.collections
 
-class BSTofString(allowDupes: Boolean, ignoreCase: Boolean, special: Boolean) : BinarySearchTree<String>(allowDupes, StringComparator(ignoreCase, special))
+class BSTofString(allowDupes: Boolean, ignoreCase: Boolean, special: Boolean)
+    : BinarySearchTree<String>(allowDupes, StringComparator(ignoreCase, special))
 {
     private val strCmp = comparator as StringComparator
     
