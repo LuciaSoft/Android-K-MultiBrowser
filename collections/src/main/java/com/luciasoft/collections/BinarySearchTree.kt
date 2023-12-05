@@ -1,6 +1,15 @@
 package com.luciasoft.collections
 
 class BSTofString(allowDupes: Boolean, ignoreCase: Boolean, special: Boolean) : BinarySearchTree<String>(allowDupes, StringComparator(ignoreCase, special))
+{
+    var ignoreCase: Boolean
+    get() = comparator.ignoreCase
+    set(value) { comparator.ignoreCase = value }
+    
+    var special: Boolean
+    get() = comparator.special
+    set(value) { comparator.special = value }
+}
 
 open class BinarySearchTree<T>(var allowDupes: Boolean, private val comparator: Comparator<T>) : Iterable<T>
 {
