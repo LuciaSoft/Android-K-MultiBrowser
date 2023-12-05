@@ -14,7 +14,8 @@ class BSTofString(allowDupes: Boolean, ignoreCase: Boolean, special: Boolean)
     set(value) { strCmp.special = value }
 }
 
-open class BinarySearchTree<T>(var allowDupes: Boolean, protected val comparator: Comparator<T>) : Iterable<T>
+open class BinarySearchTree<T>(var allowDupes: Boolean, protected val comparator: Comparator<T>)
+    : Iterable<T>
 {
     private class Node<T>(val data: T, val prnt: Node<T>?)
     {
