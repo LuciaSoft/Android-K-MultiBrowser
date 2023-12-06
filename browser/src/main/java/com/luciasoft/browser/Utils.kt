@@ -108,12 +108,12 @@ fun trimEmd(str: String, trim: String): String
     return str
 }
 
-fun ToastShort(context: Context, message: String)
+fun toastShort(context: Context, message: String)
 {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
-fun ToastLong(context: Context, message: String)
+fun toastLong(context: Context, message: String)
 {
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }

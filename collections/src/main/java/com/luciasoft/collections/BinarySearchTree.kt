@@ -28,6 +28,12 @@ open class BinarySearchTree<T>(var allowDupes: Boolean, protected val comparator
     var count: Int = 0
     private set
 
+    fun reset()
+    {
+        root = null;
+        count = 0;
+    }
+
     fun getSameAs(data: T): T?
     {
         return getSameAs(data, root)
