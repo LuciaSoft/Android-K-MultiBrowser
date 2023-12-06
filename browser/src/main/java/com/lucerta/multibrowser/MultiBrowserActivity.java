@@ -47,15 +47,15 @@ public class MultiBrowserActivity extends AppCompatActivity
     private MultiBrowserOptions tmpOptions;
 
     DataHolder DAT() { return data; }
-    public MultiBrowserOptions OPT() { return data.mOptions; }
-    MultiBrowserOptions.Advanced ADV() { return data.mOptions.advanced(); }
-    MultiBrowserOptions.Theme THM() { return data.mOptions.theme(); }
+    public MultiBrowserOptions OPT() { return data.getMOptions(); }
+    MultiBrowserOptions.Advanced ADV() { return data.getMOptions().advanced(); }
+    public MultiBrowserOptions.Theme THM() { return data.getMOptions().theme(); }
 
     public MultiBrowserOptions getOptions()
     {
         if (data == null && tmpOptions == null) return null;
         if (data == null) return tmpOptions;
-        return data.mOptions;
+        return data.getMOptions();
     }
 
     public boolean setOptions(MultiBrowserOptions options, boolean squelchException)
@@ -72,7 +72,7 @@ public class MultiBrowserActivity extends AppCompatActivity
         }
         else
         {
-            data.mOptions = options;
+            data.setMOptions(options);
             tmpOptions = null;
         }
 
@@ -119,11 +119,11 @@ public class MultiBrowserActivity extends AppCompatActivity
 
         data = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(DataHolder.class);
 
-        if (data.mDefaultScreenOrientation == null) data.mDefaultScreenOrientation = getRequestedOrientation();
+        if (data.getMDefaultScreenOrientation() == null) data.setMDefaultScreenOrientation(getRequestedOrientation());
 
         if (tmpOptions != null)
         {
-            data.mOptions = tmpOptions;
+            data.setMOptions(tmpOptions);
             tmpOptions = null;
         }
 
@@ -224,7 +224,7 @@ public class MultiBrowserActivity extends AppCompatActivity
         }
         else if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.SystemDefault)
         {
-            if (data.mDefaultScreenOrientation != null) setRequestedOrientation(data.mDefaultScreenOrientation);
+            if (data.getMDefaultScreenOrientation() != null) setRequestedOrientation(data.getMDefaultScreenOrientation());
         }
     }
 
@@ -362,8 +362,8 @@ public class MultiBrowserActivity extends AppCompatActivity
 
     void refreshView(String dir, boolean forceSourceReload, boolean refreshLayout)
     {
-        boolean firstLoad = data.mFirstLoad;
-        data.mFirstLoad = false;
+        boolean firstLoad = data.getMFirstLoad();
+        data.setMFirstLoad(false);
 
         ArrayList<DirectoryItem> items = getDirectoryItems(dir, forceSourceReload);
 
@@ -421,26 +421,26 @@ public class MultiBrowserActivity extends AppCompatActivity
         if (galleryView || OPT().mShowImagesWhileBrowsingNormal)
         {
             boolean reload = forceSourceReload ||
-                    ADV().mAutoRefreshDirectorySource || data.mMediaStoreImageInfoList == null;
+                    ADV().mAutoRefreshDirectorySource || data.getMMediaStoreImageInfoList() == null;
 
-            if (reload) data.mMediaStoreImageInfoList = ListUtils.getImageInfos(this);
+            if (reload) data.setMMediaStoreImageInfoList(ListUtils.getImageInfos(this));
         }
 
         ArrayList<DirectoryItem> items;
         if (galleryView)
         {
-            items = data.mMediaStoreImageInfoList;
+            items = data.getMMediaStoreImageInfoList();
         }
         else
         {
             boolean reload = forceSourceReload || ADV().mAutoRefreshDirectorySource ||
-                    data.mFileSystemDirectoryItems == null ||
+                    data.getMFileSystemDirectoryItems() == null ||
                     OPT().mCurrentDir == null || !dir.equalsIgnoreCase(OPT().mCurrentDir);
 
-            if (reload) data.mFileSystemDirectoryItems =
-                    ListUtils.getDirectoryItemsFromFileSystem(this, dir, OPT().mFileFilters[OPT().mFileFilterIndex]);
+            if (reload) data.setMFileSystemDirectoryItems(
+                ListUtils.getDirectoryItemsFromFileSystem(this, dir, OPT().mFileFilters[OPT().mFileFilterIndex]));
 
-            items = data.mFileSystemDirectoryItems;
+            items = data.getMFileSystemDirectoryItems();
         }
 
         return items;

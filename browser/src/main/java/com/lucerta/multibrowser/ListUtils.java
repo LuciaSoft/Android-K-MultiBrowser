@@ -112,11 +112,11 @@ class ListUtils
             infoArray[pos] = tmp;
         }
 
-        if (act.DAT().mMediaStoreImageInfoTree == null)
-            act.DAT().mMediaStoreImageInfoTree = new MediaStoreImageInfoTree();
-        else act.DAT().mMediaStoreImageInfoTree.reset();
+        if (act.DAT().getMMediaStoreImageInfoTree() == null)
+            act.DAT().setMMediaStoreImageInfoTree(new MediaStoreImageInfoTree());
+        else act.DAT().getMMediaStoreImageInfoTree().reset();
 
-        for (DirectoryItem info : infoArray) act.DAT().mMediaStoreImageInfoTree.add((FileItem)info);
+        for (DirectoryItem info : infoArray) act.DAT().getMMediaStoreImageInfoTree().add((FileItem)info);
 
         return list;
     }
@@ -216,9 +216,9 @@ class ListUtils
 
                 Integer imageId = null;
 
-                if (act.OPT().mShowImagesWhileBrowsingNormal && act.DAT().mMediaStoreImageInfoTree != null)
+                if (act.OPT().mShowImagesWhileBrowsingNormal && act.DAT().getMMediaStoreImageInfoTree() != null)
                 {
-                    imageId = act.DAT().mMediaStoreImageInfoTree.getImageId(path);
+                    imageId = act.DAT().getMMediaStoreImageInfoTree().getImageId(path);
                 }
 
                 dirItemList.add(new FileItem(path, date, size, info, imageId));
