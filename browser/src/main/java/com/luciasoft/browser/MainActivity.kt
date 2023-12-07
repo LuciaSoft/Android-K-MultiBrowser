@@ -1,50 +1,66 @@
 package com.luciasoft.browser
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.luciasoft.browser.ui.theme.MultiBrowserTheme
+import android.widget.Toast
+import com.lucerta.multibrowser.MultiBrowserActivity
+import com.lucerta.multibrowser.MultiBrowserOptions
+import com.luciasoft.browser.OnSelectItem
+import com.luciasoft.browser.SelectedItemInfo
 
-class MainActivity : ComponentActivity()
+class MainActivity : MultiBrowserActivity()
 {
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MultiBrowserTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+        val options1 = MultiBrowserOptions();
+        options1.advanced().debugMode = true;
+        options1.setFileFilter(
+            " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
+                " PNG Image Files ( *.png ) |*.png|" +
+                " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
+                " All Files ( *.* ) |*");
+        options1.fileFilterIndex = 3;
+        options1.browseMode = MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders;
+
+        val options2 = MultiBrowserOptions();
+        options2.advanced().debugMode = false;
+        options2.advanced().allowLongClickFileForSave = true;
+        options2.advanced().allowShortClickFileForSave = false;
+        options2.setFileFilter(
+            " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
+                " PNG Image Files ( *.png ) |*.png|" +
+                " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
+                " All Files ( *.* ) |*");
+        options2.fileFilterIndex = 3;
+        options2.browseMode = MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders;
+
+        if (true) options2.onSelectFileForSave = object : OnSelectItem
+        {
+            override fun onSelect(info: SelectedItemInfo)
+            {
+                Toast.makeText(this@MainActivity, info.path, Toast.LENGTH_LONG).show();
             }
         }
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier)
-{
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+        val options3 = MultiBrowserOptions();
+        //options3.advanced().setDebugMode(true);
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview()
-{
-    MultiBrowserTheme {
-        Greeting("Android")
+        setOptions(options3, false);
+
+        super.onCreate(savedInstanceState)
+
+        try { options2.saveXml("/sdcard/mboptions.xml"); }
+        catch (ex: Exception)
+        {
+            Toast.makeText(this,"" + ex.message, Toast.LENGTH_LONG).show();
+        }
+
+        /*try
+        {
+            Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/cambria.ttf");
+        }
+        catch (Exception ex)
+        {
+            Toast.makeText(this,"" + ex.getMessage(), Toast.LENGTH_LONG).show();
+        }*/
     }
 }

@@ -1,4 +1,4 @@
-package com.luciasoft.browser.ui.theme
+package com.luciasoft.browser.temp.theme
 
 import android.app.Activity
 import android.os.Build
