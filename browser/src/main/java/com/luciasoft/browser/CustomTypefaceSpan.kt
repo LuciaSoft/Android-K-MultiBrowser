@@ -8,7 +8,8 @@ import android.text.TextPaint
 import android.text.style.TypefaceSpan
 import androidx.annotation.RequiresApi
 
-@SuppressLint("NewApi")
+
+@RequiresApi(Build.VERSION_CODES.P)
 class CustomTypefaceSpan(family: String, private val type: Typeface) : TypefaceSpan(type)
 {
     override fun updateDrawState(ds: TextPaint)
