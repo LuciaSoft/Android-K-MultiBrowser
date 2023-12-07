@@ -355,6 +355,12 @@ public class MultiBrowserActivity extends AppCompatActivity
         });
     }
 
+    public void resetDir()
+    {
+        OPT().mCurrentDir = OPT().mDefaultDir;
+
+        refreshView(true, false);
+    }
     public void refreshView(boolean forceSourceReload, boolean refreshLayout)
     {
         refreshView(OPT().mCurrentDir, forceSourceReload, refreshLayout);

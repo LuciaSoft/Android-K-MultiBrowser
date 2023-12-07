@@ -154,7 +154,7 @@ open class BinarySearchTree<T>(var allowDupes: Boolean, protected val comparator
         private fun getLeftMost(node: Node<T>): Node<T>
         {
             var n = node
-            while (n.left != null) n = n.left as Node<T>
+            while (n.left != null) n = n.left!!
             return n
         }
     }
