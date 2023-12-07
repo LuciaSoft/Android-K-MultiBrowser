@@ -1,6 +1,6 @@
 package com.luciasoft.browser
 
-import com.lucerta.multibrowser.MultiBrowserActivity
+import com.luciasoft.browser.MultiBrowserActivity
 import java.io.File
 
 fun directoryIsReadable(act: MultiBrowserActivity, directory: String): Boolean
@@ -14,7 +14,7 @@ fun directoryIsReadable(act: MultiBrowserActivity, directory: String): Boolean
     catch (ex: Exception) { return false; }
     if (!exists) return false;
 
-    if (!act.OPT().allowAccessToRestrictedFolders)
+    if (!act.OPT.allowAccessToRestrictedFolders)
     {
         var canRead = false;
         try { canRead = dir.canRead(); }

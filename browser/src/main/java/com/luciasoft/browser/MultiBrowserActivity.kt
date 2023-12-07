@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity()
+class MultiBrowserActivity : AppCompatActivity()
 {
     lateinit var mEditTextSaveFileName: EditText
     lateinit var mRecyclerView: MyRecyclerView
@@ -62,5 +62,31 @@ class MainActivity : AppCompatActivity()
             if (DAT!!.mDefaultScreenOrientation != null) requestedOrientation =
                 DAT!!.mDefaultScreenOrientation!!
         }
+    }
+
+    fun resetDir()
+    {
+
+    }
+
+    fun refreshView(forceSourceReload: Boolean, refreshLayout: Boolean)
+    {
+
+    }
+
+    fun refreshView(dir: String, forceSourceReload: Boolean, refreshLayout: Boolean)
+    {
+
+    }
+
+    fun onSelect(
+        file: Boolean,
+        load: Boolean,
+        longClick: Boolean,
+        saveButton: Boolean,
+        path: String?
+    )
+    {
+        //onSelect(false, file, load, longClick, saveButton, path)
     }
 }

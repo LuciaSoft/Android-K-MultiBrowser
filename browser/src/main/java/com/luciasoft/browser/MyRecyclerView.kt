@@ -7,7 +7,7 @@ import android.graphics.Paint
 import android.text.TextPaint
 import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
-import com.lucerta.multibrowser.MultiBrowserActivity
+import com.luciasoft.browser.MultiBrowserActivity
 
 class MyRecyclerView : RecyclerView
 {
