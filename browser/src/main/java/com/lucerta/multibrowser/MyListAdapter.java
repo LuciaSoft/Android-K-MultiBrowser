@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.luciasoft.browser.Options;
 import com.luciasoft.browser.UtilsKt;
 import com.luciasoft.collections.DirectoryItem;
 import com.luciasoft.collections.FileItem;
@@ -59,7 +60,7 @@ class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
     {
         View view;
 
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+        if (act.OPT().browserViewType == Options.BrowserViewType.List)
         {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(
                 R.layout.list_item_list_view, viewGroup, false);
@@ -69,7 +70,7 @@ class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
             view = LayoutInflater.from(viewGroup.getContext()).inflate(
                 R.layout.list_item_tiles_view, viewGroup, false);
 
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery && !act.OPT().mShowFileNamesInGalleryView)
+            if (act.OPT().browserViewType == Options.BrowserViewType.Gallery && !act.OPT().showFileNamesInGalleryView)
                 view.findViewById(R.id.listItemText).setVisibility(View.GONE);
             else
                 view.findViewById(R.id.listItemText).setVisibility(View.VISIBLE);
@@ -117,7 +118,7 @@ class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
             image.setScaleType(ImageView.ScaleType.FIT_CENTER);
             image.setImageBitmap(BitmapFactory.decodeResource(act.getResources(), iconId));
 
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+            if (act.OPT().browserViewType == Options.BrowserViewType.List)
             {
                 String str = infoType + " not found";
                 viewHolder.info.setText(str);
@@ -131,7 +132,7 @@ class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
             return;
         }
 
-        boolean galleryView = act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery;
+        boolean galleryView = act.OPT().browserViewType == Options.BrowserViewType.Gallery;
 
         boolean isFile = item instanceof FileItem;
 
@@ -139,8 +140,8 @@ class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
         {
             Bitmap thumb = null;
 
-            if ((galleryView && act.OPT().mShowImagesWhileBrowsingGallery) ||
-                (!galleryView && act.OPT().mShowImagesWhileBrowsingNormal))
+            if ((galleryView && act.OPT().showImagesWhileBrowsingGallery) ||
+                (!galleryView && act.OPT().showImagesWhileBrowsingNormal))
             {
                 FileItem fileItem = (FileItem)item;
 
@@ -184,13 +185,13 @@ class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
         if (hidden) image.setImageAlpha(127);
         else image.setImageAlpha(255);
 
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+        if (act.OPT().browserViewType == Options.BrowserViewType.List)
             viewHolder.info.setText(item.getInfo());
 
-        boolean loadFilesFolders = act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders;
-        boolean saveFilesFolders = act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders;
-        boolean loadFolders = act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.LoadFolders;
-        boolean saveFolders = act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.SaveFolders;
+        boolean loadFilesFolders = act.OPT().browseMode == Options.BrowseMode.LoadFilesAndOrFolders;
+        boolean saveFilesFolders = act.OPT().browseMode == Options.BrowseMode.SaveFilesAndOrFolders;
+        boolean loadFolders = act.OPT().browseMode == Options.BrowseMode.LoadFolders;
+        boolean saveFolders = act.OPT().browseMode == Options.BrowseMode.SaveFolders;
 
         boolean load =
             (isFile && loadFilesFolders) ||
@@ -203,26 +204,26 @@ class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
             act.findViewById(R.id.saveFileLayout).getVisibility() != View.GONE;
 
         boolean sendToSaveBoxShortClick =
-            save && isFile && saveBoxVisible && act.ADV().mAllowShortClickFileForSave &&
-            (act.ADV().mDebugMode || act.OPT().mOnSelectFileForSave != null) &&
-            act.ADV().mShortClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SaveFile;
+            save && isFile && saveBoxVisible && act.ADV().allowShortClickFileForSave &&
+            (act.ADV().debugMode || act.OPT().onSelectFileForSave != null) &&
+            act.ADV().shortClickSaveFileBehavior != Options.SaveFileBehavior.SaveFile;
         boolean sendToSaveBoxLongClick =
-            save && isFile && saveBoxVisible && act.ADV().mAllowLongClickFileForSave &&
-            (act.ADV().mDebugMode || act.OPT().mOnSelectFileForSave != null) &&
-            act.ADV().mLongClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SaveFile;
+            save && isFile && saveBoxVisible && act.ADV().allowLongClickFileForSave &&
+            (act.ADV().debugMode || act.OPT().onSelectFileForSave != null) &&
+            act.ADV().longClickSaveFileBehavior != Options.SaveFileBehavior.SaveFile;
 
         boolean shortClickable =
-            act.ADV().mDebugMode || !isFile || sendToSaveBoxShortClick ||
-            (load && act.ADV().mAllowShortClickFileForLoad && act.OPT().mOnSelectFileForLoad != null) ||
-            (save && act.ADV().mAllowShortClickFileForSave && act.OPT().mOnSelectFileForSave != null);
+            act.ADV().debugMode || !isFile || sendToSaveBoxShortClick ||
+            (load && act.ADV().allowShortClickFileForLoad && act.OPT().onSelectFileForLoad != null) ||
+            (save && act.ADV().allowShortClickFileForSave && act.OPT().onSelectFileForSave != null);
         boolean longClickable =
-            act.ADV().mDebugMode || sendToSaveBoxLongClick ||
+            act.ADV().debugMode || sendToSaveBoxLongClick ||
             (isFile &&
-                ((load && act.ADV().mAllowLongClickFileForLoad && act.OPT().mOnSelectFileForLoad != null) ||
-                (save && act.ADV().mAllowLongClickFileForSave && act.OPT().mOnSelectFileForSave != null))) ||
+                ((load && act.ADV().allowLongClickFileForLoad && act.OPT().onSelectFileForLoad != null) ||
+                (save && act.ADV().allowLongClickFileForSave && act.OPT().onSelectFileForSave != null))) ||
             (!isFile &&
-                ((load && act.ADV().mAllowLongClickFolderForLoad && act.OPT().mOnSelectFolderForLoad != null) ||
-                (save && act.ADV().mAllowLongClickFolderForSave && act.OPT().mOnSelectFolderForSave != null)));
+                ((load && act.ADV().allowLongClickFolderForLoad && act.OPT().onSelectFolderForLoad != null) ||
+                (save && act.ADV().allowLongClickFolderForSave && act.OPT().onSelectFolderForSave != null)));
 
         listItem.setClickable(shortClickable);
         if (!shortClickable) listItem.setOnClickListener(null);
@@ -248,7 +249,7 @@ class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
                     else
                     {
                         boolean saveFile =
-                            !saveBoxVisible || act.ADV().mShortClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile;
+                            !saveBoxVisible || act.ADV().shortClickSaveFileBehavior != Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile;
 
                         if (sendToSaveBoxShortClick)
                             act.setEditTextSaveFileName(UtilsKt.getShortName(path));
@@ -284,7 +285,7 @@ class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
                     else
                     {
                         boolean saveFile =
-                            !saveBoxVisible || act.ADV().mLongClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile;
+                            !saveBoxVisible || act.ADV().longClickSaveFileBehavior != Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile;
 
                         if (sendToSaveBoxLongClick)
                             act.setEditTextSaveFileName(UtilsKt.getShortName(path));
@@ -311,31 +312,31 @@ class MyViewHolder extends RecyclerView.ViewHolder
         super(view);
 
         listItem = (LinearLayout)view;
-        listItem.setBackgroundColor(act.THM().mColorListBackground);
+        listItem.setBackgroundColor(act.THM().colorListBackground);
         title = view.findViewById(R.id.listItemText);
         title.setTypeface(act.THM().getFontBdIt(act.getAssets()));
         image = view.findViewById(R.id.listItemIcon);
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+        if (act.OPT().browserViewType == Options.BrowserViewType.Gallery)
         {
-            title.setTextColor(act.THM().mColorGalleryItemText);
-            title.setTextSize(act.THM().mUnitSp, act.THM().mSizeGalleryViewItemText);
+            title.setTextColor(act.THM().colorGalleryItemText);
+            title.setTextSize(act.THM().unitSp, act.THM().sizeGalleryViewItemText);
         }
         else
         {
-            title.setTextColor(act.THM().mColorListItemText);
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+            title.setTextColor(act.THM().colorListItemText);
+            if (act.OPT().browserViewType == Options.BrowserViewType.List)
             {
-                title.setTextSize(act.THM().mUnitSp, act.THM().mSizeListViewItemText);
+                title.setTextSize(act.THM().unitSp, act.THM().sizeListViewItemText);
                 info = view.findViewById(R.id.listItemSubText);
                 info.setTypeface(act.THM().getFontNorm(act.getAssets()));
-                info.setTextColor(act.THM().mColorListItemSubText);
-                info.setTextSize(act.THM().mUnitSp, act.THM().mSizeListViewItemSubText);
+                info.setTextColor(act.THM().colorListItemSubText);
+                info.setTextSize(act.THM().unitSp, act.THM().sizeListViewItemSubText);
                 View accent = view.findViewById(R.id.listItemAccent);
-                accent.setBackgroundColor(act.THM().mColorListAccent);
+                accent.setBackgroundColor(act.THM().colorListAccent);
             }
             else
             {
-                title.setTextSize(act.THM().mUnitSp, act.THM().mSizeTilesViewItemText);
+                title.setTextSize(act.THM().unitSp, act.THM().sizeTilesViewItemText);
             }
         }
     }

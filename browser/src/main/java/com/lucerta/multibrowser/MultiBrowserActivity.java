@@ -44,21 +44,21 @@ import com.luciasoft.collections.DirectoryItem;
 public class MultiBrowserActivity extends AppCompatActivity
 {
     private DataHolder data;
-    private MultiBrowserOptions tmpOptions;
+    private Options tmpOptions;
 
     DataHolder DAT() { return data; }
-    public MultiBrowserOptions OPT() { return data.getMOptions(); }
-    MultiBrowserOptions.Advanced ADV() { return data.getMOptions().advanced(); }
-    public MultiBrowserOptions.Theme THM() { return data.getMOptions().theme(); }
+    public Options OPT() { return data.getMOptions(); }
+    Options.Advanced ADV() { return data.getMOptions().advanced(); }
+    public Options.Theme THM() { return data.getMOptions().theme(); }
 
-    public MultiBrowserOptions getOptions()
+    public Options getOptions()
     {
         if (data == null && tmpOptions == null) return null;
         if (data == null) return tmpOptions;
         return data.getMOptions();
     }
 
-    public boolean setOptions(MultiBrowserOptions options, boolean squelchException)
+    public boolean setOptions(Options options, boolean squelchException)
     {
         if (options == null)
         {
@@ -136,25 +136,25 @@ public class MultiBrowserActivity extends AppCompatActivity
         {
             TextView tv = new TextView(getApplicationContext());
             tv.setTypeface(THM().getFontBold(getAssets()));
-            tv.setText(OPT().mBrowserTitle);
-            tv.setTextColor(THM().mColorBrowserTitle);
-            tv.setTextSize(THM().mUnitSp, THM().mSizeBrowserTitle);
+            tv.setText(OPT().browserTitle);
+            tv.setTextColor(THM().colorBrowserTitle);
+            tv.setTextSize(THM().unitSp, THM().sizeBrowserTitle);
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             actionBar.setCustomView(tv);
-            actionBar.setBackgroundDrawable(new ColorDrawable(THM().mColorActionBar));
+            actionBar.setBackgroundDrawable(new ColorDrawable(THM().colorActionBar));
         }
 
-        if (OPT().mCurrentDir != null)
+        if (OPT().currentDir != null)
         {
             try
             {
-                File dir = new File(OPT().mCurrentDir);
-                if (!dir.exists() && OPT().mCreateDirOnActivityStart)
+                File dir = new File(OPT().currentDir);
+                if (!dir.exists() && OPT().createDirOnActivityStart)
                     try { dir.mkdirs(); } catch (Exception ex2) { }
-                OPT().mCurrentDir = dir.getCanonicalPath();
+                OPT().currentDir = dir.getCanonicalPath();
             }
             catch (Exception ex) { }
-            if (OPT().mDefaultDir == null) OPT().mDefaultDir = OPT().mCurrentDir;
+            if (OPT().defaultDir == null) OPT().defaultDir = OPT().currentDir;
         }
 
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -166,63 +166,63 @@ public class MultiBrowserActivity extends AppCompatActivity
         setupSwipeRefreshLayout();
         refreshLayoutManager();
 
-        findViewById(R.id.deadSpaceBackground).setBackgroundColor(THM().mColorDeadSpaceBackground);
-        findViewById(R.id.topAccent).setBackgroundColor(THM().mColorTopAccent);
+        findViewById(R.id.deadSpaceBackground).setBackgroundColor(THM().colorDeadSpaceBackground);
+        findViewById(R.id.topAccent).setBackgroundColor(THM().colorTopAccent);
         ((TextView)findViewById(R.id.curDirLabel)).setTypeface(THM().getFontBold(getAssets()));
-        ((TextView)findViewById(R.id.curDirLabel)).setTextColor(THM().mColorCurDirLabel);
-        ((TextView)findViewById(R.id.curDirLabel)).setBackgroundColor(THM().mColorCurDirBackground);
-        ((TextView)findViewById(R.id.curDirLabel)).setTextSize(THM().mUnitSp, THM().mSizeCurDirLabel);
+        ((TextView)findViewById(R.id.curDirLabel)).setTextColor(THM().colorCurDirLabel);
+        ((TextView)findViewById(R.id.curDirLabel)).setBackgroundColor(THM().colorCurDirBackground);
+        ((TextView)findViewById(R.id.curDirLabel)).setTextSize(THM().unitSp, THM().sizeCurDirLabel);
         ((TextView)findViewById(R.id.curDirText)).setTypeface(THM().getFontBold(getAssets()));
-        ((TextView)findViewById(R.id.curDirText)).setTextColor(THM().mColorCurDirText);
-        ((TextView)findViewById(R.id.curDirText)).setBackgroundColor(THM().mColorCurDirBackground);
-        ((TextView)findViewById(R.id.curDirText)).setTextSize(THM().mUnitSp, THM().mSizeCurDirText);
-        findViewById(R.id.topAccent2).setBackgroundColor(THM().mColorListTopAccent);
-        findViewById(R.id.saveFileLayout).setBackgroundColor(THM().mColorSaveFileBoxBackground);
-        findViewById(R.id.bottomAccent).setBackgroundColor(THM().mColorListBottomAccent);
+        ((TextView)findViewById(R.id.curDirText)).setTextColor(THM().colorCurDirText);
+        ((TextView)findViewById(R.id.curDirText)).setBackgroundColor(THM().colorCurDirBackground);
+        ((TextView)findViewById(R.id.curDirText)).setTextSize(THM().unitSp, THM().sizeCurDirText);
+        findViewById(R.id.topAccent2).setBackgroundColor(THM().colorListTopAccent);
+        findViewById(R.id.saveFileLayout).setBackgroundColor(THM().colorSaveFileBoxBackground);
+        findViewById(R.id.bottomAccent).setBackgroundColor(THM().colorListBottomAccent);
         ((EditText)findViewById(R.id.saveFileEditText)).setTypeface(THM().getFontBold(getAssets()));
-        ((EditText)findViewById(R.id.saveFileEditText)).setTextColor(THM().mColorSaveFileBoxText);
-        ((EditText)findViewById(R.id.saveFileEditText)).getBackground().setColorFilter(THM().mColorSaveFileBoxUnderline, PorterDuff.Mode.SRC_ATOP);
-        ((EditText)findViewById(R.id.saveFileEditText)).setTextSize(THM().mUnitSp, THM().mSizeSaveFileText);
+        ((EditText)findViewById(R.id.saveFileEditText)).setTextColor(THM().colorSaveFileBoxText);
+        ((EditText)findViewById(R.id.saveFileEditText)).getBackground().setColorFilter(THM().colorSaveFileBoxUnderline, PorterDuff.Mode.SRC_ATOP);
+        ((EditText)findViewById(R.id.saveFileEditText)).setTextSize(THM().unitSp, THM().sizeSaveFileText);
         ((Button)findViewById(R.id.saveFileButton)).setTypeface(THM().getFontBold(getAssets()));
-        ((Button)findViewById(R.id.saveFileButton)).setTextColor(THM().mColorSaveFileButtonText);
-        ((Button)findViewById(R.id.saveFileButton)).setTextSize(THM().mUnitSp, THM().mSizeSaveFileButtonText);
+        ((Button)findViewById(R.id.saveFileButton)).setTextColor(THM().colorSaveFileButtonText);
+        ((Button)findViewById(R.id.saveFileButton)).setTextSize(THM().unitSp, THM().sizeSaveFileButtonText);
         ViewCompat.setBackgroundTintList(((Button)findViewById(R.id.saveFileButton)),
-                new ColorStateList(new int[][]{ new int[] { android.R.attr.state_enabled} }, new int[]{ THM().mColorSaveFileButtonBackground }));
-        findViewById(R.id.fileFilterLayout).setBackgroundColor(THM().mColorFilterBackground);
-        findViewById(R.id.bottomAccent2).setBackgroundColor(THM().mColorSaveFileBoxBottomAccent);
-        ((Spinner)findViewById(R.id.fileFilterSpinner)).getBackground().setColorFilter(THM().mColorFilterArrow, PorterDuff.Mode.SRC_ATOP);
-        findViewById(R.id.bottomAccent3).setBackgroundColor(THM().mColorBottomAccent);
-        findViewById(R.id.parDirLayout).setBackgroundColor(THM().mColorParDirBackground);
+                new ColorStateList(new int[][]{ new int[] { android.R.attr.state_enabled} }, new int[]{ THM().colorSaveFileButtonBackground}));
+        findViewById(R.id.fileFilterLayout).setBackgroundColor(THM().colorFilterBackground);
+        findViewById(R.id.bottomAccent2).setBackgroundColor(THM().colorSaveFileBoxBottomAccent);
+        ((Spinner)findViewById(R.id.fileFilterSpinner)).getBackground().setColorFilter(THM().colorFilterArrow, PorterDuff.Mode.SRC_ATOP);
+        findViewById(R.id.bottomAccent3).setBackgroundColor(THM().colorBottomAccent);
+        findViewById(R.id.parDirLayout).setBackgroundColor(THM().colorParDirBackground);
         ((TextView)findViewById(R.id.parDirText)).setTypeface(THM().getFontBold(getAssets()));
-        ((TextView)findViewById(R.id.parDirText)).setTextColor(THM().mColorParDirText);
-        ((TextView)findViewById(R.id.parDirText)).setTextSize(THM().mUnitSp, THM().mSizeParDirText);
+        ((TextView)findViewById(R.id.parDirText)).setTextColor(THM().colorParDirText);
+        ((TextView)findViewById(R.id.parDirText)).setTextSize(THM().unitSp, THM().sizeParDirText);
         ((TextView)findViewById(R.id.parDirSubText)).setTypeface(THM().getFontBold(getAssets()));
-        ((TextView)findViewById(R.id.parDirSubText)).setTextColor(THM().mColorParDirSubText);
-        ((TextView)findViewById(R.id.parDirSubText)).setTextSize(THM().mUnitSp, THM().mSizeParDirSubText);
-        findViewById(R.id.parDirLayoutAccent).setBackgroundColor(THM().mColorListAccent);
+        ((TextView)findViewById(R.id.parDirSubText)).setTextColor(THM().colorParDirSubText);
+        ((TextView)findViewById(R.id.parDirSubText)).setTextSize(THM().unitSp, THM().sizeParDirSubText);
+        findViewById(R.id.parDirLayoutAccent).setBackgroundColor(THM().colorListAccent);
 
         refreshView(true, false);
     }
 
     private void configureScreenRotation()
     {
-        if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.AllowPortraitUprightOnly)
+        if (ADV().screenRotationMode == Options.ScreenMode.AllowPortraitUprightOnly)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        else if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.AllowPortraitUprightAndLandscape)
+        else if (ADV().screenRotationMode == Options.ScreenMode.AllowPortraitUprightAndLandscape)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         }
-        else if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.AllowLandscapeOnly)
+        else if (ADV().screenRotationMode == Options.ScreenMode.AllowLandscapeOnly)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         }
-        else if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.AllowAll)
+        else if (ADV().screenRotationMode == Options.ScreenMode.AllowAll)
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         }
-        else if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.SystemDefault)
+        else if (ADV().screenRotationMode == Options.ScreenMode.SystemDefault)
         {
             if (data.getMDefaultScreenOrientation() != null) setRequestedOrientation(data.getMDefaultScreenOrientation());
         }
@@ -235,7 +235,7 @@ public class MultiBrowserActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                String parentDir = UtilsKt.getParentDir(OPT().mCurrentDir);
+                String parentDir = UtilsKt.getParentDir(OPT().currentDir);
 
                 if (!parentDir.isEmpty()) refreshView(parentDir, false, false);
             }
@@ -248,7 +248,7 @@ public class MultiBrowserActivity extends AppCompatActivity
     private void setupSaveFileLayout()
     {
         mEditTextSaveFileName = (EditText)findViewById(R.id.saveFileEditText);
-        if (OPT().mDefaultSaveFileName != null) mEditTextSaveFileName.setText(OPT().mDefaultSaveFileName);
+        if (OPT().defaultSaveFileName != null) mEditTextSaveFileName.setText(OPT().defaultSaveFileName);
 
         Button btnSaveFile = (Button)findViewById(R.id.saveFileButton) ;
         btnSaveFile.setOnClickListener(new View.OnClickListener()
@@ -270,7 +270,7 @@ public class MultiBrowserActivity extends AppCompatActivity
                 }
                 else
                 {
-                    String dir = OPT().mCurrentDir;
+                    String dir = OPT().currentDir;
                     if (!dir.endsWith("/")) dir += "/";
                     String fullpath = dir + filename;
                     onSelect(true, false, false, true, fullpath);
@@ -289,8 +289,8 @@ public class MultiBrowserActivity extends AppCompatActivity
             {
                 View view = super.getView(position, convertView, parent);
                 ((TextView)view).setTypeface(THM().getFontNorm(getAssets()));
-                ((TextView)view).setTextColor(THM().mColorFilterText);
-                ((TextView)view).setTextSize(THM().mUnitSp, THM().mSizeFileFilterText);
+                ((TextView)view).setTextColor(THM().colorFilterText);
+                ((TextView)view).setTextSize(THM().unitSp, THM().sizeFileFilterText);
                 return view;
             }
 
@@ -300,9 +300,9 @@ public class MultiBrowserActivity extends AppCompatActivity
                 View view = super.getView(position, convertView, parent);
                 TextView text = view.findViewById(R.id.fileFilterPopupItem);
                 text.setTypeface(THM().getFontNorm(getAssets()));
-                text.setTextColor(THM().mColorFilterPopupText);
-                text.setBackgroundColor(THM().mColorFilterPopupBackground);
-                text.setTextSize(THM().mUnitSp, THM().mSizeFileFilterPopupText);
+                text.setTextColor(THM().colorFilterPopupText);
+                text.setBackgroundColor(THM().colorFilterPopupBackground);
+                text.setTextSize(THM().unitSp, THM().sizeFileFilterPopupText);
                 return view;
             }
         };
@@ -314,7 +314,7 @@ public class MultiBrowserActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView parent, View view, int position, long id)
             {
-                if (OPT().mFileFilterIndex == position) return;
+                if (OPT().fileFilterIndex == position) return;
                 
                 if (mEditTextSaveFileName.getVisibility() != View.GONE)
                 {
@@ -322,13 +322,13 @@ public class MultiBrowserActivity extends AppCompatActivity
                     
                     if (!filename.isEmpty())
                     {
-                        filename = changeFileExt(filename, OPT().mFileFilterIndex, position);
+                        filename = changeFileExt(filename, OPT().fileFilterIndex, position);
                     }
 
                     mEditTextSaveFileName.setText(filename);
                 }
                     
-                OPT().mFileFilterIndex = position;
+                OPT().fileFilterIndex = position;
                     
                 refreshView(false, false);
             }
@@ -337,7 +337,7 @@ public class MultiBrowserActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView parent) { }
         });
 
-        spinnerFileFilters.setSelection(OPT().mFileFilterIndex);
+        spinnerFileFilters.setSelection(OPT().fileFilterIndex);
     }
 
     private void setupSwipeRefreshLayout()
@@ -357,13 +357,13 @@ public class MultiBrowserActivity extends AppCompatActivity
 
     public void resetDir()
     {
-        OPT().mCurrentDir = OPT().mDefaultDir;
+        OPT().currentDir = OPT().defaultDir;
 
         refreshView(true, false);
     }
     public void refreshView(boolean forceSourceReload, boolean refreshLayout)
     {
-        refreshView(OPT().mCurrentDir, forceSourceReload, refreshLayout);
+        refreshView(OPT().currentDir, forceSourceReload, refreshLayout);
     }
 
     void refreshView(String dir, boolean forceSourceReload, boolean refreshLayout)
@@ -373,7 +373,7 @@ public class MultiBrowserActivity extends AppCompatActivity
 
         ArrayList<DirectoryItem> items = getDirectoryItems(dir, forceSourceReload);
 
-        boolean galleryView = OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery;
+        boolean galleryView = OPT().browserViewType == Options.BrowserViewType.Gallery;
 
         boolean showLayouts = true;
 
@@ -401,7 +401,7 @@ public class MultiBrowserActivity extends AppCompatActivity
         }
         else
         {
-            if (!galleryView) OPT().mCurrentDir = dir;
+            if (!galleryView) OPT().currentDir = dir;
 
             if (refreshLayout) refreshLayoutManager();
 
@@ -419,15 +419,15 @@ public class MultiBrowserActivity extends AppCompatActivity
     {
         if (dir == null) return null;
 
-        boolean galleryView = OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery;
+        boolean galleryView = OPT().browserViewType == Options.BrowserViewType.Gallery;
 
         boolean readable = galleryView || Utils2Kt.directoryIsReadable(this, dir);
         if (!readable) return null;
 
-        if (galleryView || OPT().mShowImagesWhileBrowsingNormal)
+        if (galleryView || OPT().showImagesWhileBrowsingNormal)
         {
             boolean reload = forceSourceReload ||
-                    ADV().mAutoRefreshDirectorySource || data.getMMediaStoreImageInfoList() == null;
+                    ADV().autoRefreshDirectorySource || data.getMMediaStoreImageInfoList() == null;
 
             if (reload) data.setMMediaStoreImageInfoList(ListUtils.getImageInfos(this));
         }
@@ -439,12 +439,12 @@ public class MultiBrowserActivity extends AppCompatActivity
         }
         else
         {
-            boolean reload = forceSourceReload || ADV().mAutoRefreshDirectorySource ||
+            boolean reload = forceSourceReload || ADV().autoRefreshDirectorySource ||
                     data.getMFileSystemDirectoryItems() == null ||
-                    OPT().mCurrentDir == null || !dir.equalsIgnoreCase(OPT().mCurrentDir);
+                    OPT().currentDir == null || !dir.equalsIgnoreCase(OPT().currentDir);
 
             if (reload) data.setMFileSystemDirectoryItems(
-                ListUtils.getDirectoryItemsFromFileSystem(this, dir, OPT().mFileFilters[OPT().mFileFilterIndex]));
+                ListUtils.getDirectoryItemsFromFileSystem(this, dir, OPT().mFileFilters[OPT().fileFilterIndex]));
 
             items = data.getMFileSystemDirectoryItems();
         }
@@ -464,24 +464,24 @@ public class MultiBrowserActivity extends AppCompatActivity
         boolean showSaveFileLayout = false;
         boolean showFileFilterLayout = false;
 
-        boolean galleryView = OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery;
+        boolean galleryView = OPT().browserViewType == Options.BrowserViewType.Gallery;
 
         if (!galleryView && showLayouts)
         {
-            boolean isRoot = OPT().mCurrentDir.equals("/");
-            showParentDirLayout = ADV().mShowParentDirectoryLayoutIfAvailable && !isRoot;
-            showCurrentDirLayout = ADV().mShowCurrentDirectoryLayoutIfAvailable;
-            showSaveFileLayout = ADV().mShowSaveFileLayoutIfAvailable &&
-                OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders;
-            showFileFilterLayout = ADV().mShowFileFilterLayoutIfAvailable &&
-                (OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders ||
-                OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders);
+            boolean isRoot = OPT().currentDir.equals("/");
+            showParentDirLayout = ADV().showParentDirectoryLayoutIfAvailable && !isRoot;
+            showCurrentDirLayout = ADV().showCurrentDirectoryLayoutIfAvailable;
+            showSaveFileLayout = ADV().showSaveFileLayoutIfAvailable &&
+                OPT().browseMode == Options.BrowseMode.SaveFilesAndOrFolders;
+            showFileFilterLayout = ADV().showFileFilterLayoutIfAvailable &&
+                (OPT().browseMode == Options.BrowseMode.LoadFilesAndOrFolders ||
+                OPT().browseMode == Options.BrowseMode.SaveFilesAndOrFolders);
         }
 
         if (showCurrentDirLayout)
         {
             curDirLayout.setVisibility(View.VISIBLE);
-            ((TextView)findViewById(R.id.curDirText)).setText(OPT().mCurrentDir);
+            ((TextView)findViewById(R.id.curDirText)).setText(OPT().currentDir);
         }
         else
         {
@@ -491,7 +491,7 @@ public class MultiBrowserActivity extends AppCompatActivity
         if (showParentDirLayout)
         {
             parDirLayout.setVisibility(View.VISIBLE);
-            ((TextView)findViewById(R.id.parDirText)).setText(UtilsKt.getParentDir(OPT().mCurrentDir));
+            ((TextView)findViewById(R.id.parDirText)).setText(UtilsKt.getParentDir(OPT().currentDir));
         }
         else
         {
@@ -520,14 +520,14 @@ public class MultiBrowserActivity extends AppCompatActivity
     private void refreshLayoutManager()
     {
         RecyclerView.LayoutManager manager;
-        if (OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+        if (OPT().browserViewType == Options.BrowserViewType.List)
         {
             manager = new LinearLayoutManager(getApplicationContext());
         }
         else
         {
-            int columnCount = OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Tiles ?
-                OPT().mNormalViewColumnCount : OPT().mGalleryViewColumnCount;
+            int columnCount = OPT().browserViewType == Options.BrowserViewType.Tiles ?
+                OPT().normalViewColumnCount : OPT().galleryViewColumnCount;
 
             manager = new GridLayoutManager(getApplicationContext(), columnCount);
 
@@ -546,18 +546,18 @@ public class MultiBrowserActivity extends AppCompatActivity
         {
             boolean showDialog = false;
 
-            if (OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+            if (OPT().browserViewType == Options.BrowserViewType.Gallery)
             {
-                if (OPT().mAlwaysShowDialogForSavingGalleryItem) showDialog = true;
+                if (OPT().alwaysShowDialogForSavingGalleryItem) showDialog = true;
             }
             else if (file)
             {
-                if (OPT().mAlwaysShowDialogForSavingFile || OPT().mShowOverwriteDialogForSavingFileIfExists)
+                if (OPT().alwaysShowDialogForSavingFile || OPT().showOverwriteDialogForSavingFileIfExists)
                     showDialog = true;
             }
             else
             {
-                if (OPT().mAlwaysShowDialogForSavingFolder) showDialog = true;
+                if (OPT().alwaysShowDialogForSavingFolder) showDialog = true;
             }
 
             if (showDialog)
@@ -601,7 +601,7 @@ public class MultiBrowserActivity extends AppCompatActivity
         }
         else
         {
-            if (ADV().mDebugMode)
+            if (ADV().debugMode)
             {
                 String title = "";
                 title += load ? "LOAD " : "SAVE ";
@@ -617,13 +617,13 @@ public class MultiBrowserActivity extends AppCompatActivity
     {
         if (file)
         {
-            if (load) return OPT().mOnSelectFileForLoad;
-            else return OPT().mOnSelectFileForSave;
+            if (load) return OPT().onSelectFileForLoad;
+            else return OPT().onSelectFileForSave;
         }
         else
         {
-            if (load) return OPT().mOnSelectFolderForLoad;
-            else return OPT().mOnSelectFolderForSave;
+            if (load) return OPT().onSelectFolderForLoad;
+            else return OPT().onSelectFolderForSave;
         }
     }
 
@@ -657,7 +657,7 @@ public class MultiBrowserActivity extends AppCompatActivity
 
         String ext = UtilsKt.getFileExtensionLowerCaseWithDot(filename);
 
-        String[] filters = OPT().mFileFilters[OPT().mFileFilterIndex];
+        String[] filters = OPT().mFileFilters[OPT().fileFilterIndex];
 
         if (filters[0].equals("*"))
         {
@@ -674,7 +674,7 @@ public class MultiBrowserActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        if (ADV().mMenuEnabled)
+        if (ADV().menuEnabled)
         {
             getMenuInflater().inflate(R.menu.menu, menu);
             applyFontToMenu(menu, this);

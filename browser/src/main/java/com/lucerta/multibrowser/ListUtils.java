@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
 
+import com.luciasoft.browser.Options;
 import com.luciasoft.browser.Utils2Kt;
 import com.luciasoft.collections.DirectoryItem;
 import com.luciasoft.collections.FileItem;
@@ -22,10 +23,10 @@ class ListUtils
 {
     static ArrayList<DirectoryItem> getImageInfos(MultiBrowserActivity act)
     {
-        MultiBrowserOptions.SortOrder sortOrder;
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
-            sortOrder = act.OPT().mGalleryViewSortOrder;
-        else sortOrder = act.OPT().mNormalViewSortOrder;
+        Options.SortOrder sortOrder;
+        if (act.OPT().browserViewType == Options.BrowserViewType.Gallery)
+            sortOrder = act.OPT().galleryViewSortOrder;
+        else sortOrder = act.OPT().normalViewSortOrder;
 
         String sortOrderString;
         switch (sortOrder)
@@ -60,7 +61,7 @@ class ListUtils
 
         ArrayList<DirectoryItem> list = new ArrayList<>();
 
-        String[] exts = UtilsKt.getValidExts(act.ADV().mMediaStoreImageExts);
+        String[] exts = UtilsKt.getValidExts(act.ADV().mediaStoreImageExts);
 
         for (int i = 0; i < cursor.getCount(); i++)
         {
@@ -134,7 +135,7 @@ class ListUtils
             return null;
         }
         
-        if (!act.ADV().mShowFilesInNormalView && !act.ADV().mShowFoldersInNormalView) return dirItemList;
+        if (!act.ADV().showFilesInNormalView && !act.ADV().showFoldersInNormalView) return dirItemList;
 
         exts = UtilsKt.getValidExts(exts);
 
@@ -158,18 +159,18 @@ class ListUtils
 
             if (!isFile && !isDirectory) continue;
             if (isFile &&
-                (!act.ADV().mShowFilesInNormalView ||
-                act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.LoadFolders ||
-                act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.SaveFolders))
+                (!act.ADV().showFilesInNormalView ||
+                act.OPT().browseMode == Options.BrowseMode.LoadFolders ||
+                act.OPT().browseMode == Options.BrowseMode.SaveFolders))
                 continue;
-            if (isDirectory && !act.ADV().mShowFoldersInNormalView) continue;
+            if (isDirectory && !act.ADV().showFoldersInNormalView) continue;
 
             boolean isHidden;
             try { isHidden = item.isHidden(); }
             catch (Exception ex) { continue; }
 
-            if (isHidden && isFile && !act.OPT().mShowHiddenFiles) continue;
-            if (isHidden && isDirectory && !act.OPT().mShowHiddenFolders) continue;
+            if (isHidden && isFile && !act.OPT().showHiddenFiles) continue;
+            if (isHidden && isDirectory && !act.OPT().showHiddenFolders) continue;
             
             Long date;
             try { date = item.lastModified(); }
@@ -177,8 +178,8 @@ class ListUtils
 
             String info = "";
 
-            boolean showDate = isFile && act.ADV().mShowFileDatesInListView ||
-                    isDirectory && act.ADV().mShowFolderDatesInListView;
+            boolean showDate = isFile && act.ADV().showFileDatesInListView ||
+                    isDirectory && act.ADV().showFolderDatesInListView;
 
             if (date != null && showDate)
             {
@@ -191,7 +192,7 @@ class ListUtils
                 try { subItemCount = item.listFiles().length; }
                 catch (Exception ex) { subItemCount = null; }
 
-                if (subItemCount == null || !act.ADV().mShowFolderCountsInListView)
+                if (subItemCount == null || !act.ADV().showFolderCountsInListView)
                 {
                     info += "folder";
                 }
@@ -211,12 +212,12 @@ class ListUtils
                 try { size = item.length(); }
                 catch (Exception ex) { size = null; }
 
-                if (size == null || !act.ADV().mShowFileSizesInListView) info += "file";
+                if (size == null || !act.ADV().showFileSizesInListView) info += "file";
                 else info += UtilsKt.getFileSizeString(size);
 
                 Integer imageId = null;
 
-                if (act.OPT().mShowImagesWhileBrowsingNormal && act.DAT().getMMediaStoreImageInfoTree() != null)
+                if (act.OPT().showImagesWhileBrowsingNormal && act.DAT().getMMediaStoreImageInfoTree() != null)
                 {
                     imageId = act.DAT().getMMediaStoreImageInfoTree().getImageId(path);
                 }
@@ -251,28 +252,28 @@ class DirItemComparator implements Comparator<DirectoryItem>
 
         Integer compare = null;
 
-        MultiBrowserOptions.SortOrder sortOrder;
+        Options.SortOrder sortOrder;
 
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
-            sortOrder = act.OPT().mGalleryViewSortOrder;
-        else sortOrder = act.OPT().mNormalViewSortOrder;
+        if (act.OPT().browserViewType == Options.BrowserViewType.Gallery)
+            sortOrder = act.OPT().galleryViewSortOrder;
+        else sortOrder = act.OPT().normalViewSortOrder;
 
         boolean path =
-                sortOrder == MultiBrowserOptions.SortOrder.PathAscending ||
-                sortOrder == MultiBrowserOptions.SortOrder.PathDescending;
+                sortOrder == Options.SortOrder.PathAscending ||
+                sortOrder == Options.SortOrder.PathDescending;
 
         boolean date =
-                sortOrder == MultiBrowserOptions.SortOrder.DateAscending ||
-                sortOrder == MultiBrowserOptions.SortOrder.DateDescending;
+                sortOrder == Options.SortOrder.DateAscending ||
+                sortOrder == Options.SortOrder.DateDescending;
 
         boolean size =
-                sortOrder == MultiBrowserOptions.SortOrder.SizeAscending ||
-                sortOrder == MultiBrowserOptions.SortOrder.SizeDescending;
+                sortOrder == Options.SortOrder.SizeAscending ||
+                sortOrder == Options.SortOrder.SizeDescending;
 
         boolean desc =
-                sortOrder == MultiBrowserOptions.SortOrder.PathDescending ||
-                sortOrder == MultiBrowserOptions.SortOrder.DateDescending ||
-                sortOrder == MultiBrowserOptions.SortOrder.SizeDescending;
+                sortOrder == Options.SortOrder.PathDescending ||
+                sortOrder == Options.SortOrder.DateDescending ||
+                sortOrder == Options.SortOrder.SizeDescending;
  
         if (size && item1isDir)
         {

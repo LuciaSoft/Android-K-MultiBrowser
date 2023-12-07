@@ -21,7 +21,7 @@ class OptionsMenu
         boolean sortOrderOptionVisible = false;
         boolean showHideFileNamesOptionVisible = false;
 
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+        if (act.OPT().browserViewType == Options.BrowserViewType.List)
         {
             newFolderOptionVisible = true;
             listViewOptionVisible = false;
@@ -31,7 +31,7 @@ class OptionsMenu
             resetDirectoryOptionVisible = true;
             sortOrderOptionVisible = true;
         }
-        else if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Tiles)
+        else if (act.OPT().browserViewType == Options.BrowserViewType.Tiles)
         {
             newFolderOptionVisible = true;
             listViewOptionVisible = true;
@@ -41,7 +41,7 @@ class OptionsMenu
             resetDirectoryOptionVisible = true;
             sortOrderOptionVisible = true;
         }
-        else if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+        else if (act.OPT().browserViewType == Options.BrowserViewType.Gallery)
         {
             newFolderOptionVisible = false;
             listViewOptionVisible = true;
@@ -53,19 +53,19 @@ class OptionsMenu
             sortOrderOptionVisible = true;
         }
 
-        if (act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders)
+        if (act.OPT().browseMode == Options.BrowseMode.LoadFilesAndOrFolders)
         {
             newFolderOptionVisible = false;
         }
 
-        if (!act.ADV().mMenuOptionListViewEnabled) listViewOptionVisible = false;
-        if (!act.ADV().mMenuOptionTilesViewEnabled) tilesViewOptionVisible = false;
-        if (!act.ADV().mMenuOptionGalleryViewEnabled) galleryViewOptionVisible = false;
-        if (!act.ADV().mMenuOptionColumnCountEnabled) columnCountOptionVisible = false;
-        if (!act.ADV().mMenuOptionSortOrderEnabled) sortOrderOptionVisible = false;
-        if (!act.ADV().mMenuOptionResetDirectoryEnabled) resetDirectoryOptionVisible = false;
-        if (!act.ADV().mMenuOptionShowHideFileNamesEnabled) showHideFileNamesOptionVisible = false;
-        if (!act.ADV().mMenuOptionNewFolderEnabled) newFolderOptionVisible = false;
+        if (!act.ADV().menuOptionListViewEnabled) listViewOptionVisible = false;
+        if (!act.ADV().menuOptionTilesViewEnabled) tilesViewOptionVisible = false;
+        if (!act.ADV().menuOptionGalleryViewEnabled) galleryViewOptionVisible = false;
+        if (!act.ADV().menuOptionColumnCountEnabled) columnCountOptionVisible = false;
+        if (!act.ADV().menuOptionSortOrderEnabled) sortOrderOptionVisible = false;
+        if (!act.ADV().menuOptionResetDirectoryEnabled) resetDirectoryOptionVisible = false;
+        if (!act.ADV().menuOptionShowHideFileNamesEnabled) showHideFileNamesOptionVisible = false;
+        if (!act.ADV().menuOptionNewFolderEnabled) newFolderOptionVisible = false;
 
         menu.findItem(R.id.menuItemNewFolder).setVisible(newFolderOptionVisible);
         menu.findItem(R.id.menuItemListView).setVisible(listViewOptionVisible);
@@ -92,7 +92,7 @@ class OptionsMenu
 
                     if (result.isEmpty()) return;
 
-                    String dir = act.OPT().mCurrentDir;
+                    String dir = act.OPT().currentDir;
 
                     if (!dir.endsWith("/")) dir += "/";
 
@@ -139,9 +139,9 @@ class OptionsMenu
 
         if (itemId == R.id.menuItemListView)
         {
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List) return false;
+            if (act.OPT().browserViewType == Options.BrowserViewType.List) return false;
 
-            act.OPT().mBrowserViewType = MultiBrowserOptions.BrowserViewType.List;
+            act.OPT().browserViewType = Options.BrowserViewType.List;
 
             act.refreshView(true, true);
 
@@ -150,9 +150,9 @@ class OptionsMenu
 
         if (itemId == R.id.menuItemTilesView)
         {
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Tiles) return false;
+            if (act.OPT().browserViewType == Options.BrowserViewType.Tiles) return false;
 
-            act.OPT().mBrowserViewType = MultiBrowserOptions.BrowserViewType.Tiles;
+            act.OPT().browserViewType = Options.BrowserViewType.Tiles;
 
             act.refreshView(true, true);
 
@@ -161,9 +161,9 @@ class OptionsMenu
 
         if (itemId == R.id.menuItemGalleryView)
         {
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery) return false;
+            if (act.OPT().browserViewType == Options.BrowserViewType.Gallery) return false;
 
-            act.OPT().mBrowserViewType = MultiBrowserOptions.BrowserViewType.Gallery;
+            act.OPT().browserViewType = Options.BrowserViewType.Gallery;
 
             act.refreshView(true, true);
 
@@ -178,9 +178,9 @@ class OptionsMenu
 
             MyListDialog listDlg = new MyListDialog();
 
-            boolean galleryView = act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery;
+            boolean galleryView = act.OPT().browserViewType == Options.BrowserViewType.Gallery;
 
-            int columnCount = galleryView ? act.OPT().mGalleryViewColumnCount : act.OPT().mNormalViewColumnCount;
+            int columnCount = galleryView ? act.OPT().galleryViewColumnCount : act.OPT().normalViewColumnCount;
 
             listDlg.show(act, "Column Count", counts, columnCount - 1, new DialogInterface.OnClickListener()
             {
@@ -193,17 +193,17 @@ class OptionsMenu
 
                     if (galleryView)
                     {
-                        if (count != act.OPT().mGalleryViewColumnCount)
+                        if (count != act.OPT().galleryViewColumnCount)
                         {
-                            act.OPT().mGalleryViewColumnCount = count;
+                            act.OPT().galleryViewColumnCount = count;
                             refresh = true;
                         }
                     }
                     else
                     {
-                        if (count != act.OPT().mNormalViewColumnCount)
+                        if (count != act.OPT().normalViewColumnCount)
                         {
-                            act.OPT().mNormalViewColumnCount = count;
+                            act.OPT().normalViewColumnCount = count;
                             refresh = true;
                         }
                     }
@@ -217,7 +217,7 @@ class OptionsMenu
 
         if (itemId == R.id.menuItemResetDir)
         {
-            act.OPT().mCurrentDir = act.OPT().mDefaultDir;
+            act.OPT().currentDir = act.OPT().defaultDir;
 
             act.refreshView(true, false);
 
@@ -228,11 +228,11 @@ class OptionsMenu
         {
             int index;
 
-            MultiBrowserOptions.SortOrder sortOrder;
+            Options.SortOrder sortOrder;
 
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
-                sortOrder = act.OPT().mGalleryViewSortOrder;
-            else sortOrder = act.OPT().mNormalViewSortOrder;
+            if (act.OPT().browserViewType == Options.BrowserViewType.Gallery)
+                sortOrder = act.OPT().galleryViewSortOrder;
+            else sortOrder = act.OPT().normalViewSortOrder;
 
             switch (sortOrder)
             {
@@ -258,38 +258,38 @@ class OptionsMenu
                 {
                     int option = listDlg.getChoice();
 
-                    MultiBrowserOptions.SortOrder sortOrder = null;
+                    Options.SortOrder sortOrder = null;
 
                     switch (option)
                     {
                         case 0:
                         {
-                            sortOrder = MultiBrowserOptions.SortOrder.PathAscending;
+                            sortOrder = Options.SortOrder.PathAscending;
                             break;
                         }
                         case 1:
                         {
-                            sortOrder = MultiBrowserOptions.SortOrder.PathDescending;
+                            sortOrder = Options.SortOrder.PathDescending;
                             break;
                         }
                         case 2:
                         {
-                            sortOrder = MultiBrowserOptions.SortOrder.DateAscending;
+                            sortOrder = Options.SortOrder.DateAscending;
                             break;
                         }
                         case 3:
                         {
-                            sortOrder = MultiBrowserOptions.SortOrder.DateDescending;
+                            sortOrder = Options.SortOrder.DateDescending;
                             break;
                         }
                         case 4:
                         {
-                            sortOrder = MultiBrowserOptions.SortOrder.SizeAscending;
+                            sortOrder = Options.SortOrder.SizeAscending;
                             break;
                         }
                         case 5:
                         {
-                            sortOrder = MultiBrowserOptions.SortOrder.SizeDescending;
+                            sortOrder = Options.SortOrder.SizeDescending;
                             break;
                         }
                     }
@@ -298,19 +298,19 @@ class OptionsMenu
 
                     if (sortOrder != null)
                     {
-                        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+                        if (act.OPT().browserViewType == Options.BrowserViewType.Gallery)
                         {
-                            if (act.OPT().mGalleryViewSortOrder != sortOrder)
+                            if (act.OPT().galleryViewSortOrder != sortOrder)
                             {
-                                act.OPT().mGalleryViewSortOrder = sortOrder;
+                                act.OPT().galleryViewSortOrder = sortOrder;
                                 refresh = true;
                             }
                         }
                         else
                         {
-                            if (act.OPT().mNormalViewSortOrder != sortOrder)
+                            if (act.OPT().normalViewSortOrder != sortOrder)
                             {
-                                act.OPT().mNormalViewSortOrder = sortOrder;
+                                act.OPT().normalViewSortOrder = sortOrder;
                                 refresh = true;
                             }
                         }
@@ -325,7 +325,7 @@ class OptionsMenu
 
         if (itemId == R.id.menuItemShowHideFileNames)
         {
-            act.OPT().mShowFileNamesInGalleryView = !act.OPT().mShowFileNamesInGalleryView;
+            act.OPT().showFileNamesInGalleryView = !act.OPT().showFileNamesInGalleryView;
 
             act.refreshView(false, false);
 

@@ -54,7 +54,7 @@ class MyRecyclerView : RecyclerView
     {
         if (text.isEmpty()) return;
 
-        val font = act!!.THM().getFontBdIt(act!!.getAssets());
+        val font = ThemeOptions.getFontBdIt(act!!.getAssets());
         textPaint.setTypeface(font);
 
         val texts = text.split("\n");

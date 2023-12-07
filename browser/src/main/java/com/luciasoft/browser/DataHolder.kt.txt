@@ -2,13 +2,13 @@ package com.luciasoft.browser
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.lucerta.multibrowser.MultiBrowserOptions
 import com.luciasoft.collections.DirectoryItem
 import com.luciasoft.collections.MediaStoreImageInfoTree
+import com.luciasoft.browser.Options
 
 class DataHolder(app: Application) : AndroidViewModel(app)
 {
-    var mOptions: MultiBrowserOptions? = MultiBrowserOptions()
+    var mOptions: Options? = Options()
     var mDefaultScreenOrientation: Int? = null
     var mFileSystemDirectoryItems: ArrayList<DirectoryItem>? = null
     var mMediaStoreImageInfoList: ArrayList<DirectoryItem>? = null

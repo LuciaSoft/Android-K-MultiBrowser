@@ -1,66 +1,66 @@
 package com.luciasoft.browser
 
+import android.content.pm.ActivityInfo
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.Toast
-import com.lucerta.multibrowser.MultiBrowserActivity
-import com.lucerta.multibrowser.MultiBrowserOptions
-import com.luciasoft.browser.OnSelectItem
-import com.luciasoft.browser.SelectedItemInfo
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : MultiBrowserActivity()
+class MainActivity : AppCompatActivity()
 {
+    lateinit var mEditTextSaveFileName: EditText
+    lateinit var mRecyclerView: MyRecyclerView
+
+    val DAT = Data
+    val OPT = Options
+    val ADV = AdvancedOptions
+    val THM = ThemeOptions
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        val options1 = MultiBrowserOptions();
-        options1.advanced().debugMode = true;
-        options1.setFileFilter(
-            " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
-                " PNG Image Files ( *.png ) |*.png|" +
-                " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
-                " All Files ( *.* ) |*");
-        options1.fileFilterIndex = 3;
-        options1.browseMode = MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders;
-
-        val options2 = MultiBrowserOptions();
-        options2.advanced().debugMode = false;
-        options2.advanced().allowLongClickFileForSave = true;
-        options2.advanced().allowShortClickFileForSave = false;
-        options2.setFileFilter(
-            " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
-                " PNG Image Files ( *.png ) |*.png|" +
-                " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
-                " All Files ( *.* ) |*");
-        options2.fileFilterIndex = 3;
-        options2.browseMode = MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders;
-
-        if (true) options2.onSelectFileForSave = object : OnSelectItem
-        {
-            override fun onSelect(info: SelectedItemInfo)
-            {
-                Toast.makeText(this@MainActivity, info.path, Toast.LENGTH_LONG).show();
-            }
-        }
-
-        val options3 = MultiBrowserOptions();
-        //options3.advanced().setDebugMode(true);
-
-        setOptions(options3, false);
-
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_layout)
 
-        try { options2.saveXml("/sdcard/mboptions.xml"); }
-        catch (ex: Exception)
-        {
-            Toast.makeText(this,"" + ex.message, Toast.LENGTH_LONG).show();
-        }
+        configureScreenRotation()
 
-        /*try
+        val actionBar: ActionBar? = try { supportActionBar } catch (ex: Exception) { null }
+        if (actionBar != null)
         {
-            Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/cambria.ttf");
+            val tv = TextView(getApplicationContext());
+            tv.setTypeface(THM.getFontBold(getAssets()));
+            tv.setText(OPT.browserTitle);
+            tv.setTextColor(THM.colorBrowserTitle);
+            tv.setTextSize(THM.unitSp, THM.sizeBrowserTitle);
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            actionBar.setCustomView(tv);
+            actionBar.setBackgroundDrawable(ColorDrawable(THM.colorActionBar));
         }
-        catch (Exception ex)
+    }
+
+    private fun configureScreenRotation()
+    {
+        if (ADV.screenRotationMode == Options.ScreenMode.AllowPortraitUprightOnly)
         {
-            Toast.makeText(this,"" + ex.getMessage(), Toast.LENGTH_LONG).show();
-        }*/
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+        else if (ADV.screenRotationMode == Options.ScreenMode.AllowPortraitUprightAndLandscape)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+        }
+        else if (ADV.screenRotationMode == Options.ScreenMode.AllowLandscapeOnly)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        }
+        else if (ADV.screenRotationMode == Options.ScreenMode.AllowAll)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+        }
+        else if (ADV.screenRotationMode == Options.ScreenMode.SystemDefault)
+        {
+            if (DAT!!.mDefaultScreenOrientation != null) requestedOrientation =
+                DAT!!.mDefaultScreenOrientation!!
+        }
     }
 }

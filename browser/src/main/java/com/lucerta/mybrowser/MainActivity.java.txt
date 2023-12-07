@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.lucerta.multibrowser.MultiBrowserActivity;
-import com.lucerta.multibrowser.MultiBrowserOptions;
+import com.luciasoft.browser.MultiBrowserOptions;
 import com.luciasoft.browser.OnSelectItem;
 import com.luciasoft.browser.SelectedItemInfo;
 

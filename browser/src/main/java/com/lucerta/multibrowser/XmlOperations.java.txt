@@ -1,0 +1,361 @@
+package com.luciasoft.browser;
+
+import android.graphics.Color;
+
+import com.luciasoft.browser.Options;
+import com.luciasoft.xml.XmlKt;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
+class XmlOperations
+{
+    static Object[][] getOptions(Options options)
+    {
+        Options op = options;
+        Options.Advanced ad = options.mAdvancedOptions;
+        Options.Theme th = options.mThemeOptions;
+
+        Object[] opArray = new Object[]{
+            op.allowAccessToRestrictedFolders, "AllowAccessToRestrictedFolders",
+            op.alwaysShowDialogForSavingFile, "AlwaysShowDialogForSavingFile",
+            op.alwaysShowDialogForSavingFolder, "AlwaysShowDialogForSavingFolder",
+            op.alwaysShowDialogForSavingGalleryItem, "AlwaysShowDialogForSavingGalleryItem",
+            op.browseMode, "BrowseMode",
+            op.browserTitle, "BrowserTitle",
+            op.browserViewType, "BrowserViewType",
+            op.createDirOnActivityStart, "CreateDirOnActivityStart",
+            op.currentDir, "CurrentDir",
+            op.defaultDir, "DefaultDir",
+            op.defaultSaveFileName, "DefaultSaveFileName",
+            op.fileFilterIndex, "FileFilterIndex",
+            op.getFileFilterString(), "FileFilterString",
+            op.galleryViewColumnCount, "GalleryViewColumnCount",
+            op.galleryViewSortOrder, "GalleryViewSortOrder",
+            op.normalViewColumnCount, "NormalViewColumnCount",
+            op.normalViewSortOrder, "NormalViewSortOrder",
+            //op.mOnSelectFileForLoad, "OnSelectFileForLoad", // SPECIAL
+            //op.mOnSelectFileForSave, "OnSelectFileForSave", // SPECIAL
+            //op.mOnSelectFolderForLoad, "OnSelectFolderForLoad", // SPECIAL
+            //op.mOnSelectFolderForSave, "OnSelectFolderForSave", // SPECIAL
+            op.showFileNamesInGalleryView, "ShowFileNamesInGalleryView",
+            op.showHiddenFiles, "ShowHiddenFiles",
+            op.showHiddenFolders, "ShowHiddenFolders",
+            op.showImagesWhileBrowsingGallery, "ShowImagesWhileBrowsingGallery",
+            op.showImagesWhileBrowsingNormal, "ShowImagesWhileBrowsingNormal",
+            op.showOverwriteDialogForSavingFileIfExists, "ShowOverwriteDialogForSavingFileIfExists"
+        };
+
+        Object[] adArray = new Object[]{
+            ad.allowLongClickFileForLoad, "AllowLongClickFileForLoad",
+            ad.allowLongClickFileForSave, "AllowLongClickFileForSave",
+            ad.allowLongClickFolderForLoad, "AllowLongClickFolderForLoad",
+            ad.allowLongClickFolderForSave, "AllowLongClickFolderForSave",
+            ad.allowShortClickFileForLoad, "AllowShortClickFileForLoad",
+            ad.allowShortClickFileForSave, "AllowShortClickFileForSave",
+            ad.autoRefreshDirectorySource, "AutoRefreshDirectorySource",
+            ad.debugMode, "DebugMode",
+            ad.longClickSaveFileBehavior, "LongClickSaveFileBehavior",
+            ad.mediaStoreImageExts, "MediaStoreImageExts",
+            ad.menuEnabled, "MenuEnabled",
+            ad.menuOptionColumnCountEnabled, "MenuOptionColumnCountEnabled",
+            ad.menuOptionGalleryViewEnabled, "MenuOptionGalleryViewEnabled",
+            ad.menuOptionListViewEnabled, "MenuOptionListViewEnabled",
+            ad.menuOptionNewFolderEnabled, "MenuOptionNewFolderEnabled",
+            ad.menuOptionRefreshDirectoryEnabled, "MenuOptionRefreshDirectoryEnabled",
+            ad.menuOptionResetDirectoryEnabled, "MenuOptionResetDirectoryEnabled",
+            ad.menuOptionShowHideFileNamesEnabled, "MenuOptionShowHideFileNamesEnabled",
+            ad.menuOptionSortOrderEnabled, "MenuOptionSortOrderEnabled",
+            ad.menuOptionTilesViewEnabled, "MenuOptionTilesViewEnabled",
+            ad.screenRotationMode, "ScreenRotationMode",
+            ad.shortClickSaveFileBehavior, "ShortClickSaveFileBehavior",
+            ad.showCurrentDirectoryLayoutIfAvailable, "ShowCurrentDirectoryLayoutIfAvailable",
+            ad.showFileDatesInListView, "ShowFileDatesInListView",
+            ad.showFileFilterLayoutIfAvailable, "ShowFileFilterLayoutIfAvailable",
+            ad.showFilesInNormalView, "ShowFilesInNormalView",
+            ad.showFileSizesInListView, "ShowFileSizesInListView",
+            ad.showFolderCountsInListView, "ShowFolderCountsInListView",
+            ad.showFolderDatesInListView, "ShowFolderDatesInListView",
+            ad.showFoldersInNormalView, "ShowFoldersInNormalView",
+            ad.showParentDirectoryLayoutIfAvailable, "ShowParentDirectoryLayoutIfAvailable",
+            ad.showSaveFileLayoutIfAvailable, "ShowSaveFileLayoutIfAvailable"
+        };
+
+        Object[] thArray = new Object[]{
+            th.colorActionBar, "ColorActionBar",
+            th.colorBottomAccent, "ColorBottomAccent",
+            th.colorBrowserTitle, "ColorBrowserTitle",
+            th.colorCurDirBackground, "ColorCurDirBackground",
+            th.colorCurDirLabel, "ColorCurDirLabel",
+            th.colorCurDirText, "ColorCurDirText",
+            th.colorDeadSpaceBackground, "ColorDeadSpaceBackground",
+            th.colorFilterArrow, "ColorFilterArrow",
+            th.colorFilterBackground, "ColorFilterBackground",
+            th.colorFilterPopupBackground, "ColorFilterPopupBackground",
+            th.colorFilterPopupText, "ColorFilterPopupText",
+            th.colorFilterText, "ColorFilterText",
+            th.colorGalleryItemText, "ColorGalleryItemText",
+            th.colorListAccent, "ColorListAccent",
+            th.colorListBackground, "ColorListBackground",
+            th.colorListBottomAccent, "ColorListBottomAccent",
+            th.colorListItemSubText, "ColorListItemSubText",
+            th.colorListItemText, "ColorListItemText",
+            th.colorListTopAccent, "ColorListTopAccent",
+            th.colorParDirBackground, "ColorParDirBackground",
+            th.colorParDirSubText, "ColorParDirSubText",
+            th.colorParDirText, "ColorParDirText",
+            th.colorSaveFileBoxBackground, "ColorSaveFileBoxBackground",
+            th.colorSaveFileBoxBottomAccent, "ColorSaveFileBoxBottomAccent",
+            th.colorSaveFileBoxText, "ColorSaveFileBoxText",
+            th.colorSaveFileBoxUnderline, "ColorSaveFileBoxUnderline",
+            th.colorSaveFileButtonBackground, "ColorSaveFileButtonBackground",
+            th.colorSaveFileButtonText, "ColorSaveFileButtonText",
+            th.colorTopAccent, "ColorTopAccent",
+            th.mFontCustomBdItPath, "FontCustomBdItPath",
+            th.mFontCustomBoldPath, "FontCustomBoldPath",
+            th.mFontCustomItalPath, "FontCustomItalPath",
+            th.mFontCustomNormPath, "FontCustomNormPath",
+            th.fontMode, "FontMode",
+            th.sizeBrowserTitle, "SizeBrowserTitle",
+            th.sizeCurDirLabel, "SizeCurDirLabel",
+            th.sizeCurDirText, "SizeCurDirText",
+            th.sizeFileFilterPopupText, "SizeFileFilterPopupText",
+            th.sizeFileFilterText, "SizeFileFilterText",
+            th.sizeGalleryViewItemText, "SizeGalleryViewItemText",
+            th.sizeListViewItemSubText, "SizeListViewItemSubText",
+            th.sizeListViewItemText, "SizeListViewItemText",
+            th.sizeParDirSubText, "SizeParDirSubText",
+            th.sizeParDirText, "SizeParDirText",
+            th.sizeSaveFileButtonText, "SizeSaveFileButtonText",
+            th.sizeSaveFileText, "SizeSaveFileText",
+            th.sizeTilesViewItemText, "SizeTilesViewItemText"
+        };
+
+        return new Object[][]{opArray, adArray, thArray};
+    }
+
+    static void loadOptions(Options options, Document doc)
+    {
+        Options op = options;
+        Options.Advanced ad = options.mAdvancedOptions;
+        Options.Theme th = options.mThemeOptions;
+
+        Element root = doc.getDocumentElement();
+        Element normal = (Element)root.getElementsByTagName("normal").item(0);
+        op.allowAccessToRestrictedFolders = parseBooleanOption(normal, "AllowAccessToRestrictedFolders");
+        op.alwaysShowDialogForSavingFile = parseBooleanOption(normal, "AlwaysShowDialogForSavingFile");
+        op.alwaysShowDialogForSavingFolder = parseBooleanOption(normal, "AlwaysShowDialogForSavingFolder");
+        op.alwaysShowDialogForSavingGalleryItem = parseBooleanOption(normal, "AlwaysShowDialogForSavingGalleryItem");
+        op.browseMode = Options.BrowseMode.valueOf(parseIntOption(normal, "BrowseMode"));
+        op.browserTitle = parseStringOption(normal, "BrowserTitle");
+        op.browserViewType = Options.BrowserViewType.valueOf(parseIntOption(normal, "BrowserViewType"));
+        op.createDirOnActivityStart = parseBooleanOption(normal, "CreateDirOnActivityStart");
+        op.currentDir = parseStringOption(normal, "CurrentDir");
+        op.defaultDir = parseStringOption(normal, "DefaultDir");
+        op.defaultSaveFileName = parseStringOption(normal, "DefaultSaveFileName");
+        op.fileFilterIndex = parseIntOption(normal, "FileFilterIndex");
+        op.setFileFilter(parseStringOption(normal, "FileFilterString"));
+        op.galleryViewColumnCount = parseIntOption(normal, "GalleryViewColumnCount");
+        op.galleryViewSortOrder = Options.SortOrder.valueOf(parseIntOption(normal, "GalleryViewSortOrder"));
+        op.normalViewColumnCount = parseIntOption(normal, "NormalViewColumnCount");
+        op.normalViewSortOrder = Options.SortOrder.valueOf(parseIntOption(normal, "NormalViewSortOrder"));
+        op.showFileNamesInGalleryView = parseBooleanOption(normal, "ShowFileNamesInGalleryView");
+        op.showHiddenFiles = parseBooleanOption(normal, "ShowHiddenFiles");
+        op.showHiddenFolders = parseBooleanOption(normal, "ShowHiddenFolders");
+        op.showImagesWhileBrowsingGallery = parseBooleanOption(normal, "ShowImagesWhileBrowsingGallery");
+        op.showImagesWhileBrowsingNormal = parseBooleanOption(normal, "ShowImagesWhileBrowsingNormal");
+        op.showOverwriteDialogForSavingFileIfExists = parseBooleanOption(normal, "ShowOverwriteDialogForSavingFileIfExists");
+
+        Element advanced = (Element)root.getElementsByTagName("advanced").item(0);
+        ad.allowLongClickFileForLoad = parseBooleanOption(advanced, "AllowLongClickFileForLoad");
+        ad.allowLongClickFileForSave = parseBooleanOption(advanced, "AllowLongClickFileForSave");
+        ad.allowLongClickFolderForLoad = parseBooleanOption(advanced, "AllowLongClickFolderForLoad");
+        ad.allowLongClickFolderForSave = parseBooleanOption(advanced, "AllowLongClickFolderForSave");
+        ad.allowShortClickFileForLoad = parseBooleanOption(advanced, "AllowShortClickFileForLoad");
+        ad.allowShortClickFileForSave = parseBooleanOption(advanced, "AllowShortClickFileForSave");
+        ad.autoRefreshDirectorySource = parseBooleanOption(advanced, "AutoRefreshDirectorySource");
+        ad.debugMode = parseBooleanOption(advanced, "DebugMode");
+        ad.longClickSaveFileBehavior = Options.SaveFileBehavior.valueOf(parseIntOption(advanced, "LongClickSaveFileBehavior"));
+        ad.mediaStoreImageExts = parseStringOption(advanced, "MediaStoreImageExts");
+        ad.menuEnabled = parseBooleanOption(advanced, "MenuEnabled");
+        ad.menuOptionColumnCountEnabled = parseBooleanOption(advanced, "MenuOptionColumnCountEnabled");
+        ad.menuOptionGalleryViewEnabled = parseBooleanOption(advanced, "MenuOptionGalleryViewEnabled");
+        ad.menuOptionListViewEnabled = parseBooleanOption(advanced, "MenuOptionListViewEnabled");
+        ad.menuOptionNewFolderEnabled = parseBooleanOption(advanced, "MenuOptionNewFolderEnabled");
+        ad.menuOptionRefreshDirectoryEnabled = parseBooleanOption(advanced, "MenuOptionRefreshDirectoryEnabled");
+        ad.menuOptionResetDirectoryEnabled = parseBooleanOption(advanced, "MenuOptionResetDirectoryEnabled");
+        ad.menuOptionShowHideFileNamesEnabled = parseBooleanOption(advanced, "MenuOptionShowHideFileNamesEnabled");
+        ad.menuOptionSortOrderEnabled = parseBooleanOption(advanced, "MenuOptionSortOrderEnabled");
+        ad.menuOptionTilesViewEnabled = parseBooleanOption(advanced, "MenuOptionTilesViewEnabled");
+        ad.screenRotationMode = Options.ScreenMode.valueOf(parseIntOption(advanced, "ScreenRotationMode"));
+        ad.shortClickSaveFileBehavior = Options.SaveFileBehavior.valueOf(parseIntOption(advanced, "ShortClickSaveFileBehavior"));
+        ad.showCurrentDirectoryLayoutIfAvailable = parseBooleanOption(advanced, "ShowCurrentDirectoryLayoutIfAvailable");
+        ad.showFileDatesInListView = parseBooleanOption(advanced, "ShowFileDatesInListView");
+        ad.showFileFilterLayoutIfAvailable = parseBooleanOption(advanced, "ShowFileFilterLayoutIfAvailable");
+        ad.showFilesInNormalView = parseBooleanOption(advanced, "ShowFilesInNormalView");
+        ad.showFileSizesInListView = parseBooleanOption(advanced, "ShowFileSizesInListView");
+        ad.showFolderCountsInListView = parseBooleanOption(advanced, "ShowFolderCountsInListView");
+        ad.showFolderDatesInListView = parseBooleanOption(advanced, "ShowFolderDatesInListView");
+        ad.showFoldersInNormalView = parseBooleanOption(advanced, "ShowFoldersInNormalView");
+        ad.showParentDirectoryLayoutIfAvailable = parseBooleanOption(advanced, "ShowParentDirectoryLayoutIfAvailable");
+        ad.showSaveFileLayoutIfAvailable = parseBooleanOption(advanced, "ShowSaveFileLayoutIfAvailable");
+
+        Element theme = (Element)root.getElementsByTagName("theme").item(0);
+        th.colorActionBar = Color.parseColor(parseStringOption(theme, "ColorActionBar"));
+        th.colorBottomAccent = Color.parseColor(parseStringOption(theme, "ColorBottomAccent"));
+        th.colorBrowserTitle = Color.parseColor(parseStringOption(theme, "ColorBrowserTitle"));
+        th.colorCurDirBackground = Color.parseColor(parseStringOption(theme, "ColorCurDirBackground"));
+        th.colorCurDirLabel = Color.parseColor(parseStringOption(theme, "ColorCurDirLabel"));
+        th.colorCurDirText = Color.parseColor(parseStringOption(theme, "ColorCurDirText"));
+        th.colorDeadSpaceBackground = Color.parseColor(parseStringOption(theme, "ColorDeadSpaceBackground"));
+        th.colorFilterArrow = Color.parseColor(parseStringOption(theme, "ColorFilterArrow"));
+        th.colorFilterBackground = Color.parseColor(parseStringOption(theme, "ColorFilterBackground"));
+        th.colorFilterPopupBackground = Color.parseColor(parseStringOption(theme, "ColorFilterPopupBackground"));
+        th.colorFilterPopupText = Color.parseColor(parseStringOption(theme, "ColorFilterPopupText"));
+        th.colorFilterText = Color.parseColor(parseStringOption(theme, "ColorFilterText"));
+        th.colorGalleryItemText = Color.parseColor(parseStringOption(theme, "ColorGalleryItemText"));
+        th.colorListAccent = Color.parseColor(parseStringOption(theme, "ColorListAccent"));
+        th.colorListBackground = Color.parseColor(parseStringOption(theme, "ColorListBackground"));
+        th.colorListBottomAccent = Color.parseColor(parseStringOption(theme, "ColorListBottomAccent"));
+        th.colorListItemSubText = Color.parseColor(parseStringOption(theme, "ColorListItemSubText"));
+        th.colorListItemText = Color.parseColor(parseStringOption(theme, "ColorListItemText"));
+        th.colorListTopAccent = Color.parseColor(parseStringOption(theme, "ColorListTopAccent"));
+        th.colorParDirBackground = Color.parseColor(parseStringOption(theme, "ColorParDirBackground"));
+        th.colorParDirSubText = Color.parseColor(parseStringOption(theme,  "ColorParDirSubText"));
+        th.colorParDirText = Color.parseColor(parseStringOption(theme, "ColorParDirText"));
+        th.colorSaveFileBoxBackground = Color.parseColor(parseStringOption(theme, "ColorSaveFileBoxBackground"));
+        th.colorSaveFileBoxBottomAccent = Color.parseColor(parseStringOption(theme, "ColorSaveFileBoxBottomAccent"));
+        th.colorSaveFileBoxText = Color.parseColor(parseStringOption(theme, "ColorSaveFileBoxText"));
+        th.colorSaveFileBoxUnderline = Color.parseColor(parseStringOption(theme, "ColorSaveFileBoxUnderline"));
+        th.colorSaveFileButtonBackground = Color.parseColor(parseStringOption(theme, "ColorSaveFileButtonBackground"));
+        th.colorSaveFileButtonText = Color.parseColor(parseStringOption(theme, "ColorSaveFileButtonText"));
+        th.colorTopAccent = Color.parseColor(parseStringOption(theme, "ColorTopAccent"));
+        th.mFontCustomBdItPath = parseStringOption(theme, "FontCustomBdItPath");
+        th.mFontCustomBoldPath = parseStringOption(theme, "FontCustomBoldPath");
+        th.mFontCustomItalPath = parseStringOption(theme, "FontCustomItalPath");
+        th.mFontCustomNormPath = parseStringOption(theme, "FontCustomNormPath");
+        th.fontMode = Options.FontMode.valueOf(parseIntOption(theme, "FontMode"));
+        th.sizeBrowserTitle = parseFloatOption(theme, "SizeBrowserTitle");
+        th.sizeCurDirLabel = parseFloatOption(theme, "SizeCurDirLabel");
+        th.sizeCurDirText = parseFloatOption(theme, "SizeCurDirText");
+        th.sizeFileFilterPopupText = parseFloatOption(theme, "SizeFileFilterPopupText");
+        th.sizeFileFilterText = parseFloatOption(theme, "SizeFileFilterText");
+        th.sizeGalleryViewItemText = parseFloatOption(theme, "SizeGalleryViewItemText");
+        th.sizeListViewItemSubText = parseFloatOption(theme, "SizeListViewItemSubText");
+        th.sizeListViewItemText = parseFloatOption(theme, "SizeListViewItemText");
+        th.sizeParDirSubText = parseFloatOption(theme, "SizeParDirSubText");
+        th.sizeParDirText = parseFloatOption(theme, "SizeParDirText");
+        th.sizeSaveFileButtonText = parseFloatOption(theme, "SizeSaveFileButtonText");
+        th.sizeSaveFileText = parseFloatOption(theme, "SizeSaveFileText");
+        th.sizeTilesViewItemText = parseFloatOption(theme, "SizeTilesViewItemText");
+    }
+
+    static void loadOptions(Options options, String filePath) throws IOException, SAXException, ParserConfigurationException
+    {
+        Document doc = XmlKt.loadXmlFile(filePath);
+        loadOptions(options, doc);
+    }
+
+    static String parseStringOption(Element parentEl, String elName)
+    {
+        Element el = (Element)parentEl.getElementsByTagName(elName).item(0);
+        String value = el.getAttribute("val");
+        if (value.equalsIgnoreCase("null")) return null;
+        if (value.startsWith("$")) value = value.substring(1);
+        return value;
+    }
+
+    static void saveOptions(Options options, String filePath) throws ParserConfigurationException, TransformerException, IOException
+    {
+        Document doc = getOptionsXml(options);
+        XmlKt.saveXml(doc, filePath);
+    }
+
+    static Document getOptionsXml(Options options) throws ParserConfigurationException
+    {
+        Object[][] arrays = getOptions(options);
+        Object[] opArray = arrays[0];
+        Object[] adArray = arrays[1];
+        Object[] thArray = arrays[2];
+
+        Document doc = XmlKt.createXmlDocument("options");
+        Element root = doc.getDocumentElement();
+        Element normal = doc.createElement("normal");
+        Element advanced = doc.createElement("advanced");
+        Element theme = doc.createElement("theme");
+        root.appendChild(normal);
+        root.appendChild(advanced);
+        root.appendChild(theme);
+        for (int i = 0; i < opArray.length; i += 2)
+        {
+            Element el = getElement(doc, opArray[i+1], opArray[i]);
+            normal.appendChild(el);
+        }
+        for (int i = 0; i < adArray.length; i += 2)
+        {
+            Element el = getElement(doc, adArray[i+1], adArray[i]);
+            advanced.appendChild(el);
+        }
+        for (int i = 0; i < thArray.length; i += 2)
+        {
+            Element el = getElement(doc, thArray[i+1], thArray[i]);
+            theme.appendChild(el);
+        }
+        
+        return doc;
+    }
+
+    static Element getElement(Document doc, Object name, Object value)
+    {
+        String nameStr = "" + name;
+        String valStr = getStringValue(nameStr, value);
+        Element el = doc.createElement(nameStr);
+        el.setAttribute("val", valStr);
+        return el;
+    }
+    
+    static String getStringValue(String name, Object value)
+    {
+        if (value == null) return "null";
+        if (value instanceof Enum) return value.toString();
+        if (value instanceof String) return "$" + value;
+        if (value instanceof Boolean) return (boolean)value ? "T" : "F";
+        if (name.startsWith("Color")) return getColorHexString((int)value);
+        return "" + value;
+    }
+
+    static String getColorHexString(int color)
+    {
+        String hex = Integer.toHexString(color);
+        if (hex.length() == 8 && hex.startsWith("ff")) hex = hex.substring(2);
+        return "#" + hex;
+    }
+
+    static boolean parseBooleanOption(Element parentEl, String elName)
+    {
+        Element el = (Element)parentEl.getElementsByTagName(elName).item(0);
+        String str = el.getAttribute("val").toUpperCase();
+        return str.equals("T");
+    }
+
+    static int parseIntOption(Element parentEl, String elName)
+    {
+        Element el = (Element)parentEl.getElementsByTagName(elName).item(0);
+        String str = el.getAttribute("val");
+        if (str.length() >= 2 && str.charAt(1) == ':') str = str.substring(0, 1);
+        return Integer.parseInt(str);
+    }
+
+    static float parseFloatOption(Element parentEl, String elName)
+    {
+        Element el = (Element)parentEl.getElementsByTagName(elName).item(0);
+        return Float.parseFloat(el.getAttribute("val"));
+    }
+
+}
