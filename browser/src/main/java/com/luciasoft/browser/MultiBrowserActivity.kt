@@ -308,21 +308,14 @@ class MultiBrowserActivity() : AppCompatActivity()
         {
             override fun onClick(view: View)
             {
-                var filename: String? = mEditTextSaveFileName.text.toString().trim { it <= ' ' }
+                var filename: String = mEditTextSaveFileName.text.toString().trim { it <= ' ' }
                 mEditTextSaveFileName.setText(filename)
                 if (filename.isEmpty()) return
                 filename = checkFileNameAndExt(filename)
-                if (filename == null)
-                {
-                    toastLong(this@MultiBrowserActivity, "Invalid file name or extension.")
-                }
-                else
-                {
-                    var dir = OPT.currentDir
-                    if (!dir!!.endsWith("/")) dir += "/"
-                    val fullpath = dir + filename
-                    onSelect(true, false, false, true, fullpath)
-                }
+                var dir = OPT.currentDir!!
+                if (!dir.endsWith("/")) dir += "/"
+                val fullpath = dir + filename
+                onSelect(true, false, false, true, fullpath)
             }
         })
     }
@@ -690,10 +683,10 @@ class MultiBrowserActivity() : AppCompatActivity()
         return filename
     }
 
-    private fun checkFileNameAndExt(filename: String?): String?
+    private fun checkFileNameAndExt(filename: String): String
     {
         //if (!OPTIONS().mAllowHiddenFiles && filename.startsWith(".")) return null;
-        val ext = getFileExtensionLowerCaseWithDot(filename!!)
+        val ext = getFileExtensionLowerCaseWithDot(filename)
         val filters = OPT.mFileFilters[OPT.fileFilterIndex]
         if ((filters[0] == "*"))
         {
@@ -751,7 +744,7 @@ class MultiBrowserActivity() : AppCompatActivity()
         val font = THM.getFontNorm(assets)
         val mNewTitle = SpannableString(mi.title)
         mNewTitle.setSpan(
-            CustomTypefaceSpan("Font", font!!), 0,
+            CustomTypefaceSpan("Font", font), 0,
             mNewTitle.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE
         )
         mi.title = mNewTitle

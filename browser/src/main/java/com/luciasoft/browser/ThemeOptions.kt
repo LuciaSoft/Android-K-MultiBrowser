@@ -131,11 +131,11 @@ class ThemeOptions
         reset()
     }
 
-    fun getFontNorm(assets: AssetManager?): Typeface?
+    fun getFontNorm(assets: AssetManager?): Typeface
     {
         if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
-            if (fontCustomNorm != null) return fontCustomNorm
+            if (fontCustomNorm != null) return fontCustomNorm!!
         }
         return if (fontMode == Options.FontMode.AppDefault || fontMode == Options.FontMode.CustomOrAppDefault) getFontAppDefaultNorm(
             assets
@@ -143,11 +143,11 @@ class ThemeOptions
         else fontSystemNorm
     }
 
-    fun getFontBold(assets: AssetManager?): Typeface?
+    fun getFontBold(assets: AssetManager?): Typeface
     {
         if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
-            if (fontCustomBold != null) return fontCustomBold
+            if (fontCustomBold != null) return fontCustomBold!!
         }
         return if (fontMode == Options.FontMode.AppDefault || fontMode == Options.FontMode.CustomOrAppDefault) getFontAppDefaultBold(
             assets
@@ -155,11 +155,11 @@ class ThemeOptions
         else fontSystemBold
     }
 
-    fun getFontItal(assets: AssetManager?): Typeface?
+    fun getFontItal(assets: AssetManager?): Typeface
     {
         if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
-            if (fontCustomItal != null) return fontCustomItal
+            if (fontCustomItal != null) return fontCustomItal!!
         }
         return if (fontMode == Options.FontMode.AppDefault || fontMode == Options.FontMode.CustomOrAppDefault) getFontAppDefaultItal(
             assets
@@ -167,11 +167,11 @@ class ThemeOptions
         else fontSystemItal
     }
 
-    fun getFontBdIt(assets: AssetManager?): Typeface?
+    fun getFontBdIt(assets: AssetManager?): Typeface
     {
         if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
-            if (fontCustomBdIt != null) return fontCustomBdIt
+            if (fontCustomBdIt != null) return fontCustomBdIt!!
         }
         return if (fontMode == Options.FontMode.AppDefault || fontMode == Options.FontMode.CustomOrAppDefault) getFontAppDefaultBdIt(
             assets
@@ -179,32 +179,32 @@ class ThemeOptions
         else fontSystemBdIt
     }
 
-    fun getFontAppDefaultNorm(assets: AssetManager?): Typeface?
+    fun getFontAppDefaultNorm(assets: AssetManager?): Typeface
     {
         if (mFontAppDefaultNorm == null) mFontAppDefaultNorm =
             Typeface.createFromAsset(assets, "fonts/cambria.ttf")
-        return mFontAppDefaultNorm
+        return mFontAppDefaultNorm!!
     }
 
-    fun getFontAppDefaultBold(assets: AssetManager?): Typeface?
+    fun getFontAppDefaultBold(assets: AssetManager?): Typeface
     {
         if (mFontAppDefaultBold == null) mFontAppDefaultBold =
             Typeface.createFromAsset(assets, "fonts/cambriab.ttf")
-        return mFontAppDefaultBold
+        return mFontAppDefaultBold!!
     }
 
-    fun getFontAppDefaultItal(assets: AssetManager?): Typeface?
+    fun getFontAppDefaultItal(assets: AssetManager?): Typeface
     {
         if (mFontAppDefaultItal == null) mFontAppDefaultItal =
             Typeface.createFromAsset(assets, "fonts/cambriai.ttf")
-        return mFontAppDefaultItal
+        return mFontAppDefaultItal!!
     }
 
-    fun getFontAppDefaultBdIt(assets: AssetManager?): Typeface?
+    fun getFontAppDefaultBdIt(assets: AssetManager?): Typeface
     {
         if (mFontAppDefaultBdIt == null) mFontAppDefaultBdIt =
             Typeface.createFromAsset(assets, "fonts/cambriaz.ttf")
-        return mFontAppDefaultBdIt
+        return mFontAppDefaultBdIt!!
     }
 
     fun setFontCustomNorm(fontFilePath: String?)
