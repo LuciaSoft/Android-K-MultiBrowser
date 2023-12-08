@@ -2,7 +2,7 @@ package com.luciasoft.collections
 
 abstract class DirectoryItem(val path: String, var date: Long? = null, var info: String? = null)
 {
-    val name: String = getShortName(path)
+    val name = getShortName(path)
 }
 
 class FileItem(path: String, date: Long? = null, var size: Long? = null, info: String? = null, var imageId: Int? = null)
