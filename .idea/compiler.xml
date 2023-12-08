@@ -2,7 +2,10 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="17">
-      <module name="MultiBrowser.app" target="17" />
+      <module name="MultiBrowser.app" target="20" />
+      <module name="MultiBrowser.main" target="20" />
+      <module name="MultiBrowser.main.main" target="20" />
+      <module name="MultiBrowser.main.test" target="20" />
     </bytecodeTargetLevel>
   </component>
 </project>

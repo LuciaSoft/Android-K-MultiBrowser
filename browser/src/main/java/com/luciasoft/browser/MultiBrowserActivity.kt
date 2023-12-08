@@ -23,6 +23,8 @@ class MultiBrowserActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_layout)
 
+        return
+
         configureScreenRotation()
 
         val actionBar: ActionBar? = try { supportActionBar } catch (ex: Exception) { null }
