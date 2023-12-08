@@ -34,7 +34,6 @@ import com.luciasoft.browser.ListUtils.getDirectoryItemsFromFileSystem
 import com.luciasoft.browser.ListUtils.getImageInfos
 import com.luciasoft.browser.MyMessageBox.Companion.show
 import com.luciasoft.browser.MyYesNoDialog.Companion.show
-import com.luciasoft.browser.OptionsMenu.onOptionsItemSelected
 import com.luciasoft.browser.SelectedItemInfo.SelectAction
 import com.luciasoft.collections.DirectoryItem
 import java.io.File
@@ -48,6 +47,8 @@ class MultiBrowserActivity() : AppCompatActivity()
     lateinit var OPT: Options
     lateinit var ADV: AdvancedOptions
     lateinit var THM: ThemeOptions
+
+    private val optionsMenu by lazy { OptionsMenu() }
 
     /*val options: Options?
         get()
@@ -716,13 +717,13 @@ class MultiBrowserActivity() : AppCompatActivity()
 
     override fun onMenuOpened(featureId: Int, menu: Menu): Boolean
     {
-        OptionsMenu.onMenuOpened(this, menu)
+        optionsMenu.onMenuOpened(this, menu)
         return super.onMenuOpened(featureId, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
-        return if (onOptionsItemSelected(this, item)) true
+        return if (onOptionsItemSelected(item)) true
         else super.onOptionsItemSelected(
             item
         )

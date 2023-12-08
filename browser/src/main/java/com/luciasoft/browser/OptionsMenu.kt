@@ -7,7 +7,7 @@ import com.luciasoft.browser.MyInputDialog.DoSomethingWithResult
 import com.luciasoft.browser.MyMessageBox.Companion.show
 import java.io.File
 
-internal object OptionsMenu
+class OptionsMenu
 {
     fun onMenuOpened(act: MultiBrowserActivity, menu: Menu)
     {
