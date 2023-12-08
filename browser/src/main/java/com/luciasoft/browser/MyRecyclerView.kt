@@ -18,19 +18,14 @@ class MyRecyclerView : RecyclerView
     val textPaint = TextPaint()
 
     var text: String? = null
-    var act: MultiBrowserActivity? = null
+
+    val act: MultiBrowserActivity = context as MultiBrowserActivity
 
     init
     {
         textPaint.setColor(resources.getColor(R.color.colorListItemText))
         textPaint.setTextSize(20 * resources.displayMetrics.density)
         textPaint.setAntiAlias(true)
-    }
-
-    fun setText(act: MultiBrowserActivity, text: String)
-    {
-        this.act = act
-        this.text = text
     }
 
     fun clearText()
@@ -54,7 +49,7 @@ class MyRecyclerView : RecyclerView
     {
         if (text.isEmpty()) return;
 
-        val font = ThemeOptions.getFontBdIt(act!!.getAssets());
+        val font = act!!.THM.getFontBdIt(act!!.getAssets());
         textPaint.setTypeface(font);
 
         val texts = text.split("\n");

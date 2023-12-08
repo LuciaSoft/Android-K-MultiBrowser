@@ -8,4 +8,9 @@ class MultiBrowser : Application()
     {
         super.onCreate()
     }
+
+    val DAT = Data
+    val OPT = Options
+    val ADV = AdvancedOptions
+    val THM = ThemeOptions
 }

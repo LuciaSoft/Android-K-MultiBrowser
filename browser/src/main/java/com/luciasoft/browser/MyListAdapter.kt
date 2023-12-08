@@ -198,7 +198,7 @@ internal class MyListAdapter(
                 {
                     val saveFile =
                         !saveBoxVisible || AdvancedOptions.shortClickSaveFileBehavior !== Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
-                    if (sendToSaveBoxShortClick) act.mEditTextSaveFileName.setText(getShortName(path))
+                    if (sendToSaveBoxShortClick) act.mEditTextSaveFileName!!.setText(getShortName(path))
                     if (saveFile) act.onSelect(true, false, false, false, path)
                 }
             })
@@ -230,7 +230,7 @@ internal class MyListAdapter(
                 {
                     val saveFile =
                         !saveBoxVisible || AdvancedOptions.longClickSaveFileBehavior !== Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
-                    if (sendToSaveBoxLongClick) act.mEditTextSaveFileName.setText(getShortName(path))
+                    if (sendToSaveBoxLongClick) act.mEditTextSaveFileName!!.setText(getShortName(path))
                     if (saveFile) act.onSelect(true, false, true, false, path)
                 }
                 true
@@ -249,7 +249,7 @@ internal class MyViewHolder(view: View, act: MultiBrowserActivity) : RecyclerVie
     init
     {
         listItem = view as LinearLayout
-        listItem.setBackgroundColor(ThemeOptions.colorListBackground)
+        listItem.setBackgroundColor(act.THM.colorListBackground)
         title = view.findViewById(R.id.listItemText)
         title.typeface = ThemeOptions.getFontBdIt(act.assets)
         image = view.findViewById(R.id.listItemIcon)

@@ -1,0 +1,101 @@
+package com.luciasoft.browser
+
+import android.content.pm.ActivityInfo
+import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
+
+class MultiBrowserActivity : AppCompatActivity()
+{
+    lateinit var mEditTextSaveFileName: EditText
+    lateinit var mRecyclerView: MyRecyclerView
+
+    lateinit var APP: MultiBrowser
+    lateinit var DAT: Data
+    lateinit var OPT: Options
+    lateinit var ADV: AdvancedOptions
+    lateinit var THM: ThemeOptions
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_layout)
+
+        APP = application as MultiBrowser
+        DAT = APP.DAT
+        OPT = APP.OPT
+        ADV = APP.ADV
+        THM = APP.THM
+
+        configureScreenRotation()
+
+        val actionBar: ActionBar? = try { supportActionBar } catch (ex: Exception) { null }
+        if (actionBar != null)
+        {
+            with (TextView(applicationContext))
+            {
+                typeface = THM.getFontBold(assets);
+                text = OPT.browserTitle;
+                setTextColor(THM.colorBrowserTitle);
+                setTextSize(THM.unitSp, THM.sizeBrowserTitle);
+                actionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM;
+                actionBar.customView = this@with;
+                actionBar.setBackgroundDrawable(ColorDrawable(THM.colorActionBar));
+            }
+        }
+    }
+
+    private fun configureScreenRotation()
+    {
+        if (ADV.screenRotationMode == Options.ScreenMode.AllowPortraitUprightOnly)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+        else if (ADV.screenRotationMode == Options.ScreenMode.AllowPortraitUprightAndLandscape)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+        }
+        else if (ADV.screenRotationMode == Options.ScreenMode.AllowLandscapeOnly)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        }
+        else if (ADV.screenRotationMode == Options.ScreenMode.AllowAll)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+        }
+        else if (ADV.screenRotationMode == Options.ScreenMode.SystemDefault)
+        {
+            if (DAT!!.mDefaultScreenOrientation != null) requestedOrientation =
+                DAT!!.mDefaultScreenOrientation!!
+        }
+    }
+
+    fun resetDir()
+    {
+
+    }
+
+    fun refreshView(forceSourceReload: Boolean, refreshLayout: Boolean)
+    {
+
+    }
+
+    fun refreshView(dir: String, forceSourceReload: Boolean, refreshLayout: Boolean)
+    {
+
+    }
+
+    fun onSelect(
+        file: Boolean,
+        load: Boolean,
+        longClick: Boolean,
+        saveButton: Boolean,
+        path: String?
+    )
+    {
+        //onSelect(false, file, load, longClick, saveButton, path)
+    }
+}
