@@ -23,21 +23,21 @@ class MultiBrowserActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_layout)
 
-        return
-
         configureScreenRotation()
 
         val actionBar: ActionBar? = try { supportActionBar } catch (ex: Exception) { null }
         if (actionBar != null)
         {
-            val tv = TextView(getApplicationContext());
-            tv.setTypeface(THM.getFontBold(getAssets()));
-            tv.setText(OPT.browserTitle);
-            tv.setTextColor(THM.colorBrowserTitle);
-            tv.setTextSize(THM.unitSp, THM.sizeBrowserTitle);
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            actionBar.setCustomView(tv);
-            actionBar.setBackgroundDrawable(ColorDrawable(THM.colorActionBar));
+            with (TextView(applicationContext))
+            {
+                typeface = THM.getFontBold(assets);
+                text = OPT.browserTitle;
+                setTextColor(THM.colorBrowserTitle);
+                setTextSize(THM.unitSp, THM.sizeBrowserTitle);
+                actionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM;
+                actionBar.customView = this@with;
+                actionBar.setBackgroundDrawable(ColorDrawable(THM.colorActionBar));
+            }
         }
     }
 
