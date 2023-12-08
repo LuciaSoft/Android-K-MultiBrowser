@@ -308,14 +308,21 @@ class MultiBrowserActivity() : AppCompatActivity()
         {
             override fun onClick(view: View)
             {
-                var filename: String = mEditTextSaveFileName.text.toString().trim { it <= ' ' }
+                val filename: String = mEditTextSaveFileName.text.toString().trim { it <= ' ' }
                 mEditTextSaveFileName.setText(filename)
                 if (filename.isEmpty()) return
-                filename = checkFileNameAndExt(filename)
-                var dir = OPT.currentDir!!
-                if (!dir.endsWith("/")) dir += "/"
-                val fullpath = dir + filename
-                onSelect(true, false, false, true, fullpath)
+                val filename2 = checkFileNameAndExt(filename)
+                if (filename2 == null)
+                {
+                    toastLong(this@MultiBrowserActivity, "Invalid file name or extension.");
+                }
+                else
+                {
+                    var dir = OPT.currentDir!!
+                    if (!dir.endsWith("/")) dir += "/"
+                    val fullpath = dir + filename
+                    onSelect(true, false, false, true, fullpath)
+                }
             }
         })
     }
@@ -683,7 +690,7 @@ class MultiBrowserActivity() : AppCompatActivity()
         return filename
     }
 
-    private fun checkFileNameAndExt(filename: String): String
+    private fun checkFileNameAndExt(filename: String): String?
     {
         //if (!OPTIONS().mAllowHiddenFiles && filename.startsWith(".")) return null;
         val ext = getFileExtensionLowerCaseWithDot(filename)
@@ -693,10 +700,8 @@ class MultiBrowserActivity() : AppCompatActivity()
             //if (ext.isEmpty() && !OPTIONS().mAllowUndottedFileExts) return null;
             return filename
         }
-        return if (!ext.isEmpty() && arrayContains(filters, ext)) filename
-        else filename + filters.get(
-            0
-        )
+        return if (ext.isNotEmpty() && arrayContains(filters, ext)) filename
+        else filename + filters[0]
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean
