@@ -99,11 +99,12 @@ class MultiBrowserActivity() : AppCompatActivity()
 
         configureScreenRotation();
     }*/
-    var mRecyclerView: MyRecyclerView? = null
-    var mEditTextSaveFileName: EditText? = null
+    lateinit var mRecyclerView: MyRecyclerView
+    lateinit var mEditTextSaveFileName: EditText
+    
     fun setEditTextSaveFileName(name: String?)
     {
-        mEditTextSaveFileName!!.setText(name)
+        mEditTextSaveFileName.setText(name)
     }
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -140,150 +141,150 @@ class MultiBrowserActivity() : AppCompatActivity()
         if (actionBar != null)
         {
             val tv = TextView(applicationContext)
-            tv.setTypeface(THM!!.getFontBold(assets))
-            tv.text = OPT!!.browserTitle
-            tv.setTextColor(THM!!.colorBrowserTitle)
-            tv.setTextSize(THM!!.unitSp, THM!!.sizeBrowserTitle)
+            tv.setTypeface(THM.getFontBold(assets))
+            tv.text = OPT.browserTitle
+            tv.setTextColor(THM.colorBrowserTitle)
+            tv.setTextSize(THM.unitSp, THM.sizeBrowserTitle)
             actionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
             actionBar.customView = tv
-            actionBar.setBackgroundDrawable(ColorDrawable(THM!!.colorActionBar))
+            actionBar.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
         }
-        if (OPT!!.currentDir != null)
+        if (OPT.currentDir != null)
         {
             try
             {
-                val dir = File(OPT!!.currentDir)
-                if (!dir.exists() && OPT!!.createDirOnActivityStart) try
+                val dir = File(OPT.currentDir)
+                if (!dir.exists() && OPT.createDirOnActivityStart) try
                 {
                     dir.mkdirs()
                 }
                 catch (ex2: Exception)
                 {
                 }
-                OPT!!.currentDir = dir.canonicalPath
+                OPT.currentDir = dir.canonicalPath
             }
             catch (ex: Exception)
             {
             }
-            if (OPT!!.defaultDir == null) OPT!!.defaultDir = OPT!!.currentDir
+            if (OPT.defaultDir == null) OPT.defaultDir = OPT.currentDir
         }
         mRecyclerView = findViewById(R.id.recyclerView)
-        mRecyclerView!!.setHasFixedSize(true)
+        mRecyclerView.setHasFixedSize(true)
         setupParentDirLayout()
         setupSaveFileLayout()
         setupFileFilterLayout()
         setupSwipeRefreshLayout()
         refreshLayoutManager()
-        findViewById<View>(R.id.deadSpaceBackground).setBackgroundColor(THM!!.colorDeadSpaceBackground)
-        findViewById<View>(R.id.topAccent).setBackgroundColor(THM!!.colorTopAccent)
+        findViewById<View>(R.id.deadSpaceBackground).setBackgroundColor(THM.colorDeadSpaceBackground)
+        findViewById<View>(R.id.topAccent).setBackgroundColor(THM.colorTopAccent)
         (findViewById<View>(R.id.curDirLabel) as TextView).setTypeface(
-            THM!!.getFontBold(
+            THM.getFontBold(
                 assets
             )
         )
-        (findViewById<View>(R.id.curDirLabel) as TextView).setTextColor(THM!!.colorCurDirLabel)
-        (findViewById<View>(R.id.curDirLabel) as TextView).setBackgroundColor(THM!!.colorCurDirBackground)
+        (findViewById<View>(R.id.curDirLabel) as TextView).setTextColor(THM.colorCurDirLabel)
+        (findViewById<View>(R.id.curDirLabel) as TextView).setBackgroundColor(THM.colorCurDirBackground)
         (findViewById<View>(R.id.curDirLabel) as TextView).setTextSize(
-            THM!!.unitSp,
-            THM!!.sizeCurDirLabel
+            THM.unitSp,
+            THM.sizeCurDirLabel
         )
         (findViewById<View>(R.id.curDirText) as TextView).setTypeface(
-            THM!!.getFontBold(
+            THM.getFontBold(
                 assets
             )
         )
-        (findViewById<View>(R.id.curDirText) as TextView).setTextColor(THM!!.colorCurDirText)
-        (findViewById<View>(R.id.curDirText) as TextView).setBackgroundColor(THM!!.colorCurDirBackground)
+        (findViewById<View>(R.id.curDirText) as TextView).setTextColor(THM.colorCurDirText)
+        (findViewById<View>(R.id.curDirText) as TextView).setBackgroundColor(THM.colorCurDirBackground)
         (findViewById<View>(R.id.curDirText) as TextView).setTextSize(
-            THM!!.unitSp,
-            THM!!.sizeCurDirText
+            THM.unitSp,
+            THM.sizeCurDirText
         )
-        findViewById<View>(R.id.topAccent2).setBackgroundColor(THM!!.colorListTopAccent)
-        findViewById<View>(R.id.saveFileLayout).setBackgroundColor(THM!!.colorSaveFileBoxBackground)
-        findViewById<View>(R.id.bottomAccent).setBackgroundColor(THM!!.colorListBottomAccent)
+        findViewById<View>(R.id.topAccent2).setBackgroundColor(THM.colorListTopAccent)
+        findViewById<View>(R.id.saveFileLayout).setBackgroundColor(THM.colorSaveFileBoxBackground)
+        findViewById<View>(R.id.bottomAccent).setBackgroundColor(THM.colorListBottomAccent)
         (findViewById<View>(R.id.saveFileEditText) as EditText).setTypeface(
-            THM!!.getFontBold(
+            THM.getFontBold(
                 assets
             )
         )
-        (findViewById<View>(R.id.saveFileEditText) as EditText).setTextColor(THM!!.colorSaveFileBoxText)
+        (findViewById<View>(R.id.saveFileEditText) as EditText).setTextColor(THM.colorSaveFileBoxText)
         (findViewById<View>(R.id.saveFileEditText) as EditText).background.setColorFilter(
-            THM!!.colorSaveFileBoxUnderline, PorterDuff.Mode.SRC_ATOP
+            THM.colorSaveFileBoxUnderline, PorterDuff.Mode.SRC_ATOP
         )
         (findViewById<View>(R.id.saveFileEditText) as EditText).setTextSize(
-            THM!!.unitSp,
-            THM!!.sizeSaveFileText
+            THM.unitSp,
+            THM.sizeSaveFileText
         )
         (findViewById<View>(R.id.saveFileButton) as Button).setTypeface(
-            THM!!.getFontBold(assets)
+            THM.getFontBold(assets)
         )
         (findViewById<View>(R.id.saveFileButton) as Button).setTextColor(
-            THM!!.colorSaveFileButtonText
+            THM.colorSaveFileButtonText
         )
         (findViewById<View>(R.id.saveFileButton) as Button).setTextSize(
-            THM!!.unitSp, THM!!.sizeSaveFileButtonText
+            THM.unitSp, THM.sizeSaveFileButtonText
         )
         ViewCompat.setBackgroundTintList(
             ((findViewById<View>(R.id.saveFileButton) as Button)),
             ColorStateList(
                 arrayOf(intArrayOf(android.R.attr.state_enabled)), intArrayOf(
-                    THM!!.colorSaveFileButtonBackground
+                    THM.colorSaveFileButtonBackground
                 )
             )
         )
-        findViewById<View>(R.id.fileFilterLayout).setBackgroundColor(THM!!.colorFilterBackground)
-        findViewById<View>(R.id.bottomAccent2).setBackgroundColor(THM!!.colorSaveFileBoxBottomAccent)
+        findViewById<View>(R.id.fileFilterLayout).setBackgroundColor(THM.colorFilterBackground)
+        findViewById<View>(R.id.bottomAccent2).setBackgroundColor(THM.colorSaveFileBoxBottomAccent)
         (findViewById<View>(R.id.fileFilterSpinner) as Spinner).background.setColorFilter(
-            THM!!.colorFilterArrow, PorterDuff.Mode.SRC_ATOP
+            THM.colorFilterArrow, PorterDuff.Mode.SRC_ATOP
         )
-        findViewById<View>(R.id.bottomAccent3).setBackgroundColor(THM!!.colorBottomAccent)
-        findViewById<View>(R.id.parDirLayout).setBackgroundColor(THM!!.colorParDirBackground)
+        findViewById<View>(R.id.bottomAccent3).setBackgroundColor(THM.colorBottomAccent)
+        findViewById<View>(R.id.parDirLayout).setBackgroundColor(THM.colorParDirBackground)
         (findViewById<View>(R.id.parDirText) as TextView).setTypeface(
-            THM!!.getFontBold(
+            THM.getFontBold(
                 assets
             )
         )
-        (findViewById<View>(R.id.parDirText) as TextView).setTextColor(THM!!.colorParDirText)
+        (findViewById<View>(R.id.parDirText) as TextView).setTextColor(THM.colorParDirText)
         (findViewById<View>(R.id.parDirText) as TextView).setTextSize(
-            THM!!.unitSp,
-            THM!!.sizeParDirText
+            THM.unitSp,
+            THM.sizeParDirText
         )
         (findViewById<View>(R.id.parDirSubText) as TextView).setTypeface(
-            THM!!.getFontBold(
+            THM.getFontBold(
                 assets
             )
         )
-        (findViewById<View>(R.id.parDirSubText) as TextView).setTextColor(THM!!.colorParDirSubText)
+        (findViewById<View>(R.id.parDirSubText) as TextView).setTextColor(THM.colorParDirSubText)
         (findViewById<View>(R.id.parDirSubText) as TextView).setTextSize(
-            THM!!.unitSp,
-            THM!!.sizeParDirSubText
+            THM.unitSp,
+            THM.sizeParDirSubText
         )
-        findViewById<View>(R.id.parDirLayoutAccent).setBackgroundColor(THM!!.colorListAccent)
+        findViewById<View>(R.id.parDirLayoutAccent).setBackgroundColor(THM.colorListAccent)
         refreshView(true, false)
     }
 
     private fun configureScreenRotation()
     {
-        if (ADV!!.screenRotationMode === Options.ScreenMode.AllowPortraitUprightOnly)
+        if (ADV.screenRotationMode === Options.ScreenMode.AllowPortraitUprightOnly)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
-        else if (ADV!!.screenRotationMode === Options.ScreenMode.AllowPortraitUprightAndLandscape)
+        else if (ADV.screenRotationMode === Options.ScreenMode.AllowPortraitUprightAndLandscape)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
         }
-        else if (ADV!!.screenRotationMode === Options.ScreenMode.AllowLandscapeOnly)
+        else if (ADV.screenRotationMode === Options.ScreenMode.AllowLandscapeOnly)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
         }
-        else if (ADV!!.screenRotationMode === Options.ScreenMode.AllowAll)
+        else if (ADV.screenRotationMode === Options.ScreenMode.AllowAll)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         }
-        else if (ADV!!.screenRotationMode === Options.ScreenMode.SystemDefault)
+        else if (ADV.screenRotationMode === Options.ScreenMode.SystemDefault)
         {
-            if (DAT!!.mDefaultScreenOrientation != null) requestedOrientation =
-                DAT!!.mDefaultScreenOrientation!!
+            if (DAT.mDefaultScreenOrientation != null) requestedOrientation =
+                DAT.mDefaultScreenOrientation!!
         }
     }
 
@@ -291,7 +292,7 @@ class MultiBrowserActivity() : AppCompatActivity()
     {
         (findViewById<View>(R.id.parDirLayout) as LinearLayout).setOnClickListener(
             View.OnClickListener {
-                val parentDir = getParentDir((OPT!!.currentDir)!!)
+                val parentDir = getParentDir(OPT.currentDir!!)
                 if (!parentDir.isEmpty()) refreshView(parentDir, false, false)
             })
         (findViewById<View>(R.id.parentDirIcon) as ImageView).setImageResource(R.mipmap.ic_folder_up)
@@ -301,15 +302,15 @@ class MultiBrowserActivity() : AppCompatActivity()
     private fun setupSaveFileLayout()
     {
         mEditTextSaveFileName = findViewById<View>(R.id.saveFileEditText) as EditText
-        if (OPT!!.defaultSaveFileName != null) mEditTextSaveFileName!!.setText(OPT!!.defaultSaveFileName)
+        if (OPT.defaultSaveFileName != null) mEditTextSaveFileName.setText(OPT.defaultSaveFileName)
         val btnSaveFile = findViewById<View>(R.id.saveFileButton) as Button
         btnSaveFile.setOnClickListener(object : View.OnClickListener
         {
             override fun onClick(view: View)
             {
-                var filename: String? = mEditTextSaveFileName!!.text.toString().trim { it <= ' ' }
-                mEditTextSaveFileName!!.setText(filename)
-                if (filename!!.isEmpty()) return
+                var filename: String? = mEditTextSaveFileName.text.toString().trim { it <= ' ' }
+                mEditTextSaveFileName.setText(filename)
+                if (filename.isEmpty()) return
                 filename = checkFileNameAndExt(filename)
                 if (filename == null)
                 {
@@ -317,7 +318,7 @@ class MultiBrowserActivity() : AppCompatActivity()
                 }
                 else
                 {
-                    var dir = OPT!!.currentDir
+                    var dir = OPT.currentDir
                     if (!dir!!.endsWith("/")) dir += "/"
                     val fullpath = dir + filename
                     onSelect(true, false, false, true, fullpath)
@@ -332,15 +333,15 @@ class MultiBrowserActivity() : AppCompatActivity()
         val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(
             this,
             R.layout.file_filter_popup_item,
-            OPT!!.mFileFilterDescrips
+            OPT.mFileFilterDescrips
         )
         {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View
             {
                 val view = super.getView(position, convertView, parent)
-                (view as TextView).setTypeface(THM!!.getFontNorm(assets))
-                view.setTextColor(THM!!.colorFilterText)
-                view.setTextSize(THM!!.unitSp, THM!!.sizeFileFilterText)
+                (view as TextView).setTypeface(THM.getFontNorm(assets))
+                view.setTextColor(THM.colorFilterText)
+                view.setTextSize(THM.unitSp, THM.sizeFileFilterText)
                 return view
             }
 
@@ -348,10 +349,10 @@ class MultiBrowserActivity() : AppCompatActivity()
             {
                 val view = super.getView(position, convertView, parent)
                 val text = view.findViewById<TextView>(R.id.fileFilterPopupItem)
-                text.setTypeface(THM!!.getFontNorm(assets))
-                text.setTextColor(THM!!.colorFilterPopupText)
-                text.setBackgroundColor(THM!!.colorFilterPopupBackground)
-                text.setTextSize(THM!!.unitSp, THM!!.sizeFileFilterPopupText)
+                text.setTypeface(THM.getFontNorm(assets))
+                text.setTextColor(THM.colorFilterPopupText)
+                text.setBackgroundColor(THM.colorFilterPopupBackground)
+                text.setTextSize(THM.unitSp, THM.sizeFileFilterPopupText)
                 return view
             }
         }
@@ -365,18 +366,18 @@ class MultiBrowserActivity() : AppCompatActivity()
                 id: Long
             )
             {
-                if (OPT!!.fileFilterIndex == position) return
-                if (mEditTextSaveFileName!!.visibility != View.GONE)
+                if (OPT.fileFilterIndex == position) return
+                if (mEditTextSaveFileName.visibility != View.GONE)
                 {
                     var filename: String =
-                        mEditTextSaveFileName!!.text.toString().trim { it <= ' ' }
+                        mEditTextSaveFileName.text.toString().trim { it <= ' ' }
                     if (!filename.isEmpty())
                     {
-                        filename = changeFileExt(filename, OPT!!.fileFilterIndex, position)
+                        filename = changeFileExt(filename, OPT.fileFilterIndex, position)
                     }
-                    mEditTextSaveFileName!!.setText(filename)
+                    mEditTextSaveFileName.setText(filename)
                 }
-                OPT!!.fileFilterIndex = position
+                OPT.fileFilterIndex = position
                 refreshView(false, false)
             }
 
@@ -384,7 +385,7 @@ class MultiBrowserActivity() : AppCompatActivity()
             {
             }
         }
-        spinnerFileFilters.setSelection(OPT!!.fileFilterIndex)
+        spinnerFileFilters.setSelection(OPT.fileFilterIndex)
     }
 
     private fun setupSwipeRefreshLayout()
@@ -403,28 +404,28 @@ class MultiBrowserActivity() : AppCompatActivity()
 
     fun resetDir()
     {
-        OPT!!.currentDir = OPT!!.defaultDir
+        OPT.currentDir = OPT.defaultDir
         refreshView(true, false)
     }
 
     fun refreshView(forceSourceReload: Boolean, refreshLayout: Boolean)
     {
-        refreshView(OPT!!.currentDir, forceSourceReload, refreshLayout)
+        refreshView(OPT.currentDir, forceSourceReload, refreshLayout)
     }
 
     fun refreshView(dir: String?, forceSourceReload: Boolean, refreshLayout: Boolean)
     {
-        val firstLoad = DAT!!.mFirstLoad
-        DAT!!.mFirstLoad = false
+        val firstLoad = DAT.mFirstLoad
+        DAT.mFirstLoad = false
         val items = getDirectoryItems(APP, dir, forceSourceReload)
-        val galleryView = OPT!!.browserViewType === Options.BrowserViewType.Gallery
+        val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         var showLayouts = true
         if (items == null)
         {
             if (galleryView || dir == null)
             {
                 val text = "error reading items"
-                mRecyclerView!!.text = text
+                mRecyclerView.text = text
                 showLayouts = false
             }
             else
@@ -432,7 +433,7 @@ class MultiBrowserActivity() : AppCompatActivity()
                 if (firstLoad)
                 {
                     val text = "cannot read directory:\n$dir"
-                    mRecyclerView!!.text = text
+                    mRecyclerView.text = text
                     showLayouts = false
                 }
                 else
@@ -443,11 +444,11 @@ class MultiBrowserActivity() : AppCompatActivity()
         }
         else
         {
-            if (!galleryView) OPT!!.currentDir = dir
+            if (!galleryView) OPT.currentDir = dir
             if (refreshLayout) refreshLayoutManager()
-            if (items.size == 0) mRecyclerView!!.text = "no items"
-            else mRecyclerView!!.clearText()
-            mRecyclerView!!.adapter = MyListAdapter(this, items)
+            if (items.size == 0) mRecyclerView.text = "no items"
+            else mRecyclerView.clearText()
+            mRecyclerView.adapter = MyListAdapter(this, items)
         }
         configureLayouts(showLayouts)
     }
@@ -459,31 +460,31 @@ class MultiBrowserActivity() : AppCompatActivity()
     ): ArrayList<DirectoryItem>?
     {
         if (dir == null) return null
-        val galleryView = OPT!!.browserViewType === Options.BrowserViewType.Gallery
+        val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         val readable = galleryView || directoryIsReadable(this, dir)
         if (!readable) return null
-        if (galleryView || OPT!!.showImagesWhileBrowsingNormal)
+        if (galleryView || OPT.showImagesWhileBrowsingNormal)
         {
             val reload = (forceSourceReload ||
-                ADV!!.autoRefreshDirectorySource || (DAT!!.mMediaStoreImageInfoList == null))
-            if (reload) DAT!!.mMediaStoreImageInfoList = getImageInfos(this)
+                ADV.autoRefreshDirectorySource || (DAT.mMediaStoreImageInfoList == null))
+            if (reload) DAT.mMediaStoreImageInfoList = getImageInfos(this)
         }
         val items: ArrayList<DirectoryItem>?
         if (galleryView)
         {
-            items = DAT!!.mMediaStoreImageInfoList
+            items = DAT.mMediaStoreImageInfoList
         }
         else
         {
-            val reload = forceSourceReload || ADV!!.autoRefreshDirectorySource || (
-                DAT!!.mFileSystemDirectoryItems == null) || (
-                OPT!!.currentDir == null) || !dir.equals(OPT!!.currentDir, ignoreCase = true)
-            if (reload) DAT!!.mFileSystemDirectoryItems = getDirectoryItemsFromFileSystem(
+            val reload = forceSourceReload || ADV.autoRefreshDirectorySource || (
+                DAT.mFileSystemDirectoryItems == null) || (
+                OPT.currentDir == null) || !dir.equals(OPT.currentDir, ignoreCase = true)
+            if (reload) DAT.mFileSystemDirectoryItems = getDirectoryItemsFromFileSystem(
                 this,
                 dir,
-                OPT!!.mFileFilters[OPT!!.fileFilterIndex]
+                OPT.mFileFilters[OPT.fileFilterIndex]
             )
-            items = DAT!!.mFileSystemDirectoryItems
+            items = DAT.mFileSystemDirectoryItems
         }
         return items
     }
@@ -498,22 +499,22 @@ class MultiBrowserActivity() : AppCompatActivity()
         var showParentDirLayout = false
         var showSaveFileLayout = false
         var showFileFilterLayout = false
-        val galleryView = OPT!!.browserViewType === Options.BrowserViewType.Gallery
+        val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         if (!galleryView && showLayouts)
         {
-            val isRoot = (OPT!!.currentDir == "/")
-            showParentDirLayout = ADV!!.showParentDirectoryLayoutIfAvailable && !isRoot
-            showCurrentDirLayout = ADV!!.showCurrentDirectoryLayoutIfAvailable
-            showSaveFileLayout = ADV!!.showSaveFileLayoutIfAvailable &&
-                OPT!!.browseMode === Options.BrowseMode.SaveFilesAndOrFolders
-            showFileFilterLayout = ADV!!.showFileFilterLayoutIfAvailable &&
-                (OPT!!.browseMode === Options.BrowseMode.LoadFilesAndOrFolders ||
-                    OPT!!.browseMode === Options.BrowseMode.SaveFilesAndOrFolders)
+            val isRoot = (OPT.currentDir == "/")
+            showParentDirLayout = ADV.showParentDirectoryLayoutIfAvailable && !isRoot
+            showCurrentDirLayout = ADV.showCurrentDirectoryLayoutIfAvailable
+            showSaveFileLayout = ADV.showSaveFileLayoutIfAvailable &&
+                OPT.browseMode === Options.BrowseMode.SaveFilesAndOrFolders
+            showFileFilterLayout = ADV.showFileFilterLayoutIfAvailable &&
+                (OPT.browseMode === Options.BrowseMode.LoadFilesAndOrFolders ||
+                    OPT.browseMode === Options.BrowseMode.SaveFilesAndOrFolders)
         }
         if (showCurrentDirLayout)
         {
             curDirLayout.visibility = View.VISIBLE
-            (findViewById<View>(R.id.curDirText) as TextView).text = OPT!!.currentDir
+            (findViewById<View>(R.id.curDirText) as TextView).text = OPT.currentDir
         }
         else
         {
@@ -523,7 +524,7 @@ class MultiBrowserActivity() : AppCompatActivity()
         {
             parDirLayout.visibility = View.VISIBLE
             (findViewById<View>(R.id.parDirText) as TextView).text =
-                getParentDir((OPT!!.currentDir)!!)
+                getParentDir(OPT.currentDir!!)
         }
         else
         {
@@ -550,17 +551,17 @@ class MultiBrowserActivity() : AppCompatActivity()
     private fun refreshLayoutManager()
     {
         val manager: RecyclerView.LayoutManager
-        if (OPT!!.browserViewType === Options.BrowserViewType.List)
+        if (OPT.browserViewType === Options.BrowserViewType.List)
         {
             manager = LinearLayoutManager(applicationContext)
         }
         else
         {
             val columnCount =
-                if (OPT!!.browserViewType === Options.BrowserViewType.Tiles) OPT!!.normalViewColumnCount else OPT!!.galleryViewColumnCount
+                if (OPT.browserViewType === Options.BrowserViewType.Tiles) OPT.normalViewColumnCount else OPT.galleryViewColumnCount
             manager = GridLayoutManager(applicationContext, columnCount)
         }
-        mRecyclerView!!.layoutManager = manager
+        mRecyclerView.layoutManager = manager
     }
 
     fun onSelect(
@@ -586,18 +587,18 @@ class MultiBrowserActivity() : AppCompatActivity()
         if (!skipDialog && !load)
         {
             var showDialog = false
-            if (OPT!!.browserViewType === Options.BrowserViewType.Gallery)
+            if (OPT.browserViewType === Options.BrowserViewType.Gallery)
             {
-                if (OPT!!.alwaysShowDialogForSavingGalleryItem) showDialog = true
+                if (OPT.alwaysShowDialogForSavingGalleryItem) showDialog = true
             }
             else if (file)
             {
-                if (OPT!!.alwaysShowDialogForSavingFile || OPT!!.showOverwriteDialogForSavingFileIfExists) showDialog =
+                if (OPT.alwaysShowDialogForSavingFile || OPT.showOverwriteDialogForSavingFileIfExists) showDialog =
                     true
             }
             else
             {
-                if (OPT!!.alwaysShowDialogForSavingFolder) showDialog = true
+                if (OPT.alwaysShowDialogForSavingFolder) showDialog = true
             }
             if (showDialog)
             {
@@ -644,7 +645,7 @@ class MultiBrowserActivity() : AppCompatActivity()
         }
         else
         {
-            if (ADV!!.debugMode)
+            if (ADV.debugMode)
             {
                 var title: String = ""
                 title += if (load) "LOAD " else "SAVE "
@@ -660,11 +661,11 @@ class MultiBrowserActivity() : AppCompatActivity()
     {
         if (file)
         {
-            return if (load) OPT!!.onSelectFileForLoad else OPT!!.onSelectFileForSave
+            return if (load) OPT.onSelectFileForLoad else OPT.onSelectFileForSave
         }
         else
         {
-            return if (load) OPT!!.onSelectFolderForLoad else OPT!!.onSelectFolderForSave
+            return if (load) OPT.onSelectFolderForLoad else OPT.onSelectFolderForSave
         }
     }
 
@@ -675,12 +676,12 @@ class MultiBrowserActivity() : AppCompatActivity()
     ): String
     {
         var filename = filename
-        val newExts = OPT!!.mFileFilters[newFileFilterIndex]
+        val newExts = OPT.mFileFilters[newFileFilterIndex]
         if ((newExts[0] == "*")) return filename
         val ext = getFileExtensionLowerCaseWithDot(filename)
         if (ext.isEmpty()) return filename + newExts[0]
         if (arrayContains(newExts, ext)) return filename
-        val oldExts = OPT!!.mFileFilters[oldFileFilterIndex]
+        val oldExts = OPT.mFileFilters[oldFileFilterIndex]
         if (oldExts.get(0) != "*" && arrayContains(oldExts, ext))
         {
             filename = filename.substring(0, filename.length - ext.length)
@@ -692,8 +693,8 @@ class MultiBrowserActivity() : AppCompatActivity()
     private fun checkFileNameAndExt(filename: String?): String?
     {
         //if (!OPTIONS().mAllowHiddenFiles && filename.startsWith(".")) return null;
-        val ext = getFileExtensionLowerCaseWithDot((filename)!!)
-        val filters = OPT!!.mFileFilters[OPT!!.fileFilterIndex]
+        val ext = getFileExtensionLowerCaseWithDot(filename!!)
+        val filters = OPT.mFileFilters[OPT.fileFilterIndex]
         if ((filters[0] == "*"))
         {
             //if (ext.isEmpty() && !OPTIONS().mAllowUndottedFileExts) return null;
@@ -707,7 +708,7 @@ class MultiBrowserActivity() : AppCompatActivity()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean
     {
-        if (ADV!!.menuEnabled)
+        if (ADV.menuEnabled)
         {
             menuInflater.inflate(R.menu.menu, menu)
             applyFontToMenu(menu, this)
@@ -747,10 +748,10 @@ class MultiBrowserActivity() : AppCompatActivity()
                 applyFontToMenuItem(mi.subMenu!!.getItem(i), mContext)
             }
         }
-        val font = THM!!.getFontNorm(assets)
+        val font = THM.getFontNorm(assets)
         val mNewTitle = SpannableString(mi.title)
         mNewTitle.setSpan(
-            CustomTypefaceSpan("Font", (font)!!), 0,
+            CustomTypefaceSpan("Font", font!!), 0,
             mNewTitle.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE
         )
         mi.title = mNewTitle
