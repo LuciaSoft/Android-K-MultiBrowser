@@ -5,10 +5,10 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.util.TypedValue
 
-object ThemeOptions
+class ThemeOptions
 {
-    const val unitSp = TypedValue.COMPLEX_UNIT_SP
-    const val unitDip = TypedValue.COMPLEX_UNIT_DIP
+    val unitSp = TypedValue.COMPLEX_UNIT_SP
+    val unitDip = TypedValue.COMPLEX_UNIT_DIP
 
     fun reset()
     {

@@ -169,15 +169,15 @@ internal class MyListAdapter(
         val save = isFile && saveFilesFolders || !isFile && (saveFolders || saveFilesFolders)
         val saveBoxVisible = act.findViewById<View>(R.id.saveFileLayout).visibility != View.GONE
         val sendToSaveBoxShortClick =
-            save && isFile && saveBoxVisible && AdvancedOptions.allowShortClickFileForSave &&
-                (AdvancedOptions.debugMode || act.OPT.onSelectFileForSave != null) && AdvancedOptions.shortClickSaveFileBehavior !== Options.SaveFileBehavior.SaveFile
+            save && isFile && saveBoxVisible && act.ADV.allowShortClickFileForSave &&
+                (act.ADV.debugMode || act.OPT.onSelectFileForSave != null) && act.ADV.shortClickSaveFileBehavior !== Options.SaveFileBehavior.SaveFile
         val sendToSaveBoxLongClick =
-            save && isFile && saveBoxVisible && AdvancedOptions.allowLongClickFileForSave &&
-                (AdvancedOptions.debugMode || act.OPT.onSelectFileForSave != null) && AdvancedOptions.longClickSaveFileBehavior !== Options.SaveFileBehavior.SaveFile
+            save && isFile && saveBoxVisible && act.ADV.allowLongClickFileForSave &&
+                (act.ADV.debugMode || act.OPT.onSelectFileForSave != null) && act.ADV.longClickSaveFileBehavior !== Options.SaveFileBehavior.SaveFile
         val shortClickable =
-            AdvancedOptions.debugMode || !isFile || sendToSaveBoxShortClick || load && AdvancedOptions.allowShortClickFileForLoad && act.OPT.onSelectFileForLoad != null || save && AdvancedOptions.allowShortClickFileForSave && act.OPT.onSelectFileForSave != null
+            act.ADV.debugMode || !isFile || sendToSaveBoxShortClick || load && act.ADV.allowShortClickFileForLoad && act.OPT.onSelectFileForLoad != null || save && act.ADV.allowShortClickFileForSave && act.OPT.onSelectFileForSave != null
         val longClickable =
-            AdvancedOptions.debugMode || sendToSaveBoxLongClick || isFile && (load && AdvancedOptions.allowLongClickFileForLoad && act.OPT.onSelectFileForLoad != null || save && AdvancedOptions.allowLongClickFileForSave && act.OPT.onSelectFileForSave != null) || !isFile && (load && AdvancedOptions.allowLongClickFolderForLoad && act.OPT.onSelectFolderForLoad != null || save && AdvancedOptions.allowLongClickFolderForSave && act.OPT.onSelectFolderForSave != null)
+            act.ADV.debugMode || sendToSaveBoxLongClick || isFile && (load && act.ADV.allowLongClickFileForLoad && act.OPT.onSelectFileForLoad != null || save && act.ADV.allowLongClickFileForSave && act.OPT.onSelectFileForSave != null) || !isFile && (load && act.ADV.allowLongClickFolderForLoad && act.OPT.onSelectFolderForLoad != null || save && act.ADV.allowLongClickFolderForSave && act.OPT.onSelectFolderForSave != null)
         listItem.isClickable = shortClickable
         if (!shortClickable) listItem.setOnClickListener(null)
         else
@@ -197,7 +197,7 @@ internal class MyListAdapter(
                 else
                 {
                     val saveFile =
-                        !saveBoxVisible || AdvancedOptions.shortClickSaveFileBehavior !== Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
+                        !saveBoxVisible || act.ADV.shortClickSaveFileBehavior !== Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
                     if (sendToSaveBoxShortClick) act.mEditTextSaveFileName!!.setText(getShortName(path))
                     if (saveFile) act.onSelect(true, false, false, false, path)
                 }
@@ -229,7 +229,7 @@ internal class MyListAdapter(
                 else
                 {
                     val saveFile =
-                        !saveBoxVisible || AdvancedOptions.longClickSaveFileBehavior !== Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
+                        !saveBoxVisible || act.ADV.longClickSaveFileBehavior !== Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
                     if (sendToSaveBoxLongClick) act.mEditTextSaveFileName!!.setText(getShortName(path))
                     if (saveFile) act.onSelect(true, false, true, false, path)
                 }
@@ -251,29 +251,29 @@ internal class MyViewHolder(view: View, act: MultiBrowserActivity) : RecyclerVie
         listItem = view as LinearLayout
         listItem.setBackgroundColor(act.THM.colorListBackground)
         title = view.findViewById(R.id.listItemText)
-        title.typeface = ThemeOptions.getFontBdIt(act.assets)
+        title.typeface = act.THM.getFontBdIt(act.assets)
         image = view.findViewById(R.id.listItemIcon)
         if (act.OPT.browserViewType === Options.BrowserViewType.Gallery)
         {
-            title.setTextColor(ThemeOptions.colorGalleryItemText)
-            title.setTextSize(ThemeOptions.unitSp, ThemeOptions.sizeGalleryViewItemText)
+            title.setTextColor(act.THM.colorGalleryItemText)
+            title.setTextSize(act.THM.unitSp, act.THM.sizeGalleryViewItemText)
         }
         else
         {
-            title.setTextColor(ThemeOptions.colorListItemText)
+            title.setTextColor(act.THM.colorListItemText)
             if (act.OPT.browserViewType === Options.BrowserViewType.List)
             {
-                title.setTextSize(ThemeOptions.unitSp, ThemeOptions.sizeListViewItemText)
+                title.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemText)
                 info = view.findViewById(R.id.listItemSubText)
-                info!!.setTypeface(ThemeOptions.getFontNorm(act.assets))
-                info!!.setTextColor(ThemeOptions.colorListItemSubText)
-                info!!.setTextSize(ThemeOptions.unitSp, ThemeOptions.sizeListViewItemSubText)
+                info!!.setTypeface(act.THM.getFontNorm(act.assets))
+                info!!.setTextColor(act.THM.colorListItemSubText)
+                info!!.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemSubText)
                 val accent = view.findViewById<View>(R.id.listItemAccent)
-                accent.setBackgroundColor(ThemeOptions.colorListAccent)
+                accent.setBackgroundColor(act.THM.colorListAccent)
             }
             else
             {
-                title.setTextSize(ThemeOptions.unitSp, ThemeOptions.sizeTilesViewItemText)
+                title.setTextSize(act.THM.unitSp, act.THM.sizeTilesViewItemText)
             }
         }
     }

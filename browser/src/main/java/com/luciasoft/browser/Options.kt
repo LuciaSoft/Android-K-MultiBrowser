@@ -7,9 +7,9 @@ import java.util.Locale
 import javax.xml.parsers.ParserConfigurationException
 import javax.xml.transform.TransformerException
 
-object Options
+class Options
 {
-    private const val ALL_FILES_FILTER = " All Files ( * ) |*"
+    private val ALL_FILES_FILTER = " All Files ( * ) |*"
 
     /*@Throws(IOException::class, TransformerException::class, ParserConfigurationException::class)
     fun saveXml(filePath: String?)
@@ -206,8 +206,6 @@ object Options
         onSelectFileForSave = null
         onSelectFolderForLoad = null
         onSelectFolderForSave = null
-        AdvancedOptions.reset()
-        ThemeOptions.reset()
     }
 
     var browserTitle: String? = null

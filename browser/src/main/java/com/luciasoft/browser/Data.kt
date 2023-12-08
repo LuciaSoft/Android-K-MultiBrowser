@@ -3,7 +3,7 @@ package com.luciasoft.browser
 import com.luciasoft.collections.DirectoryItem
 import com.luciasoft.collections.MediaStoreImageInfoTree
 
-object Data
+class Data
 {
     var mDefaultScreenOrientation: Int? = null
     var mFileSystemDirectoryItems: ArrayList<DirectoryItem>? = null

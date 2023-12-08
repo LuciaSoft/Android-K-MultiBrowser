@@ -1,6 +1,6 @@
 package com.luciasoft.browser
 
-object AdvancedOptions
+class AdvancedOptions
 {
     fun reset()
     {

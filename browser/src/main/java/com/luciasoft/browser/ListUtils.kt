@@ -50,7 +50,7 @@ internal object ListUtils
         }
         if (cursor == null) return null
         val list = ArrayList<DirectoryItem>()
-        val exts = getValidExts(AdvancedOptions.mediaStoreImageExts)
+        val exts = getValidExts(act.ADV.mediaStoreImageExts)
         for (i in 0 until cursor.count)
         {
             var imagePath: String?
@@ -114,9 +114,9 @@ internal object ListUtils
             infoArray[i] = infoArray[pos]
             infoArray[pos] = tmp
         }
-        if (Data.mMediaStoreImageInfoTree == null) Data.mMediaStoreImageInfoTree = MediaStoreImageInfoTree()
-        else Data.mMediaStoreImageInfoTree!!.reset()
-        for (info in infoArray) Data.mMediaStoreImageInfoTree!!.add(info as FileItem)
+        if (act.DAT.mMediaStoreImageInfoTree == null) act.DAT.mMediaStoreImageInfoTree = MediaStoreImageInfoTree()
+        else act.DAT.mMediaStoreImageInfoTree!!.reset()
+        for (info in infoArray) act.DAT.mMediaStoreImageInfoTree!!.add(info as FileItem)
         return list
     }
 
@@ -141,7 +141,7 @@ internal object ListUtils
         {
             return if (directoryIsReadable(act, directory!!)) dirItemList else null
         }
-        if (!AdvancedOptions.showFilesInNormalView && !AdvancedOptions.showFoldersInNormalView) return dirItemList
+        if (!act.ADV.showFilesInNormalView && !act.ADV.showFoldersInNormalView) return dirItemList
         exts = getValidExts(exts)
         for (item in items)
         {
@@ -181,8 +181,8 @@ internal object ListUtils
             }
             if (!isFile && !isDirectory) continue
             if (isFile &&
-                (!AdvancedOptions.showFilesInNormalView || act.OPT.browseMode === Options.BrowseMode.LoadFolders || act.OPT.browseMode === Options.BrowseMode.SaveFolders)) continue
-            if (isDirectory && !AdvancedOptions.showFoldersInNormalView) continue
+                (!act.ADV.showFilesInNormalView || act.OPT.browseMode === Options.BrowseMode.LoadFolders || act.OPT.browseMode === Options.BrowseMode.SaveFolders)) continue
+            if (isDirectory && !act.ADV.showFoldersInNormalView) continue
             var isHidden: Boolean
             isHidden = try
             {
@@ -204,8 +204,8 @@ internal object ListUtils
                 null
             }
             var info = ""
-            val showDate = isFile && AdvancedOptions.showFileDatesInListView ||
-                isDirectory && AdvancedOptions.showFolderDatesInListView
+            val showDate = isFile && act.ADV.showFileDatesInListView ||
+                isDirectory && act.ADV.showFolderDatesInListView
             if (date != null && showDate)
             {
                 if (showDate) info += getDateString(date) + ", "
@@ -221,7 +221,7 @@ internal object ListUtils
                 {
                     null
                 }
-                if (subItemCount == null || !AdvancedOptions.showFolderCountsInListView)
+                if (subItemCount == null || !act.ADV.showFolderCountsInListView)
                 {
                     info += "folder"
                 }
@@ -244,14 +244,14 @@ internal object ListUtils
                 {
                     null
                 }
-                info += if (size == null || !AdvancedOptions.showFileSizesInListView) "file"
+                info += if (size == null || !act.ADV.showFileSizesInListView) "file"
                 else getFileSizeString(
                     size
                 )
                 var imageId: Int? = null
-                if (act.OPT.showImagesWhileBrowsingNormal && Data.mMediaStoreImageInfoTree != null)
+                if (act.OPT.showImagesWhileBrowsingNormal && act.DAT.mMediaStoreImageInfoTree != null)
                 {
-                    imageId = Data.mMediaStoreImageInfoTree!!.getImageId(path)
+                    imageId = act.DAT.mMediaStoreImageInfoTree!!.getImageId(path)
                 }
                 dirItemList.add(FileItem(path, date, size, info, imageId))
             }

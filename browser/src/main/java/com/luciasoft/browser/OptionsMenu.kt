@@ -54,14 +54,14 @@ internal object OptionsMenu
         {
             newFolderOptionVisible = false
         }
-        if (!AdvancedOptions.menuOptionListViewEnabled) listViewOptionVisible = false
-        if (!AdvancedOptions.menuOptionTilesViewEnabled) tilesViewOptionVisible = false
-        if (!AdvancedOptions.menuOptionGalleryViewEnabled) galleryViewOptionVisible = false
-        if (!AdvancedOptions.menuOptionColumnCountEnabled) columnCountOptionVisible = false
-        if (!AdvancedOptions.menuOptionSortOrderEnabled) sortOrderOptionVisible = false
-        if (!AdvancedOptions.menuOptionResetDirectoryEnabled) resetDirectoryOptionVisible = false
-        if (!AdvancedOptions.menuOptionShowHideFileNamesEnabled) showHideFileNamesOptionVisible = false
-        if (!AdvancedOptions.menuOptionNewFolderEnabled) newFolderOptionVisible = false
+        if (!act.ADV.menuOptionListViewEnabled) listViewOptionVisible = false
+        if (!act.ADV.menuOptionTilesViewEnabled) tilesViewOptionVisible = false
+        if (!act.ADV.menuOptionGalleryViewEnabled) galleryViewOptionVisible = false
+        if (!act.ADV.menuOptionColumnCountEnabled) columnCountOptionVisible = false
+        if (!act.ADV.menuOptionSortOrderEnabled) sortOrderOptionVisible = false
+        if (!act.ADV.menuOptionResetDirectoryEnabled) resetDirectoryOptionVisible = false
+        if (!act.ADV.menuOptionShowHideFileNamesEnabled) showHideFileNamesOptionVisible = false
+        if (!act.ADV.menuOptionNewFolderEnabled) newFolderOptionVisible = false
         menu.findItem(R.id.menuItemNewFolder).isVisible = newFolderOptionVisible
         menu.findItem(R.id.menuItemListView).isVisible = listViewOptionVisible
         menu.findItem(R.id.menuItemTilesView).isVisible = tilesViewOptionVisible
