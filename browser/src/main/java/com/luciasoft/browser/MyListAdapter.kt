@@ -99,7 +99,7 @@ internal class MyListAdapter(
             if (act.OPT.browserViewType === Options.BrowserViewType.List)
             {
                 val str = "$infoType not found"
-                viewHolder.info!!.text = str
+                viewHolder.info?.text = str
             }
             listItem.isClickable = false
             listItem.isLongClickable = false
@@ -159,8 +159,7 @@ internal class MyListAdapter(
             }
         }
         if (hidden) image.imageAlpha = 127 else image.imageAlpha = 255
-        if (act.OPT.browserViewType === Options.BrowserViewType.List) viewHolder.info!!.text =
-            item.info
+        if (act.OPT.browserViewType === Options.BrowserViewType.List) viewHolder.info?.text = item.info
         val loadFilesFolders = act.OPT.browseMode === Options.BrowseMode.LoadFilesAndOrFolders
         val saveFilesFolders = act.OPT.browseMode === Options.BrowseMode.SaveFilesAndOrFolders
         val loadFolders = act.OPT.browseMode === Options.BrowseMode.LoadFolders
@@ -198,7 +197,7 @@ internal class MyListAdapter(
                 {
                     val saveFile =
                         !saveBoxVisible || act.ADV.shortClickSaveFileBehavior !== Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
-                    if (sendToSaveBoxShortClick) act.mEditTextSaveFileName!!.setText(getShortName(path))
+                    if (sendToSaveBoxShortClick) act.mEditTextSaveFileName.setText(getShortName(path))
                     if (saveFile) act.onSelect(true, false, false, false, path)
                 }
             })
@@ -230,7 +229,7 @@ internal class MyListAdapter(
                 {
                     val saveFile =
                         !saveBoxVisible || act.ADV.longClickSaveFileBehavior !== Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
-                    if (sendToSaveBoxLongClick) act.mEditTextSaveFileName!!.setText(getShortName(path))
+                    if (sendToSaveBoxLongClick) act.mEditTextSaveFileName.setText(getShortName(path))
                     if (saveFile) act.onSelect(true, false, true, false, path)
                 }
                 true
@@ -265,7 +264,7 @@ internal class MyViewHolder(view: View, act: MultiBrowserActivity) : RecyclerVie
             {
                 title.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemText)
                 info = view.findViewById(R.id.listItemSubText)
-                info!!.setTypeface(act.THM.getFontNorm(act.assets))
+                info!!.typeface = act.THM.getFontNorm(act.assets)
                 info!!.setTextColor(act.THM.colorListItemSubText)
                 info!!.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemSubText)
                 val accent = view.findViewById<View>(R.id.listItemAccent)

@@ -15,11 +15,8 @@ internal object ListUtils
 {
     fun getImageInfos(act: MultiBrowserActivity): ArrayList<DirectoryItem>?
     {
-        val sortOrder: Options.SortOrder?
-        sortOrder =
-            if (act.OPT.browserViewType === Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
-        val sortOrderString: String
-        sortOrderString = when (sortOrder)
+        val sortOrder = if (act.OPT.browserViewType === Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+        val sortOrderString: String = when (sortOrder)
         {
             Options.SortOrder.PathAscending -> MediaStore.Images.Media.DATA
             Options.SortOrder.PathDescending -> MediaStore.Images.Media.DATA + " DESC"
@@ -33,28 +30,26 @@ internal object ListUtils
         //Cursor cursor = context.managedQuery( // DEPRICATED
         //MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cols, null,
         //null, sortOrder); // GET DATA IN CURSOR IN DESC ORDER
-        var cursor: Cursor?
-        try
-        {
-            val cols = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA)
-            val loader = CursorLoader(act)
-            loader.uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            loader.projection = cols
-            loader.selection = null
-            loader.sortOrder = sortOrderString
-            cursor = loader.loadInBackground()
-        }
-        catch (ex: Exception)
-        {
-            cursor = null
-        }
-        if (cursor == null) return null
+        val cursor: Cursor =
+            try
+            {
+                val cols = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA)
+                val loader = CursorLoader(act)
+                loader.uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                loader.projection = cols
+                loader.selection = null
+                loader.sortOrder = sortOrderString
+                loader.loadInBackground()
+            }
+            catch (ex: Exception)
+            {
+                null
+            } ?: return null
         val list = ArrayList<DirectoryItem>()
         val exts = getValidExts(act.ADV.mediaStoreImageExts)
         for (i in 0 until cursor.count)
         {
-            var imagePath: String?
-            imagePath = try
+            var imagePath: String = try
             {
                 cursor.moveToPosition(i)
                 val imagePathCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
@@ -64,8 +59,7 @@ internal object ListUtils
             {
                 continue
             }
-            var imageFile: File?
-            imageFile = try
+            val imageFile: File? = try
             {
                 File(imagePath)
             }
@@ -75,8 +69,7 @@ internal object ListUtils
             }
             if (imageFile != null)
             {
-                var ipath: String?
-                ipath = try
+                val ipath: String? = try
                 {
                     imageFile.canonicalPath
                 }
@@ -93,7 +86,7 @@ internal object ListUtils
                 }
                 if (ipath != null) imagePath = ipath
             }
-            if (!filePassesFilter(exts, imagePath!!)) continue
+            if (!filePassesFilter(exts, imagePath)) continue
             try
             {
                 val imageIdCol = cursor.getColumnIndex(MediaStore.Images.Media._ID)
@@ -122,31 +115,29 @@ internal object ListUtils
 
     fun getDirectoryItemsFromFileSystem(
         act: MultiBrowserActivity,
-        directory: String?,
-        exts: Array<String>?
+        directory: String,
+        exts: Array<String>
     ): ArrayList<DirectoryItem>?
     {
         var exts = exts
         val dirItemList = ArrayList<DirectoryItem>()
-        val items: Array<File>?
-        items = try
+        val items: Array<File>? = try
         {
             File(directory).listFiles()
         }
         catch (ex: Exception)
         {
-            return null
+            null
         }
         if (items == null)
         {
-            return if (directoryIsReadable(act, directory!!)) dirItemList else null
+            return if (directoryIsReadable(act, directory)) dirItemList else null
         }
         if (!act.ADV.showFilesInNormalView && !act.ADV.showFoldersInNormalView) return dirItemList
         exts = getValidExts(exts)
         for (item in items)
         {
-            var path: String?
-            path = try
+            val path: String = try
             {
                 item.canonicalPath
             }
@@ -161,8 +152,7 @@ internal object ListUtils
                     continue
                 }
             }
-            var isFile: Boolean
-            isFile = try
+            val isFile: Boolean = try
             {
                 item.isFile
             }
@@ -170,8 +160,7 @@ internal object ListUtils
             {
                 continue
             }
-            var isDirectory: Boolean
-            isDirectory = try
+            val isDirectory: Boolean = try
             {
                 item.isDirectory
             }
@@ -183,8 +172,7 @@ internal object ListUtils
             if (isFile &&
                 (!act.ADV.showFilesInNormalView || act.OPT.browseMode === Options.BrowseMode.LoadFolders || act.OPT.browseMode === Options.BrowseMode.SaveFolders)) continue
             if (isDirectory && !act.ADV.showFoldersInNormalView) continue
-            var isHidden: Boolean
-            isHidden = try
+            val isHidden: Boolean = try
             {
                 item.isHidden
             }
@@ -194,8 +182,7 @@ internal object ListUtils
             }
             if (isHidden && isFile && !act.OPT.showHiddenFiles) continue
             if (isHidden && isDirectory && !act.OPT.showHiddenFolders) continue
-            var date: Long?
-            date = try
+            val date: Long? = try
             {
                 item.lastModified()
             }
@@ -203,19 +190,18 @@ internal object ListUtils
             {
                 null
             }
-            var info = ""
             val showDate = isFile && act.ADV.showFileDatesInListView ||
                 isDirectory && act.ADV.showFolderDatesInListView
+            var info = ""
             if (date != null && showDate)
             {
-                if (showDate) info += getDateString(date) + ", "
+                info += getDateString(date) + ", "
             }
             if (isDirectory)
             {
-                var subItemCount: Int?
-                subItemCount = try
+                val subItemCount: Int? = try
                 {
-                    item.listFiles().size
+                    item.listFiles()?.size
                 }
                 catch (ex: Exception)
                 {
@@ -230,13 +216,12 @@ internal object ListUtils
                     info += "$subItemCount item"
                     if (subItemCount != 1) info += "s"
                 }
-                dirItemList.add(FolderItem(path!!, date, info))
+                dirItemList.add(FolderItem(path, date, info))
             }
-            else if (isFile)
+            else // if (isFile)
             {
-                if (!filePassesFilter(exts, path!!)) continue
-                var size: Long?
-                size = try
+                if (!filePassesFilter(exts, path)) continue
+                val size: Long? = try
                 {
                     item.length()
                 }
@@ -245,9 +230,7 @@ internal object ListUtils
                     null
                 }
                 info += if (size == null || !act.ADV.showFileSizesInListView) "file"
-                else getFileSizeString(
-                    size
-                )
+                else getFileSizeString(size)
                 var imageId: Int? = null
                 if (act.OPT.showImagesWhileBrowsingNormal && act.DAT.mMediaStoreImageInfoTree != null)
                 {
@@ -268,10 +251,8 @@ internal class DirItemComparator(var act: MultiBrowserActivity) : Comparator<Dir
         val item1isDir = item1 is FolderItem
         val item2isDir = item2 is FolderItem
         if (item1isDir && !item2isDir) return -1 else if (item2isDir && !item1isDir) return 1
-        var compare: Int? = null
-        val sortOrder: Options.SortOrder?
-        sortOrder =
-            if (act.OPT.browserViewType === Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+        var compare = 0
+        val sortOrder = if (act.OPT.browserViewType === Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
         var path = sortOrder === Options.SortOrder.PathAscending ||
             sortOrder === Options.SortOrder.PathDescending
         var date = sortOrder === Options.SortOrder.DateAscending ||
@@ -322,17 +303,17 @@ internal class DirItemComparator(var act: MultiBrowserActivity) : Comparator<Dir
         {
             compare = item1.path.compareTo(item2.path, ignoreCase = true)
         }
-        if (desc) compare = -compare!!
-        return compare!!
+        if (desc) compare = -compare
+        return compare
     }
 
     companion object
     {
-        var comparator: DirItemComparator? = null
-        fun getComparator(act: MultiBrowserActivity): DirItemComparator?
+        private var comparator: DirItemComparator? = null
+        fun getComparator(act: MultiBrowserActivity): DirItemComparator
         {
             if (comparator == null) comparator = DirItemComparator(act)
-            return comparator
+            return comparator!!
         }
     }
 }

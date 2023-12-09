@@ -102,7 +102,7 @@ class MultiBrowserActivity() : AppCompatActivity()
     lateinit var mRecyclerView: MyRecyclerView
     lateinit var mEditTextSaveFileName: EditText
     
-    fun setEditTextSaveFileName(name: String?)
+    fun setEditTextSaveFileName(name: String)
     {
         mEditTextSaveFileName.setText(name)
     }
@@ -129,7 +129,7 @@ class MultiBrowserActivity() : AppCompatActivity()
         }*/
 
         configureScreenRotation()
-        var actionBar: ActionBar?
+        var actionBar: ActionBar? // FIX
         try
         {
             actionBar = supportActionBar
@@ -410,19 +410,19 @@ class MultiBrowserActivity() : AppCompatActivity()
 
     fun refreshView(forceSourceReload: Boolean, refreshLayout: Boolean)
     {
-        refreshView(OPT.currentDir, forceSourceReload, refreshLayout)
+        refreshView(OPT.currentDir!!, forceSourceReload, refreshLayout)
     }
 
-    fun refreshView(dir: String?, forceSourceReload: Boolean, refreshLayout: Boolean)
+    fun refreshView(dir: String, forceSourceReload: Boolean, refreshLayout: Boolean)
     {
         val firstLoad = DAT.mFirstLoad
         DAT.mFirstLoad = false
-        val items = getDirectoryItems(APP, dir, forceSourceReload)
+        val items = getDirectoryItems(dir, forceSourceReload)
         val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         var showLayouts = true
         if (items == null)
         {
-            if (galleryView || dir == null)
+            if (galleryView)
             {
                 val text = "error reading items"
                 mRecyclerView.text = text
@@ -454,12 +454,11 @@ class MultiBrowserActivity() : AppCompatActivity()
     }
 
     private fun getDirectoryItems(
-        app: MultiBrowser,
-        dir: String?,
+        dir: String,
         forceSourceReload: Boolean
     ): ArrayList<DirectoryItem>?
     {
-        if (dir == null) return null
+        //if (dir == null) return null
         val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         val readable = galleryView || directoryIsReadable(this, dir)
         if (!readable) return null
@@ -469,10 +468,10 @@ class MultiBrowserActivity() : AppCompatActivity()
                 ADV.autoRefreshDirectorySource || (DAT.mMediaStoreImageInfoList == null))
             if (reload) DAT.mMediaStoreImageInfoList = getImageInfos(this)
         }
-        val items: ArrayList<DirectoryItem>?
+        val items: ArrayList<DirectoryItem>
         if (galleryView)
         {
-            items = DAT.mMediaStoreImageInfoList
+            items = DAT.mMediaStoreImageInfoList!!
         }
         else
         {
@@ -484,7 +483,7 @@ class MultiBrowserActivity() : AppCompatActivity()
                 dir,
                 OPT.mFileFilters[OPT.fileFilterIndex]
             )
-            items = DAT.mFileSystemDirectoryItems
+            items = DAT.mFileSystemDirectoryItems!!
         }
         return items
     }
@@ -728,7 +727,7 @@ class MultiBrowserActivity() : AppCompatActivity()
         )
     }
 
-    fun applyFontToMenu(m: Menu, mContext: Context?)
+    fun applyFontToMenu(m: Menu, mContext: Context)
     {
         for (i in 0 until m.size())
         {
@@ -737,7 +736,7 @@ class MultiBrowserActivity() : AppCompatActivity()
     }
 
     @SuppressLint("NewApi")
-    fun applyFontToMenuItem(mi: MenuItem, mContext: Context?)
+    fun applyFontToMenuItem(mi: MenuItem, mContext: Context)
     {
         if (mi.hasSubMenu())
         {

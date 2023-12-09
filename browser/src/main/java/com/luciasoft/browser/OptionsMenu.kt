@@ -88,8 +88,8 @@ class OptionsMenu
                         var result = result
                         result = result.trim { it <= ' ' }
                         if (result.isEmpty()) return
-                        var dir = act.OPT.currentDir
-                        if (!dir!!.endsWith("/")) dir += "/"
+                        var dir = act.OPT.currentDir!!
+                        if (!dir.endsWith("/")) dir += "/"
                         dir += result
                         try
                         {
@@ -192,9 +192,7 @@ class OptionsMenu
         if (itemId == R.id.menuItemSortOrder)
         {
             val index: Int
-            val sortOrder: Options.SortOrder?
-            sortOrder =
-                if (act.OPT.browserViewType === Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+            val sortOrder = if (act.OPT.browserViewType === Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
             index = when (sortOrder)
             {
                 Options.SortOrder.PathAscending -> 0
@@ -213,55 +211,33 @@ class OptionsMenu
             val listDlg = MyListDialog()
             listDlg.show(act, "Sort Order", options, index) { dialog, which ->
                 val option = listDlg.choice
-                var sortOrder: Options.SortOrder? = null
+                val order =
                 when (option)
                 {
-                    0 ->
-                    {
-                        sortOrder = Options.SortOrder.PathAscending
-                    }
-
-                    1 ->
-                    {
-                        sortOrder = Options.SortOrder.PathDescending
-                    }
-
-                    2 ->
-                    {
-                        sortOrder = Options.SortOrder.DateAscending
-                    }
-
-                    3 ->
-                    {
-                        sortOrder = Options.SortOrder.DateDescending
-                    }
-
-                    4 ->
-                    {
-                        sortOrder = Options.SortOrder.SizeAscending
-                    }
-
-                    5 ->
-                    {
-                        sortOrder = Options.SortOrder.SizeDescending
-                    }
+                    0 -> Options.SortOrder.PathAscending
+                    1 -> Options.SortOrder.PathDescending
+                    2 -> Options.SortOrder.DateAscending
+                    3 -> Options.SortOrder.DateDescending
+                    4 -> Options.SortOrder.SizeAscending
+                    5 -> Options.SortOrder.SizeDescending
+                    else -> null
                 }
                 var refresh = false
-                if (sortOrder != null)
+                if (order != null)
                 {
                     if (act.OPT.browserViewType === Options.BrowserViewType.Gallery)
                     {
-                        if (act.OPT.galleryViewSortOrder !== sortOrder)
+                        if (act.OPT.galleryViewSortOrder !== order)
                         {
-                            act.OPT.galleryViewSortOrder = sortOrder
+                            act.OPT.galleryViewSortOrder = order
                             refresh = true
                         }
                     }
                     else
                     {
-                        if (act.OPT.normalViewSortOrder !== sortOrder)
+                        if (act.OPT.normalViewSortOrder !== order)
                         {
-                            act.OPT.normalViewSortOrder = sortOrder
+                            act.OPT.normalViewSortOrder = order
                             refresh = true
                         }
                     }

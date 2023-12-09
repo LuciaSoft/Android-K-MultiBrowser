@@ -5,7 +5,7 @@ import java.io.File
 
 fun directoryIsReadable(act: MultiBrowserActivity, directory: String): Boolean
 {
-    var dir: File? = null;
+    val dir: File
     try { dir = File(directory); }
     catch (ex: Exception) { return false; }
 

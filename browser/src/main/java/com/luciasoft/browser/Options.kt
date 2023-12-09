@@ -208,16 +208,16 @@ class Options
         onSelectFolderForSave = null
     }
 
-    var browserTitle: String? = null
-    var browseMode: BrowseMode? = null
-    var browserViewType: BrowserViewType? = null
-    var normalViewSortOrder: SortOrder? = null
-    var galleryViewSortOrder: SortOrder? = null
+    lateinit var browserTitle: String
+    lateinit var browseMode: BrowseMode
+    lateinit var browserViewType: BrowserViewType
+    lateinit var normalViewSortOrder: SortOrder
+    lateinit var galleryViewSortOrder: SortOrder
     var normalViewColumnCount = 0
     var galleryViewColumnCount = 0
     var currentDir: String? = null
     var defaultDir: String? = null
-    var defaultSaveFileName: String? = null
+    lateinit var defaultSaveFileName: String
     var createDirOnActivityStart = false
     var fileFilterIndex = 0
     var alwaysShowDialogForSavingFile = false
@@ -269,7 +269,7 @@ class Options
         {
             val list = ArrayList<String>()
             val exts =
-                filters[i]!!.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                filters[i].split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             for (j in exts.indices)
             {
                 var ext = exts[j].trim { it <= ' ' }.lowercase(Locale.getDefault())
@@ -288,7 +288,7 @@ class Options
         }
         val newDescrips = Arrays.copyOf(descriptions, descriptions.size)
         for (i in newDescrips.indices) newDescrips[i] =
-            " " + newDescrips[i]!!.trim { it <= ' ' } + " "
+            " " + newDescrips[i].trim { it <= ' ' } + " "
         mFileFilters = filterArray
         mFileFilterDescrips = newDescrips
     }
@@ -300,7 +300,7 @@ class Options
             for (i in mFileFilters.indices)
             {
                 val filters = mFileFilters[i]
-                val descrip = mFileFilterDescrips[i]!!.trim { it <= ' ' }
+                val descrip = mFileFilterDescrips[i].trim { it <= ' ' }
                 if (i > 0) result += "|"
                 result += " $descrip |"
                 for (j in filters.indices)

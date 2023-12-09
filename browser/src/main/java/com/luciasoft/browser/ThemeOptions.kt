@@ -103,20 +103,20 @@ class ThemeOptions
     var sizeSaveFileButtonText = 0f
     var sizeFileFilterText = 0f
     var sizeFileFilterPopupText = 0f
-    var fontMode: Options.FontMode? = null
+    lateinit var fontMode: Options.FontMode
 
     private var mFontAppDefaultNorm: Typeface? = null
     private var mFontAppDefaultBold: Typeface? = null
     private var mFontAppDefaultItal: Typeface? = null
     private var mFontAppDefaultBdIt: Typeface? = null
-    val fontSystemNorm = Typeface.defaultFromStyle(Typeface.NORMAL)
-    val fontSystemBold = Typeface.defaultFromStyle(Typeface.BOLD)
-    val fontSystemItal = Typeface.defaultFromStyle(Typeface.ITALIC)
-    val fontSystemBdIt = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
-    var fontCustomNorm: Typeface? = null
-    var fontCustomBold: Typeface? = null
-    var fontCustomItal: Typeface? = null
-    var fontCustomBdIt: Typeface? = null
+    private val fontSystemNorm: Typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
+    private val fontSystemBold: Typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+    private val fontSystemItal: Typeface = Typeface.defaultFromStyle(Typeface.ITALIC)
+    private val fontSystemBdIt: Typeface = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
+    private var fontCustomNorm: Typeface? = null
+    private var fontCustomBold: Typeface? = null
+    private var fontCustomItal: Typeface? = null
+    private var fontCustomBdIt: Typeface? = null
     @JvmField
     var mFontCustomNormPath: String? = null
     @JvmField
@@ -131,7 +131,7 @@ class ThemeOptions
         reset()
     }
 
-    fun getFontNorm(assets: AssetManager?): Typeface
+    fun getFontNorm(assets: AssetManager): Typeface
     {
         if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
@@ -143,7 +143,7 @@ class ThemeOptions
         else fontSystemNorm
     }
 
-    fun getFontBold(assets: AssetManager?): Typeface
+    fun getFontBold(assets: AssetManager): Typeface
     {
         if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
@@ -155,7 +155,7 @@ class ThemeOptions
         else fontSystemBold
     }
 
-    fun getFontItal(assets: AssetManager?): Typeface
+    fun getFontItal(assets: AssetManager): Typeface
     {
         if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
@@ -167,7 +167,7 @@ class ThemeOptions
         else fontSystemItal
     }
 
-    fun getFontBdIt(assets: AssetManager?): Typeface
+    fun getFontBdIt(assets: AssetManager): Typeface
     {
         if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
@@ -179,35 +179,35 @@ class ThemeOptions
         else fontSystemBdIt
     }
 
-    fun getFontAppDefaultNorm(assets: AssetManager?): Typeface
+    fun getFontAppDefaultNorm(assets: AssetManager): Typeface
     {
         if (mFontAppDefaultNorm == null) mFontAppDefaultNorm =
             Typeface.createFromAsset(assets, "fonts/cambria.ttf")
         return mFontAppDefaultNorm!!
     }
 
-    fun getFontAppDefaultBold(assets: AssetManager?): Typeface
+    fun getFontAppDefaultBold(assets: AssetManager): Typeface
     {
         if (mFontAppDefaultBold == null) mFontAppDefaultBold =
             Typeface.createFromAsset(assets, "fonts/cambriab.ttf")
         return mFontAppDefaultBold!!
     }
 
-    fun getFontAppDefaultItal(assets: AssetManager?): Typeface
+    fun getFontAppDefaultItal(assets: AssetManager): Typeface
     {
         if (mFontAppDefaultItal == null) mFontAppDefaultItal =
             Typeface.createFromAsset(assets, "fonts/cambriai.ttf")
         return mFontAppDefaultItal!!
     }
 
-    fun getFontAppDefaultBdIt(assets: AssetManager?): Typeface
+    fun getFontAppDefaultBdIt(assets: AssetManager): Typeface
     {
         if (mFontAppDefaultBdIt == null) mFontAppDefaultBdIt =
             Typeface.createFromAsset(assets, "fonts/cambriaz.ttf")
         return mFontAppDefaultBdIt!!
     }
 
-    fun setFontCustomNorm(fontFilePath: String?)
+    fun setFontCustomNorm(fontFilePath: String)
     {
         try
         {
@@ -221,7 +221,7 @@ class ThemeOptions
         }
     }
 
-    fun setFontCustomBold(fontFilePath: String?)
+    fun setFontCustomBold(fontFilePath: String)
     {
         try
         {
@@ -235,7 +235,7 @@ class ThemeOptions
         }
     }
 
-    fun setFontCustomItal(fontFilePath: String?)
+    fun setFontCustomItal(fontFilePath: String)
     {
         try
         {
@@ -249,7 +249,7 @@ class ThemeOptions
         }
     }
 
-    fun setFontCustomBdIt(fontFilePath: String?)
+    fun setFontCustomBdIt(fontFilePath: String)
     {
         try
         {

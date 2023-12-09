@@ -52,7 +52,7 @@ fun getValidExts(exts: String? = null): Array<String>
 {
     if (exts == null) return Array<String>(1) { "*" }
 
-    val extArray: Array<String>? = exts.split(",").toTypedArray()
+    val extArray: Array<String> = exts.split(",").toTypedArray()
 
     return getValidExts(extArray)
 }
@@ -147,10 +147,10 @@ fun getFileSizeString(fileSize: Long): String
     return "$fileSize bytes"
 }
 
-fun filePassesFilter(exts: Array<String>?, fileNameOrPath: String): Boolean
+fun filePassesFilter(exts: Array<String>, fileNameOrPath: String): Boolean
 {
     var exts = exts
-    if (exts.isNullOrEmpty()) return true
+    if (exts.isEmpty()) return true
     exts = getValidExts(exts)
     val fileExt = getFileExtensionLowerCaseWithDot(fileNameOrPath)
     exts.forEach {

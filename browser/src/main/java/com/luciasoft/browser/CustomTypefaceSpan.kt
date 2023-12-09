@@ -25,7 +25,7 @@ class CustomTypefaceSpan(family: String, private val type: Typeface) : TypefaceS
     private fun applyCustomTypeface(paint: Paint)
     {
         val old = paint.typeface;
-        val oldStyle = old?.style ?: 0;
+        val oldStyle = old.style
 
         val fake = oldStyle and type.style.inv();
 

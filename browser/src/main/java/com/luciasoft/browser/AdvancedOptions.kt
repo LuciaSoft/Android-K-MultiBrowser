@@ -39,9 +39,9 @@ class AdvancedOptions
     }
 
     var debugMode = false
-    var screenRotationMode: Options.ScreenMode? = null
-    var shortClickSaveFileBehavior: Options.SaveFileBehavior? = null
-    var longClickSaveFileBehavior: Options.SaveFileBehavior? = null
+    lateinit var screenRotationMode: Options.ScreenMode
+    lateinit var shortClickSaveFileBehavior: Options.SaveFileBehavior
+    lateinit var longClickSaveFileBehavior: Options.SaveFileBehavior
     var allowShortClickFileForLoad = false
     var allowShortClickFileForSave = false
     var allowLongClickFileForLoad = false
@@ -72,7 +72,7 @@ class AdvancedOptions
 
     var autoRefreshDirectorySource = false
 
-    var mediaStoreImageExts: String? = null
+    lateinit var mediaStoreImageExts: String
 
     init
     {

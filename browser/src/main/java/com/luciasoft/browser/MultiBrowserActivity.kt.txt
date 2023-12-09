@@ -68,8 +68,8 @@ class MultiBrowserActivity : AppCompatActivity()
         }
         else if (ADV.screenRotationMode == Options.ScreenMode.SystemDefault)
         {
-            if (DAT!!.mDefaultScreenOrientation != null) requestedOrientation =
-                DAT!!.mDefaultScreenOrientation!!
+            if (DAT.mDefaultScreenOrientation != null) requestedOrientation =
+                DAT.mDefaultScreenOrientation
         }
     }
 
