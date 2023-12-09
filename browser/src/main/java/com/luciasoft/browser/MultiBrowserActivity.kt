@@ -118,10 +118,6 @@ class MultiBrowserActivity() : AppCompatActivity()
         ADV = APP.ADV
         THM = APP.THM
 
-
-        if (DAT.mDefaultScreenOrientation == null) DAT.mDefaultScreenOrientation =
-            requestedOrientation
-
         /*if (tmpOptions != null)
         {
             DAT.setMOptions(tmpOptions)
@@ -265,6 +261,9 @@ class MultiBrowserActivity() : AppCompatActivity()
 
     private fun configureScreenRotation()
     {
+        if (DAT.mDefaultScreenOrientation == null) DAT.mDefaultScreenOrientation =
+            requestedOrientation
+    
         if (ADV.screenRotationMode === Options.ScreenMode.AllowPortraitUprightOnly)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
