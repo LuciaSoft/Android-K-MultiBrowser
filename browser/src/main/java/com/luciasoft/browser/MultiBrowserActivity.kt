@@ -409,19 +409,19 @@ class MultiBrowserActivity() : AppCompatActivity()
 
     fun refreshView(forceSourceReload: Boolean, refreshLayout: Boolean)
     {
-        refreshView(OPT.currentDir!!, forceSourceReload, refreshLayout)
+        refreshView(OPT.currentDir, forceSourceReload, refreshLayout)
     }
 
-    fun refreshView(dir: String, forceSourceReload: Boolean, refreshLayout: Boolean)
+    fun refreshView(dir: String?, forceSourceReload: Boolean, refreshLayout: Boolean)
     {
         val firstLoad = DAT.mFirstLoad
         DAT.mFirstLoad = false
-        val items = getDirectoryItems(dir, forceSourceReload)
+        val items = if (dir == null) null else getDirectoryItems(dir, forceSourceReload)
         val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         var showLayouts = true
         if (items == null)
         {
-            if (galleryView)
+            if (galleryView || dir == null)
             {
                 val text = "error reading items"
                 mRecyclerView.text = text
