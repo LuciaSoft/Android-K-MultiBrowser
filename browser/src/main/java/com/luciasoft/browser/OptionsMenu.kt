@@ -77,6 +77,8 @@ class OptionsMenu
         val itemId = item.itemId
         if (itemId == R.id.menuItemNewFolder)
         {
+            val dir = act.OPT.currentDir ?: return true
+            
             val dlg = MyInputDialog(
                 act,
                 "Create New Folder",
@@ -88,7 +90,6 @@ class OptionsMenu
                         var result = result
                         result = result.trim { it <= ' ' }
                         if (result.isEmpty()) return
-                        var dir = act.OPT.currentDir!!
                         if (!dir.endsWith("/")) dir += "/"
                         dir += result
                         try
