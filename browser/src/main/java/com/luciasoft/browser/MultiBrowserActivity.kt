@@ -291,8 +291,8 @@ class MultiBrowserActivity() : AppCompatActivity()
     {
         (findViewById<View>(R.id.parDirLayout) as LinearLayout).setOnClickListener(
             View.OnClickListener {
-                val parentDir = getParentDir(OPT.currentDir!!)
-                if (!parentDir.isEmpty()) refreshView(parentDir, false, false)
+                val parentDir = if (OPT.currentDir == null) null else getParentDir(OPT.currentDir)
+                if (!parentDir.isNullOrEmpty()) refreshView(parentDir, false, false)
             })
         (findViewById<View>(R.id.parentDirIcon) as ImageView).setImageResource(R.mipmap.ic_folder_up)
         (findViewById<View>(R.id.parDirSubText) as TextView).text = "(Go Up)"
