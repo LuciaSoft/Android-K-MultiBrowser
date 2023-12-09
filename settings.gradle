@@ -17,3 +17,5 @@ rootProject.name = "MultiBrowser"
 include ':browser'
 include ':test'
 include ':collections'
+include ':browserJava'
+include ':browserJavaToKotlin'

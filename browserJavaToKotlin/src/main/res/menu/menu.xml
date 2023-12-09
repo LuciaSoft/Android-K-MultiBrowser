@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <item
+        android:id="@+id/menuItemResetDir"
+        app:showAsAction="never"
+        android:title="Reset Directory">
+    </item>
+    <item
+        android:id="@+id/menuItemNewFolder"
+        app:showAsAction="never"
+        android:title="New Folder">
+    </item>
+    <item
+        android:id="@+id/menuItemListView"
+        app:showAsAction="never"
+        android:title="View: List">
+    </item>
+    <item
+        android:id="@+id/menuItemTilesView"
+        app:showAsAction="never"
+        android:title="View: Tiles">
+    </item>
+    <item
+        android:id="@+id/menuItemGalleryView"
+        app:showAsAction="never"
+        android:title="View: Gallery">
+    </item>
+    <item
+        android:id="@+id/menuItemColumnCount"
+        app:showAsAction="never"
+        android:title="Column Count">
+    </item>
+    <item
+        android:id="@+id/menuItemSortOrder"
+        app:showAsAction="never"
+        android:title="Sort Order">
+    </item>
+    <item
+        android:id="@+id/menuItemShowHideFileNames"
+        app:showAsAction="never"
+        android:title="Show/Hide File Names">
+    </item>
+</menu>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/deadSpaceBackground"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorDeadSpaceBackground"
+        >
+
+        <View
+            android:id="@+id/topAccent"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorTopAccent"
+            />
+
+        <LinearLayout
+            android:id="@+id/curDirLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <TextView
+            android:id="@+id/curDirLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp"
+            android:textSize="14sp"
+            android:text="Current Directory:"
+            android:background="@color/colorHeaderBackground"
+            android:textColor="@color/colorHeaderLabelText"
+            />
+
+        <TextView
+            android:id="@+id/curDirText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textSize="18sp"
+            android:background="@color/colorHeaderBackground"
+            android:textColor="@color/colorHeaderText"
+            />
+
+        <View
+            android:id="@+id/topAccent2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorListTopAccent"
+            />
+
+        </LinearLayout>
+
+        <include layout="@layout/parent_dir_layout" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <com.luciasoft.browserjava.multibrowser.MyRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/saveFileLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSaveFileBoxBackground"
+        >
+
+            <View
+                android:id="@+id/bottomAccent"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorListBottomAccent"
+                />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <EditText
+                    android:id="@+id/saveFileEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:inputType="textNoSuggestions"
+                    android:text=""
+                    android:textSize="20sp"
+                    android:backgroundTint="@color/colorSaveFileBoxUnderline"
+                    android:textColor="@color/colorSaveFileBoxText"
+                    android:autofillHints="Save File Name"
+                    />
+
+                <Button
+                    android:id="@+id/saveFileButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="20sp"
+                    android:text="SAVE"
+                    android:backgroundTint="@color/colorSaveFileButtonBackground"
+                    android:textColor="@color/colorSaveFileButtonText"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fileFilterLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorFilterBackground"
+            >
+
+            <View
+                android:id="@+id/bottomAccent2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorSaveFileBoxBottomAccent"
+                />
+
+            <Spinner
+                android:id="@+id/fileFilterSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:backgroundTint="@color/colorFilterArrow"
+                />
+
+        </LinearLayout>
+
+    <View
+        android:id="@+id/bottomAccent3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorBottomAccent"
+        />
+
+</LinearLayout>

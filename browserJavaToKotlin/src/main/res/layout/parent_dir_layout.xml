@@ -1,0 +1,68 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/parDirLayout"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorListBackground"
+        >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:id="@+id/listItem"
+        >
+
+        <ImageView
+            android:id="@+id/parentDirIcon"
+            android:layout_width="48dp"
+            android:layout_height="53.75dp"
+            android:layout_marginRight="6dip"
+            android:layout_marginEnd="6dip"
+            android:contentDescription="Parent Dir Icon" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <TextView
+                android:id="@+id/parDirText"
+                android:layout_width="fill_parent"
+                android:layout_height="36dip"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textSize="20sp"
+                android:textColor="@color/colorListItemText"
+                />
+
+            <TextView
+                android:id="@+id/parDirSubText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:textSize="13sp"
+                android:textColor="@color/colorListItemSubText"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/parDirLayoutAccent"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorListAccent"
+        />
+
+</LinearLayout>
+
+</merge>
