@@ -423,16 +423,14 @@ class MultiBrowserActivity() : AppCompatActivity()
         {
             if (galleryView || dir == null)
             {
-                val text = "error reading items"
-                mRecyclerView.text = text
+                mRecyclerView.text = "error reading items"
                 showLayouts = false
             }
             else
             {
                 if (firstLoad)
                 {
-                    val text = "cannot read directory:\n$dir"
-                    mRecyclerView.text = text
+                    mRecyclerView.text = "cannot read directory:\n$dir"
                     showLayouts = false
                 }
                 else
