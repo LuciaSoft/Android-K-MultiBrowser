@@ -120,7 +120,7 @@ class ListUtils
 
         File[] items;
         try { items = new File(directory).listFiles(); }
-        catch (Exception ex) { return null; }
+        catch (Exception ex) { items = null; }
         if (items == null)
         {
             if (Utils.directoryIsReadable(act, directory)) return dirItemList;

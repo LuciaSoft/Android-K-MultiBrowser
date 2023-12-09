@@ -143,7 +143,7 @@ internal object ListUtils
         }
         catch (ex: Exception)
         {
-            return null
+            null
         }
         if (items == null)
         {
