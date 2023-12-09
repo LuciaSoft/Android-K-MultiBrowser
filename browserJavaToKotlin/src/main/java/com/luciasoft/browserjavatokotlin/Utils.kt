@@ -1,212 +1,173 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.text.format.Time;
-import android.widget.Toast;
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.AssetManager
+import android.text.format.Time
+import android.widget.Toast
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.Locale
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-
-class Utils
+internal object Utils
 {
-    static void copyFileFromAssets(AssetManager assets, String inputFilePath, String outputFilePath) throws IOException
+    @Throws(IOException::class)
+    fun copyFileFromAssets(assets: AssetManager, inputFilePath: String?, outputFilePath: String?)
     {
-        InputStream is = assets.open(inputFilePath);
-        FileOutputStream fos = new FileOutputStream(outputFilePath);
-        byte[] buffer = new byte[10240];
+        val `is` = assets.open(inputFilePath!!)
+        val fos = FileOutputStream(outputFilePath)
+        val buffer = ByteArray(10240)
         while (true)
         {
-            int count = is.read(buffer, 0, 10240);
-            if (count == -1) break;
-            fos.write(buffer, 0, count);
+            val count = `is`.read(buffer, 0, 10240)
+            if (count == -1) break
+            fos.write(buffer, 0, count)
         }
-        is.close();
-        fos.flush();
-        fos.close();
+        `is`.close()
+        fos.flush()
+        fos.close()
     }
 
-    static String[] getValidExts(String[] exts)
+    @JvmStatic
+    fun getValidExts(exts: Array<String>?): Array<String>
     {
-        if (exts == null) return new String[] { "*" };
-
-        ArrayList<String> list = new ArrayList<>();
-
-        for (String ext : exts)
+        if (exts == null) return arrayOf("*")
+        val list = ArrayList<String>()
+        for (ext in exts)
         {
-            if (ext == null) continue;
-            ext = ext.trim().toLowerCase();
-            if (ext.isEmpty()) continue;
-            if (ext.equals("*")) return new String[] { "*" };
-            if (!ext.startsWith(".")) ext = "." + ext;
-            list.add(ext);
+            var ext = ext
+            ext = ext.trim { it <= ' ' }.lowercase(Locale.getDefault())
+            if (ext.isEmpty()) continue
+            if (ext == "*") return arrayOf("*")
+            if (!ext.startsWith(".")) ext = ".$ext"
+            list.add(ext)
         }
-
-        if (list.size() == 0) return new String[] { "*" };
-
-        return list.toArray(new String[0]);
+        return if (list.size == 0) arrayOf("*") else list.toTypedArray()
     }
 
-    static String[] getValidExts(String exts)
+    @JvmStatic
+    fun getValidExts(exts: String?): Array<String>
     {
-        if (exts == null) return new String[] { "*" };
-
-        String[] extArray = exts.split(",");
-
-        return getValidExts(extArray);
+        if (exts == null) return arrayOf("*")
+        val extArray = exts.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        return getValidExts(extArray)
     }
 
-    static String getDateString(long dateMs)
+    @JvmStatic
+    fun getDateString(dateMs: Long): String
     {
-        Time t = new Time();
-        t.set(dateMs);
-        return t.format("%m/%d/%Y");
+        val t = Time()
+        t.set(dateMs)
+        return t.format("%m/%d/%Y")
     }
 
-    static String getFileExtensionLowerCaseWithDot(String fileNameOrPath)
+    @JvmStatic
+    fun getFileExtensionLowerCaseWithDot(fileNameOrPath: String): String
     {
-        int pos1 = fileNameOrPath.lastIndexOf('.');
-        if (pos1 == -1) return "";
-        int pos2 = fileNameOrPath.lastIndexOf('/', pos1);
-        if (pos2 > pos1) return "";
-
-        return fileNameOrPath.substring(pos1).toLowerCase();
+        val pos1 = fileNameOrPath.lastIndexOf('.')
+        if (pos1 == -1) return ""
+        val pos2 = fileNameOrPath.lastIndexOf('/', pos1)
+        return if (pos2 > pos1) ""
+        else fileNameOrPath.substring(pos1)
+            .lowercase(Locale.getDefault())
     }
 
-    static String getParentDir(String path)
+    @JvmStatic
+    fun getParentDir(path: String): String
     {
-        if (path.equals("/")) return "";
-
-        if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
-
-        int pos = path.lastIndexOf('/');
-
-        if (pos == -1) return "";
-
-        if (pos == 0) return "/";
-
-        return path.substring(0, pos);
+        var path = path
+        if (path == "/") return ""
+        if (path.endsWith("/")) path = path.substring(0, path.length - 1)
+        val pos = path.lastIndexOf('/')
+        if (pos == -1) return ""
+        return if (pos == 0) "/" else path.substring(0, pos)
     }
 
-    static String getShortName(String path)
+    @JvmStatic
+    fun getShortName(path: String): String
     {
-        if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
-
-        int pos = path.lastIndexOf('/');
-
-        if (pos == -1) return path;
-
-        return path.substring(pos + 1);
+        var path = path
+        if (path.endsWith("/")) path = path.substring(0, path.length - 1)
+        val pos = path.lastIndexOf('/')
+        return if (pos == -1) path else path.substring(pos + 1)
     }
 
-    static String trimStart(String str, String trim)
+    fun trimStart(str: String, trim: String): String
     {
-        while(str.startsWith(trim))
+        var str = str
+        while (str.startsWith(trim))
         {
-            str = str.substring(trim.length());
+            str = str.substring(trim.length)
         }
-
-        return str;
+        return str
     }
 
-    static String trimEnd(String str, String trim)
+    fun trimEnd(str: String, trim: String): String
     {
-        while(str.endsWith(trim))
+        var str = str
+        while (str.endsWith(trim))
         {
-            str = str.substring(0, str.length() - trim.length());
+            str = str.substring(0, str.length - trim.length)
         }
-
-        return str;
+        return str
     }
 
-    static void toastShort(Context context, String message)
+    fun toastShort(context: Context?, message: String?)
     {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    static void toastLong(Context context, String message)
+    @JvmStatic
+    fun toastLong(context: Context?, message: String?)
     {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    static <T> boolean arrayContains(T[] array, T item)
+    @JvmStatic
+    fun <T> arrayContains(array: Array<T>, item: T): Boolean
     {
-        for (int i = 0; i < array.length; i++)
+        for (i in array.indices)
         {
-            if (array[i].equals(item)) return true;
+            if (array[i] == item) return true
         }
-
-        return false;
+        return false
     }
 
-    static int charCount(String str, char ch)
+    fun charCount(str: String, ch: Char): Int
     {
-        int count = 0;
-
-        for (int i = 0; i < str.length(); i++)
+        var count = 0
+        for (i in 0 until str.length)
         {
-            if (str.charAt(i) == ch) count++;
+            if (str[i] == ch) count++
         }
-
-        return count;
+        return count
     }
 
+    @JvmStatic
     @SuppressLint("DefaultLocale")
-    static String getFileSizeString(long fileSize)
+    fun getFileSizeString(fileSize: Long): String
     {
-        float kb = fileSize / 1024f;
-        float mb = kb >= 1024 ? kb / 1024 : 0;
-        float gb = mb >= 1024 ? mb / 1024 : 0;
-
-        if (gb >= 1) return String.format("%.2f", gb) + " Gb";
-        if (mb >= 1) return String.format("%.2f", mb) + " Mb";
-        if (kb >= 1) return String.format("%.2f", kb) + " Kb";
-
-        if (fileSize == 1) return "1 byte";
-        return "" + fileSize + " bytes";
+        val kb = fileSize / 1024f
+        val mb: Float = if (kb >= 1024) kb / 1024 else 0f
+        val gb: Float = if (mb >= 1024) mb / 1024 else 0f
+        if (gb >= 1) return String.format("%.2f", gb) + " Gb"
+        if (mb >= 1) return String.format("%.2f", mb) + " Mb"
+        if (kb >= 1) return String.format("%.2f", kb) + " Kb"
+        return if (fileSize == 1L) "1 byte" else "$fileSize bytes"
     }
 
-    static boolean directoryIsReadable(MultiBrowserActivity act, String directory)
+    @JvmStatic
+    fun filePassesFilter(exts: Array<String>?, fileNameOrPath: String): Boolean
     {
-        File dir;
-        try { dir = new File(directory); }
-        catch (Exception ex) { return false; }
-
-        boolean exists;
-        try { exists = new File(directory).exists(); }
-        catch (Exception ex) { return false; }
-        if (!exists) return false;
-
-        if (!act.OPT().mAllowAccessToRestrictedFolders)
+        var exts = exts
+        if (exts == null || exts.size == 0) return true
+        exts = getValidExts(exts)
+        val fileExt = getFileExtensionLowerCaseWithDot(fileNameOrPath)
+        for (ext in exts)
         {
-            boolean canRead;
-            try { canRead = dir.canRead(); }
-            catch (Exception ex) { return false; }
-
-            return canRead;
+            if (ext == "*" || ext == fileExt) return true
         }
-
-        return true;
+        return false
     }
-
-    static boolean filePassesFilter(String[] exts, String fileNameOrPath)
-    {
-        if (exts == null || exts.length == 0) return true;
-
-        exts = getValidExts(exts);
-
-        String fileExt = getFileExtensionLowerCaseWithDot(fileNameOrPath);
-
-        for (String ext : exts)
-        {
-            if (ext.equals("*") || ext.equals(fileExt)) return true;
-        }
-
-        return false;
-    }
-
 }

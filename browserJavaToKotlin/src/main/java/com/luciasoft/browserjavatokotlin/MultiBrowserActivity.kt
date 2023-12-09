@@ -1,80 +1,84 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.ActivityInfo;
-import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
-import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.content.Context
+import android.content.DialogInterface
+import android.content.pm.ActivityInfo
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.luciasoft.browserjavatokotlin.ListUtils.getDirectoryItemsFromFileSystem
+import com.luciasoft.browserjavatokotlin.ListUtils.getImageInfos
+import com.luciasoft.browserjavatokotlin.MyMessageBox.Companion.show
+import com.luciasoft.browserjavatokotlin.MyYesNoDialog.show
+import com.luciasoft.browserjavatokotlin.OptionsMenu.onMenuOpened
+import com.luciasoft.browserjavatokotlin.OptionsMenu.onOptionsItemSelected
+import com.luciasoft.browserjavatokotlin.Utils.arrayContains
+import com.luciasoft.browserjavatokotlin.Utils2.directoryIsReadable
+import com.luciasoft.browserjavatokotlin.Utils.getFileExtensionLowerCaseWithDot
+import com.luciasoft.browserjavatokotlin.Utils.getParentDir
+import com.luciasoft.browserjavatokotlin.Utils.toastLong
+import com.luciasoft.collections.DirectoryItem
+import java.io.File
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import java.io.File;
-import java.util.ArrayList;
-
-import com.luciasoft.browserjavatokotlin.R;
-
-public class MultiBrowserActivity extends AppCompatActivity
+open class MultiBrowserActivity() : AppCompatActivity()
 {
-    private DataHolder data;
-    private MultiBrowserOptions tmpOptions;
+    //private var tmpOptions: MultiBrowserOptions? = null
+    
+    lateinit var APP: MultiBrowser
+    lateinit var DAT: DataHolder
+    lateinit var OPT: MultiBrowserOptions
+    lateinit var ADV: MultiBrowserOptions.Advanced
+    lateinit var THM: MultiBrowserOptions.Theme
 
-    DataHolder DAT() { return data; }
-    MultiBrowserOptions OPT() { return data.mOptions; }
-    MultiBrowserOptions.Advanced ADV() { return data.mOptions.advanced(); }
-    MultiBrowserOptions.Theme THM() { return data.mOptions.theme(); }
+    /*val options: MultiBrowserOptions?
+        get()
+        {
+            if (DAT == null && tmpOptions == null) return null
+            return if (DAT == null) tmpOptions else DAT!!.mOptions
+        }*/
 
-    public MultiBrowserOptions getOptions()
-    {
-        if (data == null && tmpOptions == null) return null;
-        if (data == null) return tmpOptions;
-        return data.mOptions;
-    }
-
-    public boolean setOptions(MultiBrowserOptions options, boolean squelchException)
+    /*fun setOptions(options: MultiBrowserOptions?, squelchException: Boolean): Boolean
     {
         if (options == null)
         {
-            if (squelchException) return false;
-            throw new IllegalArgumentException("The options cannot be null.");
+            if (squelchException) return false
+            throw IllegalArgumentException("The options cannot be null.")
         }
-
-        if (data == null)
+        if (DAT == null)
         {
-            tmpOptions = options;
+            tmpOptions = options
         }
         else
         {
-            data.mOptions = options;
-            tmpOptions = null;
+            DAT!!.mOptions = options
+            tmpOptions = null
         }
-
-        return true;
-    }
+        return true
+    }*/
 
     /*public MultiBrowserActivity()
     {
@@ -99,618 +103,660 @@ public class MultiBrowserActivity extends AppCompatActivity
 
         configureScreenRotation();
     }*/
-
-    private MyRecyclerView mRecyclerView;
-    private EditText mEditTextSaveFileName;
-
-    void setEditTextSaveFileName(String name)
+    
+    lateinit var mRecyclerView: MyRecyclerView
+    lateinit var mEditTextSaveFileName: EditText
+    
+    fun setEditTextSaveFileName(name: String?)
     {
-        mEditTextSaveFileName.setText(name);
+        mEditTextSaveFileName!!.setText(name)
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_layout);
-
-        data = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(DataHolder.class);
-
-        if (data.mDefaultScreenOrientation == null) data.mDefaultScreenOrientation = getRequestedOrientation();
-
-        if (tmpOptions != null)
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_layout)
+        
+        APP = application as MultiBrowser
+        DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))[DataHolder::class.java]
+        OPT = DAT.mOptions!!
+        ADV = OPT.Advanced()
+        THM = OPT.Theme()
+        
+        /*if (tmpOptions != null)
         {
-            data.mOptions = tmpOptions;
-            tmpOptions = null;
+            DAT!!.mOptions = tmpOptions
+            tmpOptions = null
+        }*/
+        configureScreenRotation()
+        var actionBar: ActionBar?
+        try
+        {
+            actionBar = supportActionBar
         }
-
-        configureScreenRotation();
-
-        ActionBar actionBar;
-        try { actionBar = getSupportActionBar(); }
-        catch (Exception ex) { actionBar = null; }
+        catch (ex: Exception)
+        {
+            actionBar = null
+        }
         if (actionBar != null)
         {
-            TextView tv = new TextView(getApplicationContext());
-            tv.setTypeface(THM().getFontBold(getAssets()));
-            tv.setText(OPT().mBrowserTitle);
-            tv.setTextColor(THM().mColorBrowserTitle);
-            tv.setTextSize(THM().mUnitSp, THM().mSizeBrowserTitle);
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            actionBar.setCustomView(tv);
-            actionBar.setBackgroundDrawable(new ColorDrawable(THM().mColorActionBar));
+            val tv = TextView(applicationContext)
+            tv.setTypeface(THM.getFontBold(assets))
+            tv.text = OPT!!.browserTitle
+            tv.setTextColor(THM.colorBrowserTitle)
+            tv.setTextSize(THM.unitSp, THM.sizeBrowserTitle)
+            actionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+            actionBar.customView = tv
+            actionBar.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
         }
-
-        if (OPT().mCurrentDir != null)
+        if (OPT!!.currentDir != null)
         {
             try
             {
-                File dir = new File(OPT().mCurrentDir);
-                if (!dir.exists() && OPT().mCreateDirOnActivityStart)
-                    try { dir.mkdirs(); } catch (Exception ex2) { }
-                OPT().mCurrentDir = dir.getCanonicalPath();
+                val dir = File(OPT!!.currentDir!!)
+                if (!dir.exists() && OPT!!.createDirOnActivityStart) try
+                {
+                    dir.mkdirs()
+                }
+                catch (ex2: Exception)
+                {
+                }
+                OPT!!.currentDir = dir.canonicalPath
             }
-            catch (Exception ex) { }
-            if (OPT().mDefaultDir == null) OPT().mDefaultDir = OPT().mCurrentDir;
-        }
-
-        mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-
-        setupParentDirLayout();
-        setupSaveFileLayout();
-        setupFileFilterLayout();
-        setupSwipeRefreshLayout();
-        refreshLayoutManager();
-
-        findViewById(R.id.deadSpaceBackground).setBackgroundColor(THM().mColorDeadSpaceBackground);
-        findViewById(R.id.topAccent).setBackgroundColor(THM().mColorTopAccent);
-        ((TextView)findViewById(R.id.curDirLabel)).setTypeface(THM().getFontBold(getAssets()));
-        ((TextView)findViewById(R.id.curDirLabel)).setTextColor(THM().mColorCurDirLabel);
-        ((TextView)findViewById(R.id.curDirLabel)).setBackgroundColor(THM().mColorCurDirBackground);
-        ((TextView)findViewById(R.id.curDirLabel)).setTextSize(THM().mUnitSp, THM().mSizeCurDirLabel);
-        ((TextView)findViewById(R.id.curDirText)).setTypeface(THM().getFontBold(getAssets()));
-        ((TextView)findViewById(R.id.curDirText)).setTextColor(THM().mColorCurDirText);
-        ((TextView)findViewById(R.id.curDirText)).setBackgroundColor(THM().mColorCurDirBackground);
-        ((TextView)findViewById(R.id.curDirText)).setTextSize(THM().mUnitSp, THM().mSizeCurDirText);
-        findViewById(R.id.topAccent2).setBackgroundColor(THM().mColorListTopAccent);
-        findViewById(R.id.saveFileLayout).setBackgroundColor(THM().mColorSaveFileBoxBackground);
-        findViewById(R.id.bottomAccent).setBackgroundColor(THM().mColorListBottomAccent);
-        ((EditText)findViewById(R.id.saveFileEditText)).setTypeface(THM().getFontBold(getAssets()));
-        ((EditText)findViewById(R.id.saveFileEditText)).setTextColor(THM().mColorSaveFileBoxText);
-        ((EditText)findViewById(R.id.saveFileEditText)).getBackground().setColorFilter(THM().mColorSaveFileBoxUnderline, PorterDuff.Mode.SRC_ATOP);
-        ((EditText)findViewById(R.id.saveFileEditText)).setTextSize(THM().mUnitSp, THM().mSizeSaveFileText);
-        ((Button)findViewById(R.id.saveFileButton)).setTypeface(THM().getFontBold(getAssets()));
-        ((Button)findViewById(R.id.saveFileButton)).setTextColor(THM().mColorSaveFileButtonText);
-        ((Button)findViewById(R.id.saveFileButton)).setTextSize(THM().mUnitSp, THM().mSizeSaveFileButtonText);
-        ViewCompat.setBackgroundTintList(((Button)findViewById(R.id.saveFileButton)),
-                new ColorStateList(new int[][]{ new int[] { android.R.attr.state_enabled} }, new int[]{ THM().mColorSaveFileButtonBackground }));
-        findViewById(R.id.fileFilterLayout).setBackgroundColor(THM().mColorFilterBackground);
-        findViewById(R.id.bottomAccent2).setBackgroundColor(THM().mColorSaveFileBoxBottomAccent);
-        ((Spinner)findViewById(R.id.fileFilterSpinner)).getBackground().setColorFilter(THM().mColorFilterArrow, PorterDuff.Mode.SRC_ATOP);
-        findViewById(R.id.bottomAccent3).setBackgroundColor(THM().mColorBottomAccent);
-        findViewById(R.id.parDirLayout).setBackgroundColor(THM().mColorParDirBackground);
-        ((TextView)findViewById(R.id.parDirText)).setTypeface(THM().getFontBold(getAssets()));
-        ((TextView)findViewById(R.id.parDirText)).setTextColor(THM().mColorParDirText);
-        ((TextView)findViewById(R.id.parDirText)).setTextSize(THM().mUnitSp, THM().mSizeParDirText);
-        ((TextView)findViewById(R.id.parDirSubText)).setTypeface(THM().getFontBold(getAssets()));
-        ((TextView)findViewById(R.id.parDirSubText)).setTextColor(THM().mColorParDirSubText);
-        ((TextView)findViewById(R.id.parDirSubText)).setTextSize(THM().mUnitSp, THM().mSizeParDirSubText);
-        findViewById(R.id.parDirLayoutAccent).setBackgroundColor(THM().mColorListAccent);
-
-        refreshView(true, false);
-    }
-
-    private void configureScreenRotation()
-    {
-        if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.AllowPortraitUprightOnly)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-        else if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.AllowPortraitUprightAndLandscape)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        }
-        else if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.AllowLandscapeOnly)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        }
-        else if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.AllowAll)
-        {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
-        }
-        else if (ADV().mScreenRotationMode == MultiBrowserOptions.ScreenMode.SystemDefault)
-        {
-            if (data.mDefaultScreenOrientation != null) setRequestedOrientation(data.mDefaultScreenOrientation);
-        }
-    }
-
-    private void setupParentDirLayout()
-    {
-        ((LinearLayout)findViewById(R.id.parDirLayout)).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
+            catch (ex: Exception)
             {
-                String parentDir = Utils.getParentDir(OPT().mCurrentDir);
-
-                if (!parentDir.isEmpty()) refreshView(parentDir, false, false);
             }
-        });
-
-        ((ImageView)findViewById(R.id.parentDirIcon)).setImageResource(R.mipmap.ic_folder_up);
-        ((TextView)findViewById(R.id.parDirSubText)).setText("(Go Up)");
+            if (OPT!!.defaultDir == null) OPT!!.defaultDir = OPT!!.currentDir
+        }
+        mRecyclerView = findViewById(R.id.recyclerView)
+        mRecyclerView!!.setHasFixedSize(true)
+        setupParentDirLayout()
+        setupSaveFileLayout()
+        setupFileFilterLayout()
+        setupSwipeRefreshLayout()
+        refreshLayoutManager()
+        findViewById<View>(R.id.deadSpaceBackground).setBackgroundColor(THM.colorDeadSpaceBackground)
+        findViewById<View>(R.id.topAccent).setBackgroundColor(THM.colorTopAccent)
+        (findViewById<View>(R.id.curDirLabel) as TextView).setTypeface(
+            THM.getFontBold(
+                assets
+            )
+        )
+        (findViewById<View>(R.id.curDirLabel) as TextView).setTextColor(THM.colorCurDirLabel)
+        (findViewById<View>(R.id.curDirLabel) as TextView).setBackgroundColor(THM.colorCurDirBackground)
+        (findViewById<View>(R.id.curDirLabel) as TextView).setTextSize(
+            THM.unitSp,
+            THM.sizeCurDirLabel
+        )
+        (findViewById<View>(R.id.curDirText) as TextView).setTypeface(
+            THM.getFontBold(
+                assets
+            )
+        )
+        (findViewById<View>(R.id.curDirText) as TextView).setTextColor(THM.colorCurDirText)
+        (findViewById<View>(R.id.curDirText) as TextView).setBackgroundColor(THM.colorCurDirBackground)
+        (findViewById<View>(R.id.curDirText) as TextView).setTextSize(
+            THM.unitSp,
+            THM.sizeCurDirText
+        )
+        findViewById<View>(R.id.topAccent2).setBackgroundColor(THM.colorListTopAccent)
+        findViewById<View>(R.id.saveFileLayout).setBackgroundColor(THM.colorSaveFileBoxBackground)
+        findViewById<View>(R.id.bottomAccent).setBackgroundColor(THM.colorListBottomAccent)
+        (findViewById<View>(R.id.saveFileEditText) as EditText).setTypeface(
+            THM.getFontBold(
+                assets
+            )
+        )
+        (findViewById<View>(R.id.saveFileEditText) as EditText).setTextColor(THM.colorSaveFileBoxText)
+        (findViewById<View>(R.id.saveFileEditText) as EditText).background.setColorFilter(
+            THM.colorSaveFileBoxUnderline,
+            PorterDuff.Mode.SRC_ATOP
+        )
+        (findViewById<View>(R.id.saveFileEditText) as EditText).setTextSize(
+            THM.unitSp,
+            THM.sizeSaveFileText
+        )
+        (findViewById<View>(R.id.saveFileButton) as Button).setTypeface(
+            THM.getFontBold(
+                assets
+            )
+        )
+        (findViewById<View>(R.id.saveFileButton) as Button).setTextColor(THM.colorSaveFileButtonText)
+        (findViewById<View>(R.id.saveFileButton) as Button).setTextSize(
+            THM.unitSp,
+            THM.sizeSaveFileButtonText
+        )
+        ViewCompat.setBackgroundTintList(
+            ((findViewById<View>(R.id.saveFileButton) as Button)),
+            ColorStateList(
+                arrayOf(intArrayOf(android.R.attr.state_enabled)),
+                intArrayOf(THM.colorSaveFileButtonBackground)
+            )
+        )
+        findViewById<View>(R.id.fileFilterLayout).setBackgroundColor(THM.colorFilterBackground)
+        findViewById<View>(R.id.bottomAccent2).setBackgroundColor(THM.colorSaveFileBoxBottomAccent)
+        (findViewById<View>(R.id.fileFilterSpinner) as Spinner).background.setColorFilter(
+            THM.colorFilterArrow,
+            PorterDuff.Mode.SRC_ATOP
+        )
+        findViewById<View>(R.id.bottomAccent3).setBackgroundColor(THM.colorBottomAccent)
+        findViewById<View>(R.id.parDirLayout).setBackgroundColor(THM.colorParDirBackground)
+        (findViewById<View>(R.id.parDirText) as TextView).setTypeface(
+            THM.getFontBold(
+                assets
+            )
+        )
+        (findViewById<View>(R.id.parDirText) as TextView).setTextColor(THM.colorParDirText)
+        (findViewById<View>(R.id.parDirText) as TextView).setTextSize(
+            THM.unitSp,
+            THM.sizeParDirText
+        )
+        (findViewById<View>(R.id.parDirSubText) as TextView).setTypeface(
+            THM.getFontBold(
+                assets
+            )
+        )
+        (findViewById<View>(R.id.parDirSubText) as TextView).setTextColor(THM.colorParDirSubText)
+        (findViewById<View>(R.id.parDirSubText) as TextView).setTextSize(
+            THM.unitSp,
+            THM.sizeParDirSubText
+        )
+        findViewById<View>(R.id.parDirLayoutAccent).setBackgroundColor(THM.colorListAccent)
+        refreshView(true, false)
     }
 
-    private void setupSaveFileLayout()
+    private fun configureScreenRotation()
     {
-        mEditTextSaveFileName = (EditText)findViewById(R.id.saveFileEditText);
-        if (OPT().mDefaultSaveFileName != null) mEditTextSaveFileName.setText(OPT().mDefaultSaveFileName);
-
-        Button btnSaveFile = (Button)findViewById(R.id.saveFileButton) ;
-        btnSaveFile.setOnClickListener(new View.OnClickListener()
+        if (DAT!!.mDefaultScreenOrientation == null) DAT!!.mDefaultScreenOrientation =
+            requestedOrientation
+        
+        if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.AllowPortraitUprightOnly)
         {
-            @Override
-            public void onClick(View view)
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+        else if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.AllowPortraitUprightAndLandscape)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+        }
+        else if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.AllowLandscapeOnly)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        }
+        else if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.AllowAll)
+        {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+        }
+        else if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.SystemDefault)
+        {
+            if (DAT!!.mDefaultScreenOrientation != null) requestedOrientation =
+                DAT!!.mDefaultScreenOrientation!!
+        }
+    }
+
+    private fun setupParentDirLayout()
+    {
+        (findViewById<View>(R.id.parDirLayout) as LinearLayout).setOnClickListener(
+            View.OnClickListener {
+                val parentDir = getParentDir(
+                    (OPT!!.currentDir)!!
+                )
+                if (!parentDir.isEmpty()) refreshView(parentDir, false, false)
+            })
+        (findViewById<View>(R.id.parentDirIcon) as ImageView).setImageResource(R.mipmap.ic_folder_up)
+        (findViewById<View>(R.id.parDirSubText) as TextView).text = "(Go Up)"
+    }
+
+    private fun setupSaveFileLayout()
+    {
+        mEditTextSaveFileName = findViewById<View>(R.id.saveFileEditText) as EditText
+        if (OPT!!.defaultSaveFileName != null) mEditTextSaveFileName!!.setText(OPT!!.defaultSaveFileName)
+        val btnSaveFile = findViewById<View>(R.id.saveFileButton) as Button
+        btnSaveFile.setOnClickListener(object : View.OnClickListener
+        {
+            override fun onClick(view: View)
             {
-                String filename = mEditTextSaveFileName.getText().toString().trim();
-
-                mEditTextSaveFileName.setText(filename);
-
-                if (filename.isEmpty()) return;
-
-                filename = checkFileNameAndExt(filename);
-
+                var filename: String? = mEditTextSaveFileName!!.text.toString().trim { it <= ' ' }
+                mEditTextSaveFileName!!.setText(filename)
+                if (filename!!.isEmpty()) return
+                filename = checkFileNameAndExt(filename)
                 if (filename == null)
                 {
-                    Utils.toastLong(MultiBrowserActivity.this, "Invalid file name or extension.");
+                    toastLong(this@MultiBrowserActivity, "Invalid file name or extension.")
                 }
                 else
                 {
-                    String dir = OPT().mCurrentDir;
-                    if (!dir.endsWith("/")) dir += "/";
-                    String fullpath = dir + filename;
-                    onSelect(true, false, false, true, fullpath);
+                    var dir = OPT!!.currentDir
+                    if (!dir!!.endsWith("/")) dir += "/"
+                    val fullpath = dir + filename
+                    onSelect(true, false, false, true, fullpath)
                 }
             }
-        });
+        })
     }
 
-    private void setupFileFilterLayout()
+    private fun setupFileFilterLayout()
     {
-        Spinner spinnerFileFilters = findViewById(R.id.fileFilterSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.file_filter_popup_item, OPT().mFileFilterDescrips)
+        val spinnerFileFilters = findViewById<Spinner>(R.id.fileFilterSpinner)
+        val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(
+            this,
+            R.layout.file_filter_popup_item,
+            OPT!!.mFileFilterDescrips
+        )
         {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent)
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View
             {
-                View view = super.getView(position, convertView, parent);
-                ((TextView)view).setTypeface(THM().getFontNorm(getAssets()));
-                ((TextView)view).setTextColor(THM().mColorFilterText);
-                ((TextView)view).setTextSize(THM().mUnitSp, THM().mSizeFileFilterText);
-                return view;
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).setTypeface(THM.getFontNorm(assets))
+                view.setTextColor(THM.colorFilterText)
+                view.setTextSize(THM.unitSp, THM.sizeFileFilterText)
+                return view
             }
 
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent)
+            override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View
             {
-                View view = super.getView(position, convertView, parent);
-                TextView text = view.findViewById(R.id.fileFilterPopupItem);
-                text.setTypeface(THM().getFontNorm(getAssets()));
-                text.setTextColor(THM().mColorFilterPopupText);
-                text.setBackgroundColor(THM().mColorFilterPopupBackground);
-                text.setTextSize(THM().mUnitSp, THM().mSizeFileFilterPopupText);
-                return view;
+                val view = super.getView(position, convertView, parent)
+                val text = view.findViewById<TextView>(R.id.fileFilterPopupItem)
+                text.setTypeface(THM.getFontNorm(assets))
+                text.setTextColor(THM.colorFilterPopupText)
+                text.setBackgroundColor(THM.colorFilterPopupBackground)
+                text.setTextSize(THM.unitSp, THM.sizeFileFilterPopupText)
+                return view
             }
-        };
-        
-        spinnerFileFilters.setAdapter(adapter);
-        
-        spinnerFileFilters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        }
+        spinnerFileFilters.adapter = adapter
+        spinnerFileFilters.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
         {
-            @Override
-            public void onItemSelected(AdapterView parent, View view, int position, long id)
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            )
             {
-                if (OPT().mFileFilterIndex == position) return;
-                
-                if (mEditTextSaveFileName.getVisibility() != View.GONE)
+                if (OPT!!.fileFilterIndex == position) return
+                if (mEditTextSaveFileName!!.visibility != View.GONE)
                 {
-                    String filename = mEditTextSaveFileName.getText().toString().trim();
-                    
+                    var filename: String =
+                        mEditTextSaveFileName!!.text.toString().trim { it <= ' ' }
                     if (!filename.isEmpty())
                     {
-                        filename = changeFileExt(filename, OPT().mFileFilterIndex, position);
+                        filename = changeFileExt(filename, OPT!!.fileFilterIndex, position)
                     }
-
-                    mEditTextSaveFileName.setText(filename);
+                    mEditTextSaveFileName!!.setText(filename)
                 }
-                    
-                OPT().mFileFilterIndex = position;
-                    
-                refreshView(false, false);
+                OPT!!.fileFilterIndex = position
+                refreshView(false, false)
             }
 
-            @Override
-            public void onNothingSelected(AdapterView parent) { }
-        });
-
-        spinnerFileFilters.setSelection(OPT().mFileFilterIndex);
-    }
-
-    private void setupSwipeRefreshLayout()
-    {
-        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
-            @Override
-            public void onRefresh()
+            override fun onNothingSelected(parent: AdapterView<*>?)
             {
-                swipeRefreshLayout.setRefreshing(true);
-                refreshView(true, false);
-                swipeRefreshLayout.setRefreshing(false);
             }
-        });
+        }
+        spinnerFileFilters.setSelection(OPT!!.fileFilterIndex)
     }
 
-    public void refreshView(boolean forceSourceReload, boolean refreshLayout)
+    private fun setupSwipeRefreshLayout()
     {
-        refreshView(OPT().mCurrentDir, forceSourceReload, refreshLayout);
+        val swipeRefreshLayout = findViewById<View>(R.id.swipeRefreshLayout) as SwipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener(object : OnRefreshListener
+        {
+            override fun onRefresh()
+            {
+                swipeRefreshLayout.isRefreshing = true
+                refreshView(true, false)
+                swipeRefreshLayout.isRefreshing = false
+            }
+        })
     }
 
-    void refreshView(String dir, boolean forceSourceReload, boolean refreshLayout)
+    fun refreshView(forceSourceReload: Boolean, refreshLayout: Boolean)
     {
-        boolean firstLoad = data.mFirstLoad;
-        data.mFirstLoad = false;
+        refreshView(OPT!!.currentDir, forceSourceReload, refreshLayout)
+    }
 
-        ArrayList<DirectoryItem> items = getDirectoryItems(dir, forceSourceReload);
-
-        boolean galleryView = OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery;
-
-        boolean showLayouts = true;
-
+    fun refreshView(dir: String?, forceSourceReload: Boolean, refreshLayout: Boolean)
+    {
+        val firstLoad = DAT!!.mFirstLoad
+        DAT!!.mFirstLoad = false
+        val items = getDirectoryItems(dir, forceSourceReload)
+        val galleryView = OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
+        var showLayouts = true
         if (items == null)
         {
             if (galleryView || dir == null)
             {
-                String text = "error reading items";
-                mRecyclerView.setText(this, text);
-                showLayouts = false;
+                val text = "error reading items"
+                mRecyclerView!!.setText(this, text)
+                showLayouts = false
             }
             else
             {
                 if (firstLoad)
                 {
-                    String text = "cannot read directory:\n" + dir;
-                    mRecyclerView.setText(this, text);
-                    showLayouts = false;
+                    val text = "cannot read directory:\n$dir"
+                    mRecyclerView!!.setText(this, text)
+                    showLayouts = false
                 }
                 else
                 {
-                    Utils.toastLong(this, "The directory \"" + dir + "\" is unreadable.");
+                    toastLong(this, "The directory \"$dir\" is unreadable.")
                 }
             }
         }
         else
         {
-            if (!galleryView) OPT().mCurrentDir = dir;
-
-            if (refreshLayout) refreshLayoutManager();
-
-            if (items.size() == 0) mRecyclerView.setText(this, "no items");
-            else mRecyclerView.clearText();
-
-            mRecyclerView.setAdapter(new MyListAdapter(this, items));
+            if (!galleryView) OPT!!.currentDir = dir
+            if (refreshLayout) refreshLayoutManager()
+            if (items.size == 0) mRecyclerView!!.setText(
+                this,
+                "no items"
+            )
+            else mRecyclerView!!.clearText()
+            mRecyclerView!!.adapter = MyListAdapter(this, items)
         }
-
-        configureLayouts(showLayouts);
+        configureLayouts(showLayouts)
     }
 
-    @Nullable
-    private ArrayList<DirectoryItem> getDirectoryItems(String dir, boolean forceSourceReload)
+    private fun getDirectoryItems(
+        dir: String?,
+        forceSourceReload: Boolean
+    ): ArrayList<DirectoryItem>?
     {
-        if (dir == null) return null;
-
-        boolean galleryView = OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery;
-
-        boolean readable = galleryView || Utils.directoryIsReadable(this, dir);
-        if (!readable) return null;
-
-        if (galleryView || OPT().mShowImagesWhileBrowsingNormal)
+        if (dir == null) return null
+        val galleryView = OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
+        val readable = galleryView || directoryIsReadable(this, dir)
+        if (!readable) return null
+        if (galleryView || OPT!!.showImagesWhileBrowsingNormal)
         {
-            boolean reload = forceSourceReload ||
-                    ADV().mAutoRefreshDirectorySource || data.mMediaStoreImageInfoList == null;
-
-            if (reload) data.mMediaStoreImageInfoList = ListUtils.getImageInfos(this);
+            val reload = (forceSourceReload ||
+                ADV.autoRefreshDirectorySource || (DAT!!.mMediaStoreImageInfoList == null))
+            if (reload) DAT!!.mMediaStoreImageInfoList = getImageInfos(this)
         }
-
-        ArrayList<DirectoryItem> items;
+        val items: ArrayList<DirectoryItem>?
         if (galleryView)
         {
-            items = data.mMediaStoreImageInfoList;
+            items = DAT!!.mMediaStoreImageInfoList
         }
         else
         {
-            boolean reload = forceSourceReload || ADV().mAutoRefreshDirectorySource ||
-                    data.mFileSystemDirectoryItems == null ||
-                    OPT().mCurrentDir == null || !dir.equalsIgnoreCase(OPT().mCurrentDir);
-
-            if (reload) data.mFileSystemDirectoryItems =
-                    ListUtils.getDirectoryItemsFromFileSystem(this, dir, OPT().mFileFilters[OPT().mFileFilterIndex]);
-
-            items = data.mFileSystemDirectoryItems;
+            val reload = forceSourceReload || ADV.autoRefreshDirectorySource || (
+                DAT!!.mFileSystemDirectoryItems == null) || (
+                OPT!!.currentDir == null) || !dir.equals(OPT!!.currentDir, ignoreCase = true)
+            if (reload) DAT!!.mFileSystemDirectoryItems = getDirectoryItemsFromFileSystem(
+                this,
+                dir,
+                OPT!!.mFileFilters[OPT!!.fileFilterIndex]
+            )
+            items = DAT!!.mFileSystemDirectoryItems
         }
-
-        return items;
+        return items
     }
 
-    private void configureLayouts(boolean showLayouts)
+    private fun configureLayouts(showLayouts: Boolean)
     {
-        LinearLayout curDirLayout = findViewById(R.id.curDirLayout);
-        LinearLayout parDirLayout = findViewById(R.id.parDirLayout);
-        LinearLayout saveFileLayout = findViewById(R.id.saveFileLayout);
-        LinearLayout fileFilterLayout = findViewById(R.id.fileFilterLayout);
-
-        boolean showCurrentDirLayout = false;
-        boolean showParentDirLayout = false;
-        boolean showSaveFileLayout = false;
-        boolean showFileFilterLayout = false;
-
-        boolean galleryView = OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery;
-
+        val curDirLayout = findViewById<LinearLayout>(R.id.curDirLayout)
+        val parDirLayout = findViewById<LinearLayout>(R.id.parDirLayout)
+        val saveFileLayout = findViewById<LinearLayout>(R.id.saveFileLayout)
+        val fileFilterLayout = findViewById<LinearLayout>(R.id.fileFilterLayout)
+        var showCurrentDirLayout = false
+        var showParentDirLayout = false
+        var showSaveFileLayout = false
+        var showFileFilterLayout = false
+        val galleryView = OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
         if (!galleryView && showLayouts)
         {
-            boolean isRoot = OPT().mCurrentDir.equals("/");
-            showParentDirLayout = ADV().mShowParentDirectoryLayoutIfAvailable && !isRoot;
-            showCurrentDirLayout = ADV().mShowCurrentDirectoryLayoutIfAvailable;
-            showSaveFileLayout = ADV().mShowSaveFileLayoutIfAvailable &&
-                OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders;
-            showFileFilterLayout = ADV().mShowFileFilterLayoutIfAvailable &&
-                (OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders ||
-                OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders);
+            val isRoot = (OPT!!.currentDir == "/")
+            showParentDirLayout = ADV.showParentDirectoryLayoutIfAvailable && !isRoot
+            showCurrentDirLayout = ADV.showCurrentDirectoryLayoutIfAvailable
+            showSaveFileLayout = ADV.showSaveFileLayoutIfAvailable &&
+                OPT!!.browseMode === MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders
+            showFileFilterLayout = ADV.showFileFilterLayoutIfAvailable &&
+                (OPT!!.browseMode === MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders ||
+                    OPT!!.browseMode === MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders)
         }
-
         if (showCurrentDirLayout)
         {
-            curDirLayout.setVisibility(View.VISIBLE);
-            ((TextView)findViewById(R.id.curDirText)).setText(OPT().mCurrentDir);
+            curDirLayout.visibility = View.VISIBLE
+            (findViewById<View>(R.id.curDirText) as TextView).text = OPT!!.currentDir
         }
         else
         {
-            curDirLayout.setVisibility(View.GONE);
+            curDirLayout.visibility = View.GONE
         }
-
         if (showParentDirLayout)
         {
-            parDirLayout.setVisibility(View.VISIBLE);
-            ((TextView)findViewById(R.id.parDirText)).setText(Utils.getParentDir(OPT().mCurrentDir));
+            parDirLayout.visibility = View.VISIBLE
+            (findViewById<View>(R.id.parDirText) as TextView).text = getParentDir(
+                (OPT!!.currentDir)!!
+            )
         }
         else
         {
-            parDirLayout.setVisibility(View.GONE);
+            parDirLayout.visibility = View.GONE
         }
-
         if (showSaveFileLayout)
         {
-            saveFileLayout.setVisibility(View.VISIBLE);
+            saveFileLayout.visibility = View.VISIBLE
         }
         else
         {
-            saveFileLayout.setVisibility(View.GONE);
+            saveFileLayout.visibility = View.GONE
         }
-
         if (showFileFilterLayout)
         {
-            fileFilterLayout.setVisibility(View.VISIBLE);
+            fileFilterLayout.visibility = View.VISIBLE
         }
         else
         {
-            fileFilterLayout.setVisibility(View.GONE);
+            fileFilterLayout.visibility = View.GONE
         }
     }
 
-    private void refreshLayoutManager()
+    private fun refreshLayoutManager()
     {
-        RecyclerView.LayoutManager manager;
-        if (OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+        val manager: RecyclerView.LayoutManager
+        if (OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.List)
         {
-            manager = new LinearLayoutManager(getApplicationContext());
+            manager = LinearLayoutManager(applicationContext)
         }
         else
         {
-            int columnCount = OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Tiles ?
-                OPT().mNormalViewColumnCount : OPT().mGalleryViewColumnCount;
-
-            manager = new GridLayoutManager(getApplicationContext(), columnCount);
-
+            val columnCount =
+                if (OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.Tiles) OPT!!.normalViewColumnCount else OPT!!.galleryViewColumnCount
+            manager = GridLayoutManager(applicationContext, columnCount)
         }
-        mRecyclerView.setLayoutManager(manager);
+        mRecyclerView!!.layoutManager = manager
     }
 
-    void onSelect(boolean file, boolean load, boolean longClick, boolean saveButton, String path)
+    fun onSelect(
+        file: Boolean,
+        load: Boolean,
+        longClick: Boolean,
+        saveButton: Boolean,
+        path: String
+    )
     {
-        onSelect(false, file, load, longClick, saveButton, path);
+        onSelect(false, file, load, longClick, saveButton, path)
     }
 
-    private void onSelect(boolean skipDialog, boolean file, boolean load, boolean longClick, boolean saveButton, String path)
+    private fun onSelect(
+        skipDialog: Boolean,
+        file: Boolean,
+        load: Boolean,
+        longClick: Boolean,
+        saveButton: Boolean,
+        path: String
+    )
     {
         if (!skipDialog && !load)
         {
-            boolean showDialog = false;
-
-            if (OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+            var showDialog = false
+            if (OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery)
             {
-                if (OPT().mAlwaysShowDialogForSavingGalleryItem) showDialog = true;
+                if (OPT!!.alwaysShowDialogForSavingGalleryItem) showDialog = true
             }
             else if (file)
             {
-                if (OPT().mAlwaysShowDialogForSavingFile || OPT().mShowOverwriteDialogForSavingFileIfExists)
-                    showDialog = true;
+                if (OPT!!.alwaysShowDialogForSavingFile || OPT!!.showOverwriteDialogForSavingFileIfExists) showDialog =
+                    true
             }
             else
             {
-                if (OPT().mAlwaysShowDialogForSavingFolder) showDialog = true;
+                if (OPT!!.alwaysShowDialogForSavingFolder) showDialog = true
             }
-
             if (showDialog)
             {
-                boolean exists;
-                try { exists = new File(path).exists(); }
-                catch (Exception ex)
+                val exists: Boolean
+                try
                 {
-                    MyMessageBox.show(this, "Error", "An unexpected error occurred.", MyMessageBox.ButtonsType.Ok, null, null);
-                    return;
+                    exists = File(path).exists()
                 }
-
-                String title = (exists ? "Overwrite " : "Save ") + (file ? "File?" : "Folder?");
-                String str1 = exists ? "overwrite" : "save";
-                String str2 = file ? "file" : "folder";
-                String message = "Do you want to " + str1 + " the " + str2 + ": " + path + "?";
-
-                MyYesNoDialog.show(this, title, message, new DialogInterface.OnClickListener()
+                catch (ex: Exception)
                 {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
+                    show(
+                        this,
+                        "Error",
+                        "An unexpected error occurred.",
+                        MyMessageBox.ButtonsType.Ok,
+                        null,
+                        null
+                    )
+                    return
+                }
+                val title =
+                    (if (exists) "Overwrite " else "Save ") + (if (file) "File?" else "Folder?")
+                val str1 = if (exists) "overwrite" else "save"
+                val str2 = if (file) "file" else "folder"
+                val message = "Do you want to $str1 the $str2: $path?"
+                show(this, title, message, object : DialogInterface.OnClickListener
+                {
+                    override fun onClick(dialog: DialogInterface, which: Int)
                     {
-                        onSelect(true, file, load, longClick, saveButton, path);
+                        onSelect(true, file, load, longClick, saveButton, path)
                     }
-                });
-
-                return;
+                })
+                return
             }
         }
-
-        OnSelectItem onSelectItemObject = getOnSelectItemObject(file, load);
-
+        val onSelectItemObject = getOnSelectItemObject(file, load)
         if (onSelectItemObject != null)
         {
-            SelectedItemInfo.SelectAction action;
-            if (saveButton) action = SelectedItemInfo.SelectAction.SaveButton;
-            else if (longClick) action = SelectedItemInfo.SelectAction.LongClick;
-            else action = SelectedItemInfo.SelectAction.ShortClick;
-
-            onSelectItemObject.onSelect(new SelectedItemInfo(path, action));
+            val action: SelectedItemInfo.SelectAction
+            if (saveButton) action = SelectedItemInfo.SelectAction.SaveButton
+            else if (longClick) action = SelectedItemInfo.SelectAction.LongClick
+            else action = SelectedItemInfo.SelectAction.ShortClick
+            onSelectItemObject.onSelect(SelectedItemInfo(path, action))
         }
         else
         {
-            if (ADV().mDebugMode)
+            if (ADV.debugMode)
             {
-                String title = "";
-                title += load ? "LOAD " : "SAVE ";
-                title += file ? "FILE " : "FOLDER ";
-                title += saveButton ? "(SAVE BUTTON)" : (longClick ? "(LONG CLICK)" : "(SHORT CLICK)");
-                String message = "PATH=[" + path + "]";
-                MyMessageBox.show(this, title, message, MyMessageBox.ButtonsType.Ok, null, null);
+                var title: String = ""
+                title += if (load) "LOAD " else "SAVE "
+                title += if (file) "FILE " else "FOLDER "
+                title += if (saveButton) "(SAVE BUTTON)" else (if (longClick) "(LONG CLICK)" else "(SHORT CLICK)")
+                val message = "PATH=[$path]"
+                show(this, title, message, MyMessageBox.ButtonsType.Ok, null, null)
             }
         }
     }
 
-    private OnSelectItem getOnSelectItemObject(boolean file, boolean load)
+    private fun getOnSelectItemObject(file: Boolean, load: Boolean): OnSelectItem?
     {
         if (file)
         {
-            if (load) return OPT().mOnSelectFileForLoad;
-            else return OPT().mOnSelectFileForSave;
+            return if (load) OPT!!.onSelectFileForLoad else OPT!!.onSelectFileForSave
         }
         else
         {
-            if (load) return OPT().mOnSelectFolderForLoad;
-            else return OPT().mOnSelectFolderForSave;
+            return if (load) OPT!!.onSelectFolderForLoad else OPT!!.onSelectFolderForSave
         }
     }
 
-    private String changeFileExt(String filename, int oldFileFilterIndex, int newFileFilterIndex)
+    private fun changeFileExt(
+        filename: String,
+        oldFileFilterIndex: Int,
+        newFileFilterIndex: Int
+    ): String
     {
-        String[] newExts = OPT().mFileFilters[newFileFilterIndex];
-
-        if (newExts[0].equals("*")) return filename;
-
-        String ext = Utils.getFileExtensionLowerCaseWithDot(filename);
-
-        if (ext.isEmpty()) return filename + newExts[0];
-
-        if (Utils.arrayContains(newExts, ext)) return filename;
-
-        String[] oldExts = OPT().mFileFilters[oldFileFilterIndex];
-
-        if (!oldExts[0].equals("*") && Utils.arrayContains(oldExts, ext))
+        var filename = filename
+        val newExts = OPT!!.mFileFilters[newFileFilterIndex]
+        if ((newExts[0] == "*")) return filename
+        val ext = getFileExtensionLowerCaseWithDot(filename)
+        if (ext.isEmpty()) return filename + newExts[0]
+        if (arrayContains(newExts, ext)) return filename
+        val oldExts = OPT!!.mFileFilters[oldFileFilterIndex]
+        if (oldExts.get(0) != "*" && arrayContains(oldExts, ext))
         {
-            filename = filename.substring(0, filename.length() - ext.length());
+            filename = filename.substring(0, filename.length - ext.length)
         }
-
-        filename += newExts[0];
-
-        return filename;
+        filename += newExts[0]
+        return filename
     }
 
-    private String checkFileNameAndExt(String filename)
+    private fun checkFileNameAndExt(filename: String?): String?
     {
         //if (!OPTIONS().mAllowHiddenFiles && filename.startsWith(".")) return null;
-
-        String ext = Utils.getFileExtensionLowerCaseWithDot(filename);
-
-        String[] filters = OPT().mFileFilters[OPT().mFileFilterIndex];
-
-        if (filters[0].equals("*"))
+        val ext = getFileExtensionLowerCaseWithDot(
+            (filename)!!
+        )
+        val filters = OPT!!.mFileFilters[OPT!!.fileFilterIndex]
+        if ((filters[0] == "*"))
         {
             //if (ext.isEmpty() && !OPTIONS().mAllowUndottedFileExts) return null;
-
-            return filename;
+            return filename
         }
-
-        if (!ext.isEmpty() && Utils.arrayContains(filters, ext)) return filename;
-
-        return filename + filters[0];
+        return if (!ext.isEmpty() && arrayContains(
+                filters,
+                ext
+            )) filename
+        else filename + filters.get(0)
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean
     {
-        if (ADV().mMenuEnabled)
+        if (ADV.menuEnabled)
         {
-            getMenuInflater().inflate(R.menu.menu, menu);
-            applyFontToMenu(menu, this);
+            menuInflater.inflate(R.menu.menu, menu)
+            applyFontToMenu(menu, this)
         }
-
-        return true;
+        return true
     }
 
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu)
+    override fun onMenuOpened(featureId: Int, menu: Menu): Boolean
     {
-        OptionsMenu.onMenuOpened(this, menu);
-        return super.onMenuOpened(featureId, menu);
+        onMenuOpened(this, menu)
+        return super.onMenuOpened(featureId, menu)
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
-        if (OptionsMenu.onOptionsItemSelected(this, item)) return true;
-        return super.onOptionsItemSelected(item);
+        return if (onOptionsItemSelected(this, item)) true else super.onOptionsItemSelected(item)
     }
 
-    public void applyFontToMenu(Menu m, Context mContext)
+    fun applyFontToMenu(m: Menu, mContext: Context?)
     {
-        for(int i = 0; i < m.size(); i++)
+        for (i in 0 until m.size())
         {
-            applyFontToMenuItem(m.getItem(i),mContext);
+            applyFontToMenuItem(m.getItem(i), mContext)
         }
     }
 
-    public void applyFontToMenuItem(MenuItem mi, Context mContext)
+    fun applyFontToMenuItem(mi: MenuItem, mContext: Context?)
     {
         if (mi.hasSubMenu())
         {
-            for (int i = 0; i < mi.getSubMenu().size(); i++)
+            for (i in 0 until mi.subMenu!!.size())
             {
-                applyFontToMenuItem(mi.getSubMenu().getItem(i), mContext);
+                applyFontToMenuItem(mi.subMenu!!.getItem(i), mContext)
             }
         }
-
-        Typeface font = THM().getFontNorm(getAssets());
-        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        val font = THM.getFontNorm(assets)
+        val mNewTitle = SpannableString(mi.title)
         mNewTitle.setSpan(
-            new CustomTypefaceSpan("Font", font), 0,
-            mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        mi.setTitle(mNewTitle);
+            CustomTypefaceSpan("Font", (font)!!), 0,
+            mNewTitle.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+        mi.title = mNewTitle
     }
 }

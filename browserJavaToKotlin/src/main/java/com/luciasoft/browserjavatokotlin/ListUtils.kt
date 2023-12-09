@@ -1,335 +1,345 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-import android.database.Cursor;
-import android.provider.MediaStore;
+import android.database.Cursor
+import android.provider.MediaStore
+import androidx.loader.content.CursorLoader
+import com.luciasoft.browserjavatokotlin.Utils2.directoryIsReadable
+import com.luciasoft.browserjavatokotlin.Utils.filePassesFilter
+import com.luciasoft.browserjavatokotlin.Utils.getDateString
+import com.luciasoft.browserjavatokotlin.Utils.getFileSizeString
+import com.luciasoft.browserjavatokotlin.Utils.getValidExts
+import com.luciasoft.collections.DirectoryItem
+import com.luciasoft.collections.FileItem
+import com.luciasoft.collections.FolderItem
+import com.luciasoft.collections.MediaStoreImageInfoTree
+import java.io.File
+import java.util.Collections
+import java.util.Random
 
-import androidx.loader.content.CursorLoader;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Random;
-
-class ListUtils
+internal object ListUtils
 {
-    static ArrayList<DirectoryItem> getImageInfos(MultiBrowserActivity act)
+    @JvmStatic
+    fun getImageInfos(act: MultiBrowserActivity): ArrayList<DirectoryItem>?
     {
-        MultiBrowserOptions.SortOrder sortOrder;
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
-            sortOrder = act.OPT().mGalleryViewSortOrder;
-        else sortOrder = act.OPT().mNormalViewSortOrder;
-
-        String sortOrderString;
-        switch (sortOrder)
+        val sortOrder: MultiBrowserOptions.SortOrder
+        sortOrder =
+            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+        val sortOrderString: String
+        sortOrderString = when (sortOrder)
         {
-            case PathAscending: sortOrderString = MediaStore.Images.Media.DATA; break;
-            case PathDescending: sortOrderString = MediaStore.Images.Media.DATA + " DESC"; break;
-            case DateAscending: sortOrderString = MediaStore.Images.Media.DATE_MODIFIED; break;
-            case DateDescending: sortOrderString = MediaStore.Images.Media.DATE_MODIFIED + " DESC"; break;
-            case SizeAscending: sortOrderString = MediaStore.Images.Media.SIZE; break;
-            case SizeDescending: sortOrderString = MediaStore.Images.Media.SIZE + " DESC"; break;
-            default: sortOrderString = MediaStore.Images.Media.DATA; break;
+            MultiBrowserOptions.SortOrder.PathAscending -> MediaStore.Images.Media.DATA
+            MultiBrowserOptions.SortOrder.PathDescending -> MediaStore.Images.Media.DATA + " DESC"
+            MultiBrowserOptions.SortOrder.DateAscending -> MediaStore.Images.Media.DATE_MODIFIED
+            MultiBrowserOptions.SortOrder.DateDescending -> MediaStore.Images.Media.DATE_MODIFIED + " DESC"
+            MultiBrowserOptions.SortOrder.SizeAscending -> MediaStore.Images.Media.SIZE
+            MultiBrowserOptions.SortOrder.SizeDescending -> MediaStore.Images.Media.SIZE + " DESC"
+            else -> MediaStore.Images.Media.DATA
         }
 
         //Cursor cursor = context.managedQuery( // DEPRICATED
         //MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cols, null,
         //null, sortOrder); // GET DATA IN CURSOR IN DESC ORDER
-
-        Cursor cursor;
+        var cursor: Cursor?
         try
         {
-            final String[] cols = { MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA, };
-
-            CursorLoader loader = new CursorLoader(act);
-            loader.setUri(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            loader.setProjection(cols);
-            loader.setSelection(null);
-            loader.setSortOrder(sortOrderString);
-            cursor = loader.loadInBackground();
+            val cols = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA)
+            val loader = CursorLoader(act)
+            loader.uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            loader.projection = cols
+            loader.selection = null
+            loader.sortOrder = sortOrderString
+            cursor = loader.loadInBackground()
         }
-        catch (Exception ex) { cursor = null; }
-        if (cursor == null) return null;
-
-        ArrayList<DirectoryItem> list = new ArrayList<>();
-
-        String[] exts = Utils.getValidExts(act.ADV().mMediaStoreImageExts);
-
-        for (int i = 0; i < cursor.getCount(); i++)
+        catch (ex: Exception)
         {
-            String imagePath;
-            try
+            cursor = null
+        }
+        if (cursor == null) return null
+        val list = ArrayList<DirectoryItem>()
+        val exts = getValidExts(act.ADV.mediaStoreImageExts)
+        for (i in 0 until cursor.count)
+        {
+            var imagePath: String?
+            imagePath = try
             {
-                cursor.moveToPosition(i);
-                int imagePathCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
-                imagePath = cursor.getString(imagePathCol);
+                cursor.moveToPosition(i)
+                val imagePathCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                cursor.getString(imagePathCol)
             }
-            catch (Exception ex) { continue; }
-
-            File imageFile;
-            try { imageFile = new File(imagePath); }
-            catch (Exception ex) { imageFile = null; }
+            catch (ex: Exception)
+            {
+                continue
+            }
+            var imageFile: File?
+            imageFile = try
+            {
+                File(imagePath)
+            }
+            catch (ex: Exception)
+            {
+                null
+            }
             if (imageFile != null)
             {
-                String ipath;
-                try { ipath = imageFile.getCanonicalPath(); }
-                catch (Exception ex2)
+                var ipath: String?
+                ipath = try
                 {
-                    try { ipath = imageFile.getAbsolutePath(); }
-                    catch (Exception ex3) { ipath = null; }
+                    imageFile.canonicalPath
                 }
-                if (ipath != null) imagePath = ipath;
+                catch (ex2: Exception)
+                {
+                    try
+                    {
+                        imageFile.absolutePath
+                    }
+                    catch (ex3: Exception)
+                    {
+                        null
+                    }
+                }
+                if (ipath != null) imagePath = ipath
             }
-
-            if (!Utils.filePassesFilter(exts, imagePath)) continue;
-
+            if (!filePassesFilter(exts, imagePath!!)) continue
             try
             {
-                int imageIdCol = cursor.getColumnIndex(MediaStore.Images.Media._ID);
-                int imageId = cursor.getInt(imageIdCol);
-                list.add(new FileItem(imagePath, imageId));
+                val imageIdCol = cursor.getColumnIndex(MediaStore.Images.Media._ID)
+                val imageId = cursor.getInt(imageIdCol)
+                list.add(FileItem(imagePath, imageId = imageId))
             }
-            catch (Exception ex) { }
+            catch (ex: Exception)
+            {
+            }
         }
-            
-        DirectoryItem[] infoArray = list.toArray(new DirectoryItem[0]);
-            
-        Random r = new Random();
-        DirectoryItem tmp;
-        for (int i = 0; i < infoArray.length; i++)
+        val infoArray = list.toTypedArray()
+        val r = Random()
+        var tmp: DirectoryItem
+        for (i in infoArray.indices)
         {
-            int pos = (int)(r.nextDouble() * infoArray.length);
-
-            tmp = infoArray[i];
-            infoArray[i] = infoArray[pos];
-            infoArray[pos] = tmp;
+            val pos = (r.nextDouble() * infoArray.size).toInt()
+            tmp = infoArray[i]
+            infoArray[i] = infoArray[pos]
+            infoArray[pos] = tmp
         }
-
-        if (act.DAT().mMediaStoreImageInfoTree == null)
-            act.DAT().mMediaStoreImageInfoTree = new MediaStoreImageInfoTree();
-        else act.DAT().mMediaStoreImageInfoTree.reset();
-
-        for (DirectoryItem info : infoArray) act.DAT().mMediaStoreImageInfoTree.add((FileItem)info);
-
-        return list;
+        if (act.DAT.mMediaStoreImageInfoTree == null) act.DAT.mMediaStoreImageInfoTree =
+            MediaStoreImageInfoTree()
+        else act.DAT.mMediaStoreImageInfoTree!!.reset()
+        for (info in infoArray) act.DAT.mMediaStoreImageInfoTree!!.add(info as FileItem)
+        return list
     }
 
-    static ArrayList<DirectoryItem> getDirectoryItemsFromFileSystem(MultiBrowserActivity act, String directory, String[] exts)
+    @JvmStatic
+    fun getDirectoryItemsFromFileSystem(
+        act: MultiBrowserActivity,
+        directory: String?,
+        exts: Array<String>?
+    ): ArrayList<DirectoryItem>?
     {
-        ArrayList<DirectoryItem> dirItemList = new ArrayList<>();
-
-        File[] items;
-        try { items = new File(directory).listFiles(); }
-        catch (Exception ex) { return null; }
+        var exts = exts
+        val dirItemList = ArrayList<DirectoryItem>()
+        val items: Array<File>?
+        items = try
+        {
+            File(directory).listFiles()
+        }
+        catch (ex: Exception)
+        {
+            return null
+        }
         if (items == null)
         {
-            if (Utils.directoryIsReadable(act, directory)) return dirItemList;
-            return null;
+            return if (directoryIsReadable(act, directory)) dirItemList else null
         }
-        
-        if (!act.ADV().mShowFilesInNormalView && !act.ADV().mShowFoldersInNormalView) return dirItemList;
-
-        exts = Utils.getValidExts(exts);
-
-        for (File item : items)
+        if (!act.ADV.showFilesInNormalView && !act.ADV.showFoldersInNormalView) return dirItemList
+        exts = getValidExts(exts)
+        for (item in items)
         {
-            String path;
-            try { path = item.getCanonicalPath(); }
-            catch (Exception ex)
+            val path: String = try
             {
-                try { path = item.getAbsolutePath(); }
-                catch (Exception ex2) { continue; }
+                item.canonicalPath
             }
-
-            boolean isFile;
-            try { isFile = item.isFile(); }
-            catch (Exception ex) { continue; }
-
-            boolean isDirectory;
-            try { isDirectory = item.isDirectory(); }
-            catch (Exception ex) { continue; }
-
-            if (!isFile && !isDirectory) continue;
+            catch (ex: Exception)
+            {
+                try
+                {
+                    item.absolutePath
+                }
+                catch (ex2: Exception)
+                {
+                    continue
+                }
+            }
+            var isFile: Boolean
+            isFile = try
+            {
+                item.isFile
+            }
+            catch (ex: Exception)
+            {
+                continue
+            }
+            var isDirectory: Boolean
+            isDirectory = try
+            {
+                item.isDirectory
+            }
+            catch (ex: Exception)
+            {
+                continue
+            }
+            if (!isFile && !isDirectory) continue
             if (isFile &&
-                (!act.ADV().mShowFilesInNormalView ||
-                act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.LoadFolders ||
-                act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.SaveFolders))
-                continue;
-            if (isDirectory && !act.ADV().mShowFoldersInNormalView) continue;
-
-            boolean isHidden;
-            try { isHidden = item.isHidden(); }
-            catch (Exception ex) { continue; }
-
-            if (isHidden && isFile && !act.OPT().mShowHiddenFiles) continue;
-            if (isHidden && isDirectory && !act.OPT().mShowHiddenFolders) continue;
-            
-            Long date;
-            try { date = item.lastModified(); }
-            catch (Exception ex) { date = null; }
-
-            String info = "";
-
-            boolean showDate = isFile && act.ADV().mShowFileDatesInListView ||
-                    isDirectory && act.ADV().mShowFolderDatesInListView;
-
+                (!act.ADV.showFilesInNormalView || act.OPT.browseMode == MultiBrowserOptions.BrowseMode.LoadFolders || act.OPT.browseMode == MultiBrowserOptions.BrowseMode.SaveFolders)) continue
+            if (isDirectory && !act.ADV.showFoldersInNormalView) continue
+            var isHidden: Boolean
+            isHidden = try
+            {
+                item.isHidden
+            }
+            catch (ex: Exception)
+            {
+                continue
+            }
+            if (isHidden && isFile && !act.OPT.showHiddenFiles) continue
+            if (isHidden && isDirectory && !act.OPT.showHiddenFolders) continue
+            var date: Long?
+            date = try
+            {
+                item.lastModified()
+            }
+            catch (ex: Exception)
+            {
+                null
+            }
+            var info = ""
+            val showDate = isFile && act.ADV.showFileDatesInListView ||
+                isDirectory && act.ADV.showFolderDatesInListView
             if (date != null && showDate)
             {
-                if (showDate) info += Utils.getDateString(date) + ", ";
+                if (showDate) info += getDateString(date) + ", "
             }
-
             if (isDirectory)
             {
-                Integer subItemCount;
-                try { subItemCount = item.listFiles().length; }
-                catch (Exception ex) { subItemCount = null; }
-
-                if (subItemCount == null || !act.ADV().mShowFolderCountsInListView)
+                var subItemCount: Int?
+                subItemCount = try
                 {
-                    info += "folder";
+                    item.listFiles().size
+                }
+                catch (ex: Exception)
+                {
+                    null
+                }
+                if (subItemCount == null || !act.ADV.showFolderCountsInListView)
+                {
+                    info += "folder"
                 }
                 else
                 {
-                    info += "" + subItemCount + " item";
-                    if (subItemCount != 1) info += "s";
+                    info += "$subItemCount item"
+                    if (subItemCount != 1) info += "s"
                 }
-
-                dirItemList.add(new FolderItem(path, date, info));
+                dirItemList.add(FolderItem(path, date, info))
             }
             else if (isFile)
             {
-                if (!Utils.filePassesFilter(exts, path)) continue;
-
-                Long size;
-                try { size = item.length(); }
-                catch (Exception ex) { size = null; }
-
-                if (size == null || !act.ADV().mShowFileSizesInListView) info += "file";
-                else info += Utils.getFileSizeString(size);
-
-                Integer imageId = null;
-
-                if (act.OPT().mShowImagesWhileBrowsingNormal && act.DAT().mMediaStoreImageInfoTree != null)
+                if (!filePassesFilter(exts, path!!)) continue
+                var size: Long?
+                size = try
                 {
-                    imageId = act.DAT().mMediaStoreImageInfoTree.getImageId(path);
+                    item.length()
                 }
-
-                dirItemList.add(new FileItem(path, date, size, info, imageId));
+                catch (ex: Exception)
+                {
+                    null
+                }
+                info += if (size == null || !act.ADV.showFileSizesInListView) "file"
+                else getFileSizeString(
+                    size
+                )
+                var imageId: Int? = null
+                if (act.OPT.showImagesWhileBrowsingNormal && act.DAT.mMediaStoreImageInfoTree != null)
+                {
+                    imageId = act.DAT.mMediaStoreImageInfoTree!!.getImageId(path)
+                }
+                dirItemList.add(FileItem(path, date, size, info, imageId))
             }
         }
-
-        Collections.sort(dirItemList, DirItemComparator.getComparator(act));
-
-        return dirItemList;
+        Collections.sort(dirItemList, DirItemComparator.getComparator(act))
+        return dirItemList
     }
 }
 
-class DirItemComparator implements Comparator<DirectoryItem>
+internal class DirItemComparator(var act: MultiBrowserActivity) : Comparator<DirectoryItem>
 {
-    DirItemComparator(MultiBrowserActivity act)
+    override fun compare(item1: DirectoryItem, item2: DirectoryItem): Int
     {
-        this.act = act;
-    }
-
-    MultiBrowserActivity act;
-
-    @Override
-    public int compare(DirectoryItem item1, DirectoryItem item2)
-    {
-        boolean item1isDir = item1 instanceof FolderItem;
-        boolean item2isDir = item2 instanceof FolderItem;
-
-        if (item1isDir && !item2isDir) return -1;
-        else if (item2isDir && !item1isDir) return 1;
-
-        Integer compare = null;
-
-        MultiBrowserOptions.SortOrder sortOrder;
-
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
-            sortOrder = act.OPT().mGalleryViewSortOrder;
-        else sortOrder = act.OPT().mNormalViewSortOrder;
-
-        boolean path =
-                sortOrder == MultiBrowserOptions.SortOrder.PathAscending ||
-                sortOrder == MultiBrowserOptions.SortOrder.PathDescending;
-
-        boolean date =
-                sortOrder == MultiBrowserOptions.SortOrder.DateAscending ||
-                sortOrder == MultiBrowserOptions.SortOrder.DateDescending;
-
-        boolean size =
-                sortOrder == MultiBrowserOptions.SortOrder.SizeAscending ||
-                sortOrder == MultiBrowserOptions.SortOrder.SizeDescending;
-
-        boolean desc =
-                sortOrder == MultiBrowserOptions.SortOrder.PathDescending ||
-                sortOrder == MultiBrowserOptions.SortOrder.DateDescending ||
-                sortOrder == MultiBrowserOptions.SortOrder.SizeDescending;
- 
+        val item1isDir = item1 is FolderItem
+        val item2isDir = item2 is FolderItem
+        if (item1isDir && !item2isDir) return -1 else if (item2isDir && !item1isDir) return 1
+        var compare: Int? = null
+        val sortOrder: MultiBrowserOptions.SortOrder
+        sortOrder =
+            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+        var path = sortOrder == MultiBrowserOptions.SortOrder.PathAscending ||
+            sortOrder == MultiBrowserOptions.SortOrder.PathDescending
+        var date = sortOrder == MultiBrowserOptions.SortOrder.DateAscending ||
+            sortOrder == MultiBrowserOptions.SortOrder.DateDescending
+        var size = sortOrder == MultiBrowserOptions.SortOrder.SizeAscending ||
+            sortOrder == MultiBrowserOptions.SortOrder.SizeDescending
+        var desc =
+            sortOrder == MultiBrowserOptions.SortOrder.PathDescending || sortOrder == MultiBrowserOptions.SortOrder.DateDescending || sortOrder == MultiBrowserOptions.SortOrder.SizeDescending
         if (size && item1isDir)
         {
-            size = false;
-            path = true;
-            desc = false;
+            size = false
+            path = true
+            desc = false
         }
- 
         if (size)
         {
-            Long size1 = ((FileItem)item1).getSize();
-            Long size2 = ((FileItem)item2).getSize();
-
+            val size1 = (item1 as FileItem).size
+            val size2 = (item2 as FileItem).size
             if (size1 == null || size2 == null)
             {
-                size = false;
-                path = true;
-                desc = false;
+                size = false
+                path = true
+                desc = false
             }
             else
             {
-                long cmp = size1 - size2;
-                if (cmp < 0) compare = -1;
-                else if (cmp > 0) compare = 1;
-                else compare = 0;
+                val cmp = size1 - size2
+                compare = if (cmp < 0) -1 else if (cmp > 0) 1 else 0
             }
         }
-
         if (date)
         {
-            Long date1 = ((FileItem)item1).getDate();
-            Long date2 = ((FileItem)item2).getDate();
-
+            val date1 = (item1 as FileItem).date
+            val date2 = (item2 as FileItem).date
             if (date1 == null || date2 == null)
             {
-                date = false;
-                path = true;
-                desc = false;
+                date = false
+                path = true
+                desc = false
             }
             else
             {
-                long cmp = date1 - date2;
-                if (cmp < 0) compare = -1;
-                else if (cmp > 0) compare = 1;
-                else compare = 0;
+                val cmp = date1 - date2
+                compare = if (cmp < 0) -1 else if (cmp > 0) 1 else 0
             }
         }
-
         if (path)
         {
-            compare = item1.getPath().compareToIgnoreCase(item2.getPath());
+            compare = item1.path!!.compareTo(item2.path!!, ignoreCase = true)
         }
-
-        if (desc) compare = -compare;
-
-        return compare;
+        if (desc) compare = -compare!!
+        return compare!!
     }
 
-    static DirItemComparator comparator = null;
-
-    static DirItemComparator getComparator(MultiBrowserActivity act)
+    companion object
     {
-        if (comparator == null) comparator = new DirItemComparator(act);
-
-        return comparator;
+        var comparator: DirItemComparator? = null
+        fun getComparator(act: MultiBrowserActivity): DirItemComparator?
+        {
+            if (comparator == null) comparator = DirItemComparator(act)
+            return comparator
+        }
     }
 }

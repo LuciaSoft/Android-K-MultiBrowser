@@ -1,42 +1,38 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-import android.app.Application;
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.luciasoft.collections.DirectoryItem
+import com.luciasoft.collections.MediaStoreImageInfoTree
 
-import androidx.lifecycle.AndroidViewModel;
-
-import java.util.ArrayList;
-
-public class DataHolder extends AndroidViewModel
+class DataHolder(var app: Application) : AndroidViewModel(app)
 {
-    public DataHolder(Application app)
-    {
-        super(app);
-        this.app = app;
+    @JvmField
+    var mOptions: MultiBrowserOptions? = null
+    @JvmField
+    var mDefaultScreenOrientation: Int? = null
+    @JvmField
+    var mFileSystemDirectoryItems: ArrayList<DirectoryItem>? = null
+    @JvmField
+    var mMediaStoreImageInfoList: ArrayList<DirectoryItem>? = null
+    @JvmField
+    var mMediaStoreImageInfoTree: MediaStoreImageInfoTree? = null
+    @JvmField
+    var mFirstLoad = true
 
-        mOptions = new MultiBrowserOptions();
+    init
+    {
+        mOptions = MultiBrowserOptions()
     }
 
-    Application app;
-    MultiBrowserOptions mOptions = null;
-    Integer mDefaultScreenOrientation = null;
-    ArrayList<DirectoryItem> mFileSystemDirectoryItems = null;
-    ArrayList<DirectoryItem> mMediaStoreImageInfoList = null;
-    MediaStoreImageInfoTree mMediaStoreImageInfoTree = null;
-    boolean mFirstLoad = true;
-
-
-
-    @Override
-    protected void onCleared()
+    override fun onCleared()
     {
-        super.onCleared();
-
-        mOptions = null;
-        mDefaultScreenOrientation = null;
-        mFileSystemDirectoryItems = null;
-        mMediaStoreImageInfoList = null;
-        mMediaStoreImageInfoTree = null;
-        mFirstLoad = true;
+        super.onCleared()
+        mOptions = null
+        mDefaultScreenOrientation = null
+        mFileSystemDirectoryItems = null
+        mMediaStoreImageInfoList = null
+        mMediaStoreImageInfoTree = null
+        mFirstLoad = true
     }
-
 }

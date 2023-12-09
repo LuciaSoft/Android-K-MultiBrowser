@@ -1,12 +1,19 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Context
+import android.content.DialogInterface
+import com.luciasoft.browserjavatokotlin.MyMessageBox.Companion.show
 
-class MyYesNoDialog
+internal object MyYesNoDialog
 {
-	static void show(Context context, String title, String message, DialogInterface.OnClickListener onYesClick)
-	{
-		MyMessageBox.show(context, title, message, MyMessageBox.ButtonsType.YesNo, onYesClick, null);
-	}
+    @JvmStatic
+	fun show(
+        context: Context?,
+        title: String?,
+        message: String?,
+        onYesClick: DialogInterface.OnClickListener?
+    )
+    {
+        show(context!!, title, message, MyMessageBox.ButtonsType.YesNo, onYesClick, null)
+    }
 }

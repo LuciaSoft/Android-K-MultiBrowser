@@ -1,52 +1,46 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 
-import com.luciasoft.browserjavatokotlin.R;
-
-class MyInputDialog
+internal class MyInputDialog(
+    context: Context?,
+    title: String?,
+    subTitle: String?,
+    doSomething: DoSomethingWithResult
+)
 {
-    private AlertDialog.Builder builder;
+    private val builder: AlertDialog.Builder?
 
-    interface DoSomethingWithResult
+    internal interface DoSomethingWithResult
     {
-        void doSomething(String result);
+        fun doSomething(result: String?)
     }
 
-    MyInputDialog(Context context, String title, String subTitle, DoSomethingWithResult doSomething)
+    init
     {
-        builder = new AlertDialog.Builder(context);
-
-        @SuppressLint("InflateParams")
-        View dialogLayout = LayoutInflater.from(context).inflate(R.layout.input_dialog, null);
-        builder.setView(dialogLayout);
-
-        EditText inputText = (EditText)dialogLayout.findViewById(R.id.inputText);
-
-        if (title != null) ((TextView)dialogLayout.findViewById(R.id.title)).setText(title);
-        if (subTitle != null) ((TextView)dialogLayout.findViewById(R.id.subTitle)).setText(subTitle);
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                doSomething.doSomething(inputText.getText().toString());
-            }
-        });
-
-        builder.setNegativeButton("Cancel", null);
+        builder = AlertDialog.Builder(context)
+        @SuppressLint("InflateParams") val dialogLayout =
+            LayoutInflater.from(context).inflate(R.layout.input_dialog, null)
+        builder.setView(dialogLayout)
+        val inputText = dialogLayout.findViewById<View>(R.id.inputText) as EditText
+        if (title != null) (dialogLayout.findViewById<View>(R.id.title) as TextView).text = title
+        if (subTitle != null) (dialogLayout.findViewById<View>(R.id.subTitle) as TextView).text =
+            subTitle
+        builder.setPositiveButton(
+            "OK",
+            DialogInterface.OnClickListener { dialog, which -> doSomething.doSomething(inputText.text.toString()) })
+        builder.setNegativeButton("Cancel", null)
     }
 
-    void show()
+    fun show()
     {
-        if (builder != null) builder.show();
+        builder?.show()
     }
 }

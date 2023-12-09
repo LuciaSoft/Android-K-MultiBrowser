@@ -1,6 +1,6 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-public interface OnSelectItem
+interface OnSelectItem
 {
-    void onSelect(SelectedItemInfo info);
+    fun onSelect(info: SelectedItemInfo?)
 }

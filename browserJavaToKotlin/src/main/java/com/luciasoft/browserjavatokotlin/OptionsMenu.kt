@@ -1,337 +1,254 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-import android.content.DialogInterface;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.Menu
+import android.view.MenuItem
+import com.luciasoft.browserjavatokotlin.MyMessageBox.Companion.show
+import java.io.File
 
-import java.io.File;
-
-import com.luciasoft.browserjavatokotlin.R;
-
-class OptionsMenu
+internal object OptionsMenu
 {
-    static void onMenuOpened(MultiBrowserActivity act, Menu menu)
+    @JvmStatic
+    fun onMenuOpened(act: MultiBrowserActivity, menu: Menu)
     {
-        boolean newFolderOptionVisible = false;
-        boolean listViewOptionVisible = false;
-        boolean tilesViewOptionVisible = false;
-        boolean galleryViewOptionVisible = false;
-        boolean columnCountOptionVisible = false;
-        boolean resetDirectoryOptionVisible = false;
-        boolean sortOrderOptionVisible = false;
-        boolean showHideFileNamesOptionVisible = false;
-
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+        var newFolderOptionVisible = false
+        var listViewOptionVisible = false
+        var tilesViewOptionVisible = false
+        var galleryViewOptionVisible = false
+        var columnCountOptionVisible = false
+        var resetDirectoryOptionVisible = false
+        var sortOrderOptionVisible = false
+        var showHideFileNamesOptionVisible = false
+        if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List)
         {
-            newFolderOptionVisible = true;
-            listViewOptionVisible = false;
-            tilesViewOptionVisible = true;
-            galleryViewOptionVisible = true;
-            columnCountOptionVisible = false;
-            resetDirectoryOptionVisible = true;
-            sortOrderOptionVisible = true;
+            newFolderOptionVisible = true
+            listViewOptionVisible = false
+            tilesViewOptionVisible = true
+            galleryViewOptionVisible = true
+            columnCountOptionVisible = false
+            resetDirectoryOptionVisible = true
+            sortOrderOptionVisible = true
         }
-        else if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Tiles)
+        else if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Tiles)
         {
-            newFolderOptionVisible = true;
-            listViewOptionVisible = true;
-            tilesViewOptionVisible = false;
-            galleryViewOptionVisible = true;
-            columnCountOptionVisible = true;
-            resetDirectoryOptionVisible = true;
-            sortOrderOptionVisible = true;
+            newFolderOptionVisible = true
+            listViewOptionVisible = true
+            tilesViewOptionVisible = false
+            galleryViewOptionVisible = true
+            columnCountOptionVisible = true
+            resetDirectoryOptionVisible = true
+            sortOrderOptionVisible = true
         }
-        else if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+        else if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
         {
-            newFolderOptionVisible = false;
-            listViewOptionVisible = true;
-            tilesViewOptionVisible = true;
-            galleryViewOptionVisible = false;
-            columnCountOptionVisible = true;
-            resetDirectoryOptionVisible = false;
-            showHideFileNamesOptionVisible = true;
-            sortOrderOptionVisible = true;
+            newFolderOptionVisible = false
+            listViewOptionVisible = true
+            tilesViewOptionVisible = true
+            galleryViewOptionVisible = false
+            columnCountOptionVisible = true
+            resetDirectoryOptionVisible = false
+            showHideFileNamesOptionVisible = true
+            sortOrderOptionVisible = true
         }
-
-        if (act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders)
+        if (act.OPT.browseMode == MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders)
         {
-            newFolderOptionVisible = false;
+            newFolderOptionVisible = false
         }
-
-        if (!act.ADV().mMenuOptionListViewEnabled) listViewOptionVisible = false;
-        if (!act.ADV().mMenuOptionTilesViewEnabled) tilesViewOptionVisible = false;
-        if (!act.ADV().mMenuOptionGalleryViewEnabled) galleryViewOptionVisible = false;
-        if (!act.ADV().mMenuOptionColumnCountEnabled) columnCountOptionVisible = false;
-        if (!act.ADV().mMenuOptionSortOrderEnabled) sortOrderOptionVisible = false;
-        if (!act.ADV().mMenuOptionResetDirectoryEnabled) resetDirectoryOptionVisible = false;
-        if (!act.ADV().mMenuOptionShowHideFileNamesEnabled) showHideFileNamesOptionVisible = false;
-        if (!act.ADV().mMenuOptionNewFolderEnabled) newFolderOptionVisible = false;
-
-        menu.findItem(R.id.menuItemNewFolder).setVisible(newFolderOptionVisible);
-        menu.findItem(R.id.menuItemListView).setVisible(listViewOptionVisible);
-        menu.findItem(R.id.menuItemTilesView).setVisible(tilesViewOptionVisible);
-        menu.findItem(R.id.menuItemGalleryView).setVisible(galleryViewOptionVisible);
-        menu.findItem(R.id.menuItemColumnCount).setVisible(columnCountOptionVisible);
-        menu.findItem(R.id.menuItemResetDir).setVisible(resetDirectoryOptionVisible);
-        menu.findItem(R.id.menuItemSortOrder).setVisible(sortOrderOptionVisible);
-        menu.findItem(R.id.menuItemShowHideFileNames).setVisible(showHideFileNamesOptionVisible);
+        if (!act.ADV.menuOptionListViewEnabled) listViewOptionVisible = false
+        if (!act.ADV.menuOptionTilesViewEnabled) tilesViewOptionVisible = false
+        if (!act.ADV.menuOptionGalleryViewEnabled) galleryViewOptionVisible = false
+        if (!act.ADV.menuOptionColumnCountEnabled) columnCountOptionVisible = false
+        if (!act.ADV.menuOptionSortOrderEnabled) sortOrderOptionVisible = false
+        if (!act.ADV.menuOptionResetDirectoryEnabled) resetDirectoryOptionVisible = false
+        if (!act.ADV.menuOptionShowHideFileNamesEnabled) showHideFileNamesOptionVisible = false
+        if (!act.ADV.menuOptionNewFolderEnabled) newFolderOptionVisible = false
+        menu.findItem(R.id.menuItemNewFolder).isVisible = newFolderOptionVisible
+        menu.findItem(R.id.menuItemListView).isVisible = listViewOptionVisible
+        menu.findItem(R.id.menuItemTilesView).isVisible = tilesViewOptionVisible
+        menu.findItem(R.id.menuItemGalleryView).isVisible = galleryViewOptionVisible
+        menu.findItem(R.id.menuItemColumnCount).isVisible = columnCountOptionVisible
+        menu.findItem(R.id.menuItemResetDir).isVisible = resetDirectoryOptionVisible
+        menu.findItem(R.id.menuItemSortOrder).isVisible = sortOrderOptionVisible
+        menu.findItem(R.id.menuItemShowHideFileNames).isVisible = showHideFileNamesOptionVisible
     }
 
-    static boolean onOptionsItemSelected(MultiBrowserActivity act, MenuItem item)
+    @JvmStatic
+    fun onOptionsItemSelected(act: MultiBrowserActivity, item: MenuItem): Boolean
     {
-        int itemId = item.getItemId();
-
+        val itemId = item.itemId
         if (itemId == R.id.menuItemNewFolder)
         {
-            MyInputDialog dlg = new MyInputDialog(act, "Create New Folder", "New Folder Name", new MyInputDialog.DoSomethingWithResult()
-            {
-                @Override
-                public void doSomething(String result)
+            var dir = act.OPT.currentDir ?: return true
+            val dlg = MyInputDialog(
+                act,
+                "Create New Folder",
+                "New Folder Name",
+                object : MyInputDialog.DoSomethingWithResult
                 {
-                    result = result.trim();
-
-                    if (result.isEmpty()) return;
-
-                    String dir = act.OPT().mCurrentDir;
-
-                    if (!dir.endsWith("/")) dir += "/";
-
-                    dir += result;
-
-                    try
+                    override fun doSomething(result: String?)
                     {
-                        if (new File(dir).exists())
+                        var result = result
+                        result = result!!.trim { it <= ' ' }
+                        if (result.isEmpty()) return
+                        if (!dir.endsWith("/")) dir += "/"
+                        dir += result
+                        try
                         {
-                            MyMessageBox.show(
+                            if (File(dir).exists())
+                            {
+                                show(
                                     act,
                                     "Directory Exists",
                                     "The directory already exists.",
                                     MyMessageBox.ButtonsType.Ok,
-                                    null, null);
-
-                            return;
-                        }
-
-                        boolean success = new File(dir).mkdirs();
-
-                        if (!success)
-                        {
-                            MyMessageBox.show(
+                                    null, null
+                                )
+                                return
+                            }
+                            val success = File(dir).mkdirs()
+                            if (!success)
+                            {
+                                show(
                                     act,
                                     "Error",
                                     "Could not create directory.",
                                     MyMessageBox.ButtonsType.Ok,
-                                    null, null);
-
-                            return;
+                                    null, null
+                                )
+                                return
+                            }
+                            act.refreshView(dir, true, false)
                         }
-
-                        act.refreshView(dir, true, false);
+                        catch (ex: Exception)
+                        {
+                        }
                     }
-                    catch (Exception ex) { }
-                }
-            });
-
-            dlg.show();
-
-            return true;
+                })
+            dlg.show()
+            return true
         }
-
         if (itemId == R.id.menuItemListView)
         {
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List) return false;
-
-            act.OPT().mBrowserViewType = MultiBrowserOptions.BrowserViewType.List;
-
-            act.refreshView(true, true);
-
-            return true;
+            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List) return false
+            act.OPT.browserViewType = MultiBrowserOptions.BrowserViewType.List
+            act.refreshView(true, true)
+            return true
         }
-
         if (itemId == R.id.menuItemTilesView)
         {
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Tiles) return false;
-
-            act.OPT().mBrowserViewType = MultiBrowserOptions.BrowserViewType.Tiles;
-
-            act.refreshView(true, true);
-
-            return true;
+            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Tiles) return false
+            act.OPT.browserViewType = MultiBrowserOptions.BrowserViewType.Tiles
+            act.refreshView(true, true)
+            return true
         }
-
         if (itemId == R.id.menuItemGalleryView)
         {
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery) return false;
-
-            act.OPT().mBrowserViewType = MultiBrowserOptions.BrowserViewType.Gallery;
-
-            act.refreshView(true, true);
-
-            return true;
+            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery) return false
+            act.OPT.browserViewType = MultiBrowserOptions.BrowserViewType.Gallery
+            act.refreshView(true, true)
+            return true
         }
-
         if (itemId == R.id.menuItemColumnCount)
         {
-            String[] counts = new String[10];
-
-            for (int i = 0; i < 10; i++) counts[i] = "" + (i + 1);
-
-            MyListDialog listDlg = new MyListDialog();
-
-            boolean galleryView = act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery;
-
-            int columnCount = galleryView ? act.OPT().mGalleryViewColumnCount : act.OPT().mNormalViewColumnCount;
-
-            listDlg.show(act, "Column Count", counts, columnCount - 1, new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int which)
+            val counts = arrayOfNulls<String>(10)
+            for (i in 0..9) counts[i] = "" + (i + 1)
+            val listDlg = MyListDialog()
+            val galleryView =
+                act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery
+            val columnCount =
+                if (galleryView) act.OPT.galleryViewColumnCount else act.OPT.normalViewColumnCount
+            listDlg.show(act, "Column Count", counts, columnCount - 1) { dialog, which ->
+                val count = listDlg.choice + 1
+                var refresh = false
+                if (galleryView)
                 {
-                    int count = listDlg.getChoice() + 1;
-
-                    boolean refresh = false;
-
-                    if (galleryView)
+                    if (count != act.OPT.galleryViewColumnCount)
                     {
-                        if (count != act.OPT().mGalleryViewColumnCount)
+                        act.OPT.galleryViewColumnCount = count
+                        refresh = true
+                    }
+                }
+                else
+                {
+                    if (count != act.OPT.normalViewColumnCount)
+                    {
+                        act.OPT.normalViewColumnCount = count
+                        refresh = true
+                    }
+                }
+                if (refresh) act.refreshView(false, true)
+            }
+            return true
+        }
+        if (itemId == R.id.menuItemResetDir)
+        {
+            act.OPT.currentDir = act.OPT.defaultDir
+            act.refreshView(true, false)
+            return true
+        }
+        if (itemId == R.id.menuItemSortOrder)
+        {
+            val index: Int
+            val sortOrder: MultiBrowserOptions.SortOrder
+            sortOrder =
+                if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+            index = when (sortOrder)
+            {
+                MultiBrowserOptions.SortOrder.PathAscending -> 0
+                MultiBrowserOptions.SortOrder.PathDescending -> 1
+                MultiBrowserOptions.SortOrder.DateAscending -> 2
+                MultiBrowserOptions.SortOrder.DateDescending -> 3
+                MultiBrowserOptions.SortOrder.SizeAscending -> 4
+                MultiBrowserOptions.SortOrder.SizeDescending -> 5
+                else -> 0
+            }
+            val options = arrayOf<String?>(
+                "Path Ascending", "Path Descending",
+                "Date Ascending", "Date Descending",
+                "Size Ascending", "Size Descending"
+            )
+            val listDlg = MyListDialog()
+            listDlg.show(act, "Sort Order", options, index) { dialog, which ->
+                val option = listDlg.choice
+                var order: MultiBrowserOptions.SortOrder? = when (option)
+                {
+                    0 -> MultiBrowserOptions.SortOrder.PathAscending
+                    1 -> MultiBrowserOptions.SortOrder.PathDescending
+                    2 -> MultiBrowserOptions.SortOrder.DateAscending
+                    3 -> MultiBrowserOptions.SortOrder.DateDescending
+                    4 -> MultiBrowserOptions.SortOrder.SizeAscending
+                    5 -> MultiBrowserOptions.SortOrder.SizeDescending
+                    else -> null
+                }
+                var refresh = false
+                if (order != null)
+                {
+                    if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+                    {
+                        if (act.OPT.galleryViewSortOrder != order)
                         {
-                            act.OPT().mGalleryViewColumnCount = count;
-                            refresh = true;
+                            act.OPT.galleryViewSortOrder = order
+                            refresh = true
                         }
                     }
                     else
                     {
-                        if (count != act.OPT().mNormalViewColumnCount)
+                        if (act.OPT.normalViewSortOrder != order)
                         {
-                            act.OPT().mNormalViewColumnCount = count;
-                            refresh = true;
+                            act.OPT.normalViewSortOrder = order
+                            refresh = true
                         }
                     }
-
-                    if (refresh) act.refreshView(false, true);
                 }
-            });
-
-            return true;
-        }
-
-        if (itemId == R.id.menuItemResetDir)
-        {
-            act.OPT().mCurrentDir = act.OPT().mDefaultDir;
-
-            act.refreshView(true, false);
-
-            return true;
-        }
-
-        if (itemId == R.id.menuItemSortOrder)
-        {
-            int index;
-
-            MultiBrowserOptions.SortOrder sortOrder;
-
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
-                sortOrder = act.OPT().mGalleryViewSortOrder;
-            else sortOrder = act.OPT().mNormalViewSortOrder;
-
-            switch (sortOrder)
-            {
-                case PathAscending: index = 0; break;
-                case PathDescending: index = 1; break;
-                case DateAscending: index = 2; break;
-                case DateDescending: index = 3; break;
-                case SizeAscending: index = 4; break;
-                case SizeDescending: index = 5; break;
-                default: index = 0;
+                if (refresh) act.refreshView(true, false)
             }
-
-            String[] options = new String[] {
-                    "Path Ascending", "Path Descending",
-                    "Date Ascending", "Date Descending",
-                    "Size Ascending", "Size Descending" };
-
-            MyListDialog listDlg = new MyListDialog();
-            listDlg.show(act, "Sort Order", options, index, new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    int option = listDlg.getChoice();
-
-                    MultiBrowserOptions.SortOrder sortOrder = null;
-
-                    switch (option)
-                    {
-                        case 0:
-                        {
-                            sortOrder = MultiBrowserOptions.SortOrder.PathAscending;
-                            break;
-                        }
-                        case 1:
-                        {
-                            sortOrder = MultiBrowserOptions.SortOrder.PathDescending;
-                            break;
-                        }
-                        case 2:
-                        {
-                            sortOrder = MultiBrowserOptions.SortOrder.DateAscending;
-                            break;
-                        }
-                        case 3:
-                        {
-                            sortOrder = MultiBrowserOptions.SortOrder.DateDescending;
-                            break;
-                        }
-                        case 4:
-                        {
-                            sortOrder = MultiBrowserOptions.SortOrder.SizeAscending;
-                            break;
-                        }
-                        case 5:
-                        {
-                            sortOrder = MultiBrowserOptions.SortOrder.SizeDescending;
-                            break;
-                        }
-                    }
-
-                    boolean refresh = false;
-
-                    if (sortOrder != null)
-                    {
-                        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
-                        {
-                            if (act.OPT().mGalleryViewSortOrder != sortOrder)
-                            {
-                                act.OPT().mGalleryViewSortOrder = sortOrder;
-                                refresh = true;
-                            }
-                        }
-                        else
-                        {
-                            if (act.OPT().mNormalViewSortOrder != sortOrder)
-                            {
-                                act.OPT().mNormalViewSortOrder = sortOrder;
-                                refresh = true;
-                            }
-                        }
-                    }
-
-                    if (refresh) act.refreshView(true, false);
-                }
-            });
-
-            return true;
+            return true
         }
-
         if (itemId == R.id.menuItemShowHideFileNames)
         {
-            act.OPT().mShowFileNamesInGalleryView = !act.OPT().mShowFileNamesInGalleryView;
-
-            act.refreshView(false, false);
-
-            return true;
+            act.OPT.showFileNamesInGalleryView = !act.OPT.showFileNamesInGalleryView
+            act.refreshView(false, false)
+            return true
         }
-
-        return false;
+        return false
     }
 }

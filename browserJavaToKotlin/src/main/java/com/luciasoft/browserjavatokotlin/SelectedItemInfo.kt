@@ -1,24 +1,10 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-public class SelectedItemInfo
+class SelectedItemInfo internal constructor(@JvmField var path: String, var action: SelectAction)
 {
-    public enum SelectAction { ShortClick, LongClick, SaveButton };
-    String path;
-    SelectAction action;
-
-    SelectedItemInfo(String path, SelectAction action)
+    enum class SelectAction
     {
-        this.path = path;
-        this.action = action;
+        ShortClick, LongClick, SaveButton
     }
 
-    public String getPath()
-    {
-        return path;
-    }
-
-    public SelectAction getAction()
-    {
-        return action;
-    }
 }

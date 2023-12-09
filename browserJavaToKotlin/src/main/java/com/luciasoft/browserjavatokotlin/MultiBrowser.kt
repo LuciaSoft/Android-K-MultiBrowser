@@ -1,12 +1,11 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-import android.app.Application;
+import android.app.Application
 
-public class MultiBrowser extends Application
+class MultiBrowser : Application()
 {
-    @Override
-    public void onCreate()
+    override fun onCreate()
     {
-        super.onCreate();
+        super.onCreate()
     }
 }

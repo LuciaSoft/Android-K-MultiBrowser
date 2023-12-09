@@ -1,337 +1,290 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.provider.MediaStore;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.provider.MediaStore
+import android.view.LayoutInflater
+import android.view.View
+import android.view.View.OnLongClickListener
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.luciasoft.browserjavatokotlin.Utils.getShortName
+import com.luciasoft.collections.DirectoryItem
+import com.luciasoft.collections.FileItem
+import java.io.File
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import com.luciasoft.browserjavatokotlin.R;
-
-class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
+internal class MyListAdapter(
+    private val act: MultiBrowserActivity,
+    private val itemList: ArrayList<DirectoryItem>
+) : RecyclerView.Adapter<MyViewHolder>()
 {
-    MyListAdapter(MultiBrowserActivity act, ArrayList<DirectoryItem> itemList)
+    private val mIdMap = HashMap<DirectoryItem, Int>()
+
+    init
     {
-        this.act = act;
-        this.itemList = itemList;
-
-        for (int i = 0; i < itemList.size(); i++) mIdMap.put(itemList.get(i), i);
-
-        setHasStableIds(true);
+        for (i in itemList.indices) mIdMap[itemList[i]] = i
+        setHasStableIds(true)
     }
 
-    private HashMap<DirectoryItem, Integer> mIdMap = new HashMap<>();
-    private MultiBrowserActivity act;
-    private ArrayList<DirectoryItem> itemList;
-
-    @Override
-    public long getItemId(int position)
+    override fun getItemId(position: Int): Long
     {
-        DirectoryItem item = itemList.get(position);
-        return mIdMap.get(item);
+        val item = itemList[position]
+        return mIdMap[item]!!.toLong()
     }
 
-    @Override
-    public int getItemCount()
+    override fun getItemCount(): Int
     {
-        return itemList.size();
+        return itemList.size
     }
 
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MyViewHolder
     {
-        View view;
-
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+        val view: View
+        if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List)
         {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(
-                R.layout.list_item_list_view, viewGroup, false);
+            view = LayoutInflater.from(viewGroup.context).inflate(
+                R.layout.list_item_list_view, viewGroup, false
+            )
         }
         else
         {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(
-                R.layout.list_item_tiles_view, viewGroup, false);
-
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery && !act.OPT().mShowFileNamesInGalleryView)
-                view.findViewById(R.id.listItemText).setVisibility(View.GONE);
-            else
-                view.findViewById(R.id.listItemText).setVisibility(View.VISIBLE);
+            view = LayoutInflater.from(viewGroup.context).inflate(
+                R.layout.list_item_tiles_view, viewGroup, false
+            )
+            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery && !act.OPT.showFileNamesInGalleryView) view.findViewById<View>(
+                R.id.listItemText
+            ).visibility = View.GONE
+            else view.findViewById<View>(R.id.listItemText).visibility = View.VISIBLE
         }
-
-        return new MyViewHolder(view, act);
+        return MyViewHolder(view, act)
     }
 
-    @Override
-    public void onBindViewHolder(MyViewHolder viewHolder, int i)
+    override fun onBindViewHolder(viewHolder: MyViewHolder, i: Int)
     {
-        LinearLayout listItem = viewHolder.listItem;
-
-        DirectoryItem item = itemList.get(i);
-
-        String path = item.getPath();
-        String name = item.getName();
-
-        viewHolder.title.setText(name);
-
-        ImageView image = viewHolder.image;
-
-        boolean exists;
-        {
-            try { exists = new File(path).exists(); }
-            catch (Exception ex) { exists = false; }
+        val listItem = viewHolder.listItem
+        val item = itemList[i]
+        val path = item.path
+        val name = item.name
+        viewHolder.title.text = name
+        val image = viewHolder.image
+        var exists: Boolean
+        run {
+            exists = try
+            {
+                File(path).exists()
+            }
+            catch (ex: Exception)
+            {
+                false
+            }
         }
-
         if (!exists)
         {
-            String infoType;
-            int iconId;
-
-            if (item instanceof FileItem)
+            val infoType: String
+            val iconId: Int
+            if (item is FileItem)
             {
-                infoType = "file";
-                iconId = R.mipmap.ic_file_x;
+                infoType = "file"
+                iconId = R.mipmap.ic_file_x
             }
-            else // if (item instanceof MultiBrowserDirectoryItem.FolderItem)
+            else  // if (item instanceof MultiBrowserDirectoryItem.FolderItem)
             {
-                infoType = "folder";
-                iconId = R.mipmap.ic_folder_x;
+                infoType = "folder"
+                iconId = R.mipmap.ic_folder_x
             }
-
-            image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            image.setImageBitmap(BitmapFactory.decodeResource(act.getResources(), iconId));
-
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+            image.scaleType = ImageView.ScaleType.FIT_CENTER
+            image.setImageBitmap(BitmapFactory.decodeResource(act.resources, iconId))
+            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List)
             {
-                String str = infoType + " not found";
-                viewHolder.info.setText(str);
+                val str = "$infoType not found"
+                viewHolder.info!!.text = str
             }
-
-            listItem.setClickable(false);
-            listItem.setLongClickable(false);
-            listItem.setOnClickListener(null);
-            listItem.setOnLongClickListener(null);
-
-            return;
+            listItem.isClickable = false
+            listItem.isLongClickable = false
+            listItem.setOnClickListener(null)
+            listItem.setOnLongClickListener(null)
+            return
         }
-
-        boolean galleryView = act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery;
-
-        boolean isFile = item instanceof FileItem;
-
+        val galleryView = act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery
+        val isFile = item is FileItem
         if (isFile)
         {
-            Bitmap thumb = null;
-
-            if ((galleryView && act.OPT().mShowImagesWhileBrowsingGallery) ||
-                (!galleryView && act.OPT().mShowImagesWhileBrowsingNormal))
+            var thumb: Bitmap? = null
+            if (galleryView && act.OPT.showImagesWhileBrowsingGallery || !galleryView && act.OPT.showImagesWhileBrowsingNormal)
             {
-                FileItem fileItem = (FileItem)item;
-
-                Integer imageId = fileItem.getImageId();
-
+                val fileItem = item as FileItem
+                val imageId = fileItem.imageId
                 if (imageId != null)
                 {
-                    try
+                    thumb = try
                     {
-                        thumb = MediaStore.Images.Thumbnails.getThumbnail(
-                            act.getContentResolver(), imageId,
-                            MediaStore.Images.Thumbnails.MINI_KIND, null);
+                        MediaStore.Images.Thumbnails.getThumbnail(
+                            act.contentResolver, imageId.toLong(),
+                            MediaStore.Images.Thumbnails.MINI_KIND, null
+                        )
                     }
-                    catch (Exception ex) { thumb = null; }
-
+                    catch (ex: Exception)
+                    {
+                        null
+                    }
                     if (thumb != null)
                     {
-                        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        image.setImageBitmap(thumb);
+                        image.scaleType = ImageView.ScaleType.CENTER_CROP
+                        image.setImageBitmap(thumb)
                     }
                 }
             }
-
             if (thumb == null)
             {
-                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                image.setImageBitmap(BitmapFactory.decodeResource(act.getResources(), R.mipmap.ic_file));
+                image.scaleType = ImageView.ScaleType.FIT_CENTER
+                image.setImageBitmap(BitmapFactory.decodeResource(act.resources, R.mipmap.ic_file))
             }
         }
-        else // item instanceof MultiBrowserDirectoryItem.FolderItem
+        else  // item instanceof MultiBrowserDirectoryItem.FolderItem
         {
-            image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            image.setImageBitmap(BitmapFactory.decodeResource(act.getResources(), R.mipmap.ic_folder));
+            image.scaleType = ImageView.ScaleType.FIT_CENTER
+            image.setImageBitmap(BitmapFactory.decodeResource(act.resources, R.mipmap.ic_folder))
         }
-
-        boolean hidden;
-        {
-            try { hidden = new File(path).isHidden(); }
-            catch (Exception ex) { hidden = false; }
+        var hidden: Boolean
+        run {
+            hidden = try
+            {
+                File(path).isHidden
+            }
+            catch (ex: Exception)
+            {
+                false
+            }
         }
-        if (hidden) image.setImageAlpha(127);
-        else image.setImageAlpha(255);
-
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
-            viewHolder.info.setText(item.getInfo());
-
-        boolean loadFilesFolders = act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders;
-        boolean saveFilesFolders = act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders;
-        boolean loadFolders = act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.LoadFolders;
-        boolean saveFolders = act.OPT().mBrowseMode == MultiBrowserOptions.BrowseMode.SaveFolders;
-
-        boolean load =
-            (isFile && loadFilesFolders) ||
-            (!isFile && (loadFolders || loadFilesFolders));
-        boolean save =
-            (isFile && saveFilesFolders) ||
-            (!isFile && (saveFolders || saveFilesFolders));
-
-        boolean saveBoxVisible =
-            act.findViewById(R.id.saveFileLayout).getVisibility() != View.GONE;
-
-        boolean sendToSaveBoxShortClick =
-            save && isFile && saveBoxVisible && act.ADV().mAllowShortClickFileForSave &&
-            (act.ADV().mDebugMode || act.OPT().mOnSelectFileForSave != null) &&
-            act.ADV().mShortClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SaveFile;
-        boolean sendToSaveBoxLongClick =
-            save && isFile && saveBoxVisible && act.ADV().mAllowLongClickFileForSave &&
-            (act.ADV().mDebugMode || act.OPT().mOnSelectFileForSave != null) &&
-            act.ADV().mLongClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SaveFile;
-
-        boolean shortClickable =
-            act.ADV().mDebugMode || !isFile || sendToSaveBoxShortClick ||
-            (load && act.ADV().mAllowShortClickFileForLoad && act.OPT().mOnSelectFileForLoad != null) ||
-            (save && act.ADV().mAllowShortClickFileForSave && act.OPT().mOnSelectFileForSave != null);
-        boolean longClickable =
-            act.ADV().mDebugMode || sendToSaveBoxLongClick ||
-            (isFile &&
-                ((load && act.ADV().mAllowLongClickFileForLoad && act.OPT().mOnSelectFileForLoad != null) ||
-                (save && act.ADV().mAllowLongClickFileForSave && act.OPT().mOnSelectFileForSave != null))) ||
-            (!isFile &&
-                ((load && act.ADV().mAllowLongClickFolderForLoad && act.OPT().mOnSelectFolderForLoad != null) ||
-                (save && act.ADV().mAllowLongClickFolderForSave && act.OPT().mOnSelectFolderForSave != null)));
-
-        listItem.setClickable(shortClickable);
-        if (!shortClickable) listItem.setOnClickListener(null);
+        if (hidden) image.imageAlpha = 127 else image.imageAlpha = 255
+        if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List) viewHolder.info!!.text =
+            item.info
+        val loadFilesFolders =
+            act.OPT.browseMode == MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders
+        val saveFilesFolders =
+            act.OPT.browseMode == MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders
+        val loadFolders = act.OPT.browseMode == MultiBrowserOptions.BrowseMode.LoadFolders
+        val saveFolders = act.OPT.browseMode == MultiBrowserOptions.BrowseMode.SaveFolders
+        val load = isFile && loadFilesFolders || !isFile && (loadFolders || loadFilesFolders)
+        val save = isFile && saveFilesFolders || !isFile && (saveFolders || saveFilesFolders)
+        val saveBoxVisible = act.findViewById<View>(R.id.saveFileLayout).visibility != View.GONE
+        val sendToSaveBoxShortClick =
+            save && isFile && saveBoxVisible && act.ADV.allowShortClickFileForSave &&
+                (act.ADV.debugMode || act.OPT.onSelectFileForSave != null) && act.ADV.shortClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SaveFile
+        val sendToSaveBoxLongClick =
+            save && isFile && saveBoxVisible && act.ADV.allowLongClickFileForSave &&
+                (act.ADV.debugMode || act.OPT.onSelectFileForSave != null) && act.ADV.longClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SaveFile
+        val shortClickable =
+            act.ADV.debugMode || !isFile || sendToSaveBoxShortClick || load && act.ADV.allowShortClickFileForLoad && act.OPT.onSelectFileForLoad != null || save && act.ADV.allowShortClickFileForSave && act.OPT.onSelectFileForSave != null
+        val longClickable =
+            act.ADV.debugMode || sendToSaveBoxLongClick || isFile && (load && act.ADV.allowLongClickFileForLoad && act.OPT.onSelectFileForLoad != null || save && act.ADV.allowLongClickFileForSave && act.OPT.onSelectFileForSave != null) || !isFile && (load && act.ADV.allowLongClickFolderForLoad && act.OPT.onSelectFolderForLoad != null || save && act.ADV.allowLongClickFolderForSave && act.OPT.onSelectFolderForSave != null)
+        listItem.isClickable = shortClickable
+        if (!shortClickable) listItem.setOnClickListener(null)
         else
         {
-            listItem.setOnClickListener(new OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
+            listItem.setOnClickListener(View.OnClickListener {
+                if (!isFile)
                 {
-                    if (!isFile)
-                    {
-                        act.refreshView(path, false, false);
-                        return;
-                    }
-
-                    // item istanceof FileItem
-
-                    if (load)
-                    {
-                        act.onSelect(true, true, false, false, path);
-                    }
-                    else
-                    {
-                        boolean saveFile =
-                            !saveBoxVisible || act.ADV().mShortClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile;
-
-                        if (sendToSaveBoxShortClick)
-                            act.setEditTextSaveFileName(Utils.getShortName(path));
-                        if (saveFile) act.onSelect(true, false, false, false, path);
-                    }
+                    act.refreshView(path, false, false)
+                    return@OnClickListener
                 }
-            });
-        }
 
-        listItem.setLongClickable(longClickable);
-        if (!longClickable) listItem.setOnLongClickListener(null);
+                // item istanceof FileItem
+                if (load)
+                {
+                    act.onSelect(true, true, false, false, path)
+                }
+                else
+                {
+                    val saveFile =
+                        !saveBoxVisible || act.ADV.shortClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
+                    if (sendToSaveBoxShortClick) act.setEditTextSaveFileName(
+                        getShortName(
+                            path!!
+                        )
+                    )
+                    if (saveFile) act.onSelect(true, false, false, false, path)
+                }
+            })
+        }
+        listItem.isLongClickable = longClickable
+        if (!longClickable) listItem.setOnLongClickListener(null)
         else
         {
-            listItem.setOnLongClickListener(new View.OnLongClickListener()
-            {
-                @Override
-                public boolean onLongClick(View view)
+            listItem.setOnLongClickListener(OnLongClickListener {
+                if (!isFile)
                 {
-                    if (!isFile)
-                    {
-                        if (load) act.onSelect(false, true, true, false, path);
-                        else act.onSelect(false, false, true, false, path);
-
-                        return true;
-                    }
-
-                    // item istanceof FileItem
-
-                    if (load)
-                    {
-                        act.onSelect(true, true, true, false, path);
-                    }
-                    else
-                    {
-                        boolean saveFile =
-                            !saveBoxVisible || act.ADV().mLongClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile;
-
-                        if (sendToSaveBoxLongClick)
-                            act.setEditTextSaveFileName(Utils.getShortName(path));
-                        if (saveFile) act.onSelect(true, false, true, false, path);
-
-                    }
-
-                    return true;
+                    if (load) act.onSelect(false, true, true, false, path)
+                    else act.onSelect(
+                        false,
+                        false,
+                        true,
+                        false,
+                        path
+                    )
+                    return@OnLongClickListener true
                 }
-            });
+
+                // item istanceof FileItem
+                if (load)
+                {
+                    act.onSelect(true, true, true, false, path)
+                }
+                else
+                {
+                    val saveFile =
+                        !saveBoxVisible || act.ADV.longClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
+                    if (sendToSaveBoxLongClick) act.setEditTextSaveFileName(
+                        getShortName(
+                            path!!
+                        )
+                    )
+                    if (saveFile) act.onSelect(true, false, true, false, path)
+                }
+                true
+            })
         }
     }
 }
 
-class MyViewHolder extends RecyclerView.ViewHolder
+internal class MyViewHolder(view: View, act: MultiBrowserActivity) : RecyclerView.ViewHolder(view)
 {
-    LinearLayout listItem;
-    TextView title;
-    ImageView image;
-    TextView info;
+    var listItem: LinearLayout
+    var title: TextView
+    var image: ImageView
+    var info: TextView? = null
 
-    MyViewHolder(View view, MultiBrowserActivity act)
+    init
     {
-        super(view);
-
-        listItem = (LinearLayout)view;
-        listItem.setBackgroundColor(act.THM().mColorListBackground);
-        title = view.findViewById(R.id.listItemText);
-        title.setTypeface(act.THM().getFontBdIt(act.getAssets()));
-        image = view.findViewById(R.id.listItemIcon);
-        if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+        listItem = view as LinearLayout
+        listItem.setBackgroundColor(act.THM.colorListBackground)
+        title = view.findViewById(R.id.listItemText)
+        title.typeface = act.THM.getFontBdIt(act.assets)
+        image = view.findViewById(R.id.listItemIcon)
+        if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
         {
-            title.setTextColor(act.THM().mColorGalleryItemText);
-            title.setTextSize(act.THM().mUnitSp, act.THM().mSizeGalleryViewItemText);
+            title.setTextColor(act.THM.colorGalleryItemText)
+            title.setTextSize(act.THM.unitSp, act.THM.sizeGalleryViewItemText)
         }
         else
         {
-            title.setTextColor(act.THM().mColorListItemText);
-            if (act.OPT().mBrowserViewType == MultiBrowserOptions.BrowserViewType.List)
+            title.setTextColor(act.THM.colorListItemText)
+            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List)
             {
-                title.setTextSize(act.THM().mUnitSp, act.THM().mSizeListViewItemText);
-                info = view.findViewById(R.id.listItemSubText);
-                info.setTypeface(act.THM().getFontNorm(act.getAssets()));
-                info.setTextColor(act.THM().mColorListItemSubText);
-                info.setTextSize(act.THM().mUnitSp, act.THM().mSizeListViewItemSubText);
-                View accent = view.findViewById(R.id.listItemAccent);
-                accent.setBackgroundColor(act.THM().mColorListAccent);
+                title.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemText)
+                info = view.findViewById(R.id.listItemSubText)
+                info!!.typeface = act.THM.getFontNorm(act.assets)
+                info!!.setTextColor(act.THM.colorListItemSubText)
+                info!!.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemSubText)
+                val accent = view.findViewById<View>(R.id.listItemAccent)
+                accent.setBackgroundColor(act.THM.colorListAccent)
             }
             else
             {
-                title.setTextSize(act.THM().mUnitSp, act.THM().mSizeTilesViewItemText);
+                title.setTextSize(act.THM.unitSp, act.THM.sizeTilesViewItemText)
             }
         }
     }

@@ -1,47 +1,41 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browserjavatokotlin
 
-import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Context
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
 
-import androidx.appcompat.app.AlertDialog;
-
-class MyListDialog
+internal class MyListDialog
 {
-    private int choice = -1;
+    var choice = -1
+        private set
 
-    private void setChoice(int choice)
+    fun show(
+        context: Context?,
+        title: String?,
+        options: Array<String?>?,
+        defaultChoice: Int,
+        onOkClick: DialogInterface.OnClickListener?
+    )
     {
-        this.choice = choice;
-    }
-
-    int getChoice()
-    {
-        return choice;
-    }
-
-    void show(Context context, String title, final String[] options, int defaultChoice, DialogInterface.OnClickListener onOkClick)
-    {
-        if (title == null) title = "";
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-        builder.setTitle(title);
-
-        builder.setSingleChoiceItems(options, defaultChoice, new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
+        var title = title
+        if (title == null) title = ""
+        val builder = AlertDialog.Builder(
+            context!!
+        )
+        builder.setTitle(title)
+        builder.setSingleChoiceItems(
+            options,
+            defaultChoice,
+            object : DialogInterface.OnClickListener
             {
-                setChoice(which);
-            }
-        });
-
-        builder.setPositiveButton("OK", onOkClick);
-
-        builder.setNegativeButton("Cancel", null);
-
-        AlertDialog dialog = builder.create();
-
-        dialog.show();
+                override fun onClick(dialog: DialogInterface, which: Int)
+                {
+                    choice = which
+                }
+            })
+        builder.setPositiveButton("OK", onOkClick)
+        builder.setNegativeButton("Cancel", null)
+        val dialog = builder.create()
+        dialog.show()
     }
 }
