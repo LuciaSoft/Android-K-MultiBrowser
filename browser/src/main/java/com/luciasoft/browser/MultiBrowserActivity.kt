@@ -291,7 +291,7 @@ class MultiBrowserActivity() : AppCompatActivity()
     {
         (findViewById<View>(R.id.parDirLayout) as LinearLayout).setOnClickListener(
             View.OnClickListener {
-                val parentDir = if (OPT.currentDir == null) null else getParentDir(OPT.currentDir)
+                val parentDir = if (OPT.currentDir == null) null else getParentDir(OPT.currentDir!!)
                 if (!parentDir.isNullOrEmpty()) refreshView(parentDir, false, false)
             })
         (findViewById<View>(R.id.parentDirIcon) as ImageView).setImageResource(R.mipmap.ic_folder_up)

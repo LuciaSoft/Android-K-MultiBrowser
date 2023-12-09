@@ -77,7 +77,7 @@ class OptionsMenu
         val itemId = item.itemId
         if (itemId == R.id.menuItemNewFolder)
         {
-            val dir = act.OPT.currentDir ?: return true
+            var dir = act.OPT.currentDir ?: return true
             
             val dlg = MyInputDialog(
                 act,

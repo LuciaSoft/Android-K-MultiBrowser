@@ -10,19 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="C">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/AdvancedOptions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/AdvancedOptions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/CustomTypefaceSpan.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/CustomTypefaceSpan.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/ListUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/ListUtils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MultiBrowserActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MultiBrowserActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MultiBrowserActivity.kt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MultiBrowserActivity.kt.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyListAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyRecyclerView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyRecyclerView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Options.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Options.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/OptionsMenu.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/OptionsMenu.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/ThemeOptions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/ThemeOptions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Utils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Utils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Utils2.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Utils2.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,22 +55,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;android-custom-viewC:/Users/dvdcp/AndroidStudioProjects/AS-K-MultiBrowser/browser/src/main/java/com/luciasoft/browser/MyRecyclerView.kt_SELECTED&quot;: &quot;MyRecyclerView&quot;,
-    &quot;android-custom-viewC:/Users/dvdcp/AndroidStudioProjects/New-K-MultiBrowser/browser/src/main/java/com/lucerta/multibrowser/MyRecyclerView.java_SELECTED&quot;: &quot;MyRecyclerView&quot;,
-    &quot;android-custom-viewC:/Users/dvdcp/AndroidStudioProjects/New-K-MultiBrowser/browser/src/main/java/com/luciasoft/browser/MyRecyclerView.kt_SELECTED&quot;: &quot;MyRecyclerView&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/dvdcp/AndroidStudioProjects/New-K-MultiBrowser/browser/src/main/java/com/lucerta/mybrowser&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "android-custom-viewC:/Users/dvdcp/AndroidStudioProjects/AS-K-MultiBrowser/browser/src/main/java/com/luciasoft/browser/MyRecyclerView.kt_SELECTED": "MyRecyclerView",
+    "android-custom-viewC:/Users/dvdcp/AndroidStudioProjects/New-K-MultiBrowser/browser/src/main/java/com/lucerta/multibrowser/MyRecyclerView.java_SELECTED": "MyRecyclerView",
+    "android-custom-viewC:/Users/dvdcp/AndroidStudioProjects/New-K-MultiBrowser/browser/src/main/java/com/luciasoft/browser/MyRecyclerView.kt_SELECTED": "MyRecyclerView",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "C:/Users/dvdcp/AndroidStudioProjects/Old-J-MultiBrowser",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\dvdcp\AndroidStudioProjects\New-K-MultiBrowser\browser\src\main\java\com\lucerta\mybrowser" />
