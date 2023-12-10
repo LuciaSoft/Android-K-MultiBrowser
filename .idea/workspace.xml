@@ -10,20 +10,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="?">
+      <change afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Permissions.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/collections/src/main/java/com/luciasoft/PropertyInfo.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MultiBrowserActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MultiBrowserActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MyListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MyListAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/OnSelectItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/OnSelectItem.kt.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Options.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Options.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/SelectedItemInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/SelectAction.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/XmlOperations.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/XmlOperations.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collections/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/collections/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/src/main/java/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/main/java/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\dvdcp\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[ZY22H3N3MD]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -101,6 +103,7 @@
       <recent name="com.luciasoft.browser.test" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.luciasoft.browserjavatokotlin" />
       <recent name="com.luciasoft.xml" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -541,7 +544,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702232239354</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="?">
+      <created>1702235387185</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1702235387185</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -560,16 +570,5 @@
     <MESSAGE value="C" />
     <MESSAGE value="?" />
     <option name="LAST_COMMIT_MESSAGE" value="?" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Options.kt</url>
-          <line>214</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

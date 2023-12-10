@@ -1,11 +1,17 @@
-import com.luciasoft.collections.BSTofString
-import com.luciasoft.collections.randomize
+import PropertyInfo.Companion.getPropertyInfos
 
-fun main(args: Array<String>)
+data class MyData(val name: String, val age: Int)
 {
-    println("KOTLIN...")
+    var ed = "ED"
+}
 
-    val bst = BSTofString(false, true, true)
-    bst.add("fred", "dave", "al", "irene", "gil")
-    for (name in bst) println(name)
+fun main(args: Array<String>) {
+
+    val data = MyData(name = "Sanford", age = 19)
+
+    val array = getPropertyInfos(data)
+
+    array.forEach {
+        println("" + it.name + " ... " + it.type + " ... " + it.value)
+    }
 }

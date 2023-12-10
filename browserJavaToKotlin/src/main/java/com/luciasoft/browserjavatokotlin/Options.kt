@@ -1,6 +1,10 @@
 package com.luciasoft.browserjavatokotlin
 
+import PropertyInfo
 import android.os.Environment
+import com.luciasoft.xml.XmlUtils
+import org.w3c.dom.Document
+import org.w3c.dom.Element
 import java.io.IOException
 import java.util.Arrays
 import java.util.Locale
@@ -232,7 +236,6 @@ class Options
     var showImagesWhileBrowsingNormal = false
     var showImagesWhileBrowsingGallery = false
     var allowAccessToRestrictedFolders = false
-
     lateinit var mFileFilters: Array<Array<String>>
     lateinit var mFileFilterDescrips: Array<String>
 
