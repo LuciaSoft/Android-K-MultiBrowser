@@ -173,14 +173,14 @@ internal class MyListAdapter(
         val saveBoxVisible = act.findViewById<View>(R.id.saveFileLayout).visibility != View.GONE
         val sendToSaveBoxShortClick =
             save && isFile && saveBoxVisible && act.ADV.allowShortClickFileForSave &&
-                (act.ADV.debugMode || act.OPT.onSelectFileForSave != null) && act.ADV.shortClickSaveFileBehavior != Options.SaveFileBehavior.SaveFile
+                act.ADV.debugMode && act.ADV.shortClickSaveFileBehavior != Options.SaveFileBehavior.SaveFile
         val sendToSaveBoxLongClick =
             save && isFile && saveBoxVisible && act.ADV.allowLongClickFileForSave &&
-                (act.ADV.debugMode || act.OPT.onSelectFileForSave != null) && act.ADV.longClickSaveFileBehavior != Options.SaveFileBehavior.SaveFile
+                act.ADV.debugMode && act.ADV.longClickSaveFileBehavior != Options.SaveFileBehavior.SaveFile
         val shortClickable =
-            act.ADV.debugMode || !isFile || sendToSaveBoxShortClick || load && act.ADV.allowShortClickFileForLoad && act.OPT.onSelectFileForLoad != null || save && act.ADV.allowShortClickFileForSave && act.OPT.onSelectFileForSave != null
+            act.ADV.debugMode || !isFile || sendToSaveBoxShortClick || load && act.ADV.allowShortClickFileForLoad || save && act.ADV.allowShortClickFileForSave
         val longClickable =
-            act.ADV.debugMode || sendToSaveBoxLongClick || isFile && (load && act.ADV.allowLongClickFileForLoad && act.OPT.onSelectFileForLoad != null || save && act.ADV.allowLongClickFileForSave && act.OPT.onSelectFileForSave != null) || !isFile && (load && act.ADV.allowLongClickFolderForLoad && act.OPT.onSelectFolderForLoad != null || save && act.ADV.allowLongClickFolderForSave && act.OPT.onSelectFolderForSave != null)
+            act.ADV.debugMode || sendToSaveBoxLongClick || isFile && (load && act.ADV.allowLongClickFileForLoad || save && act.ADV.allowLongClickFileForSave) || !isFile && (load && act.ADV.allowLongClickFolderForLoad || save && act.ADV.allowLongClickFolderForSave)
         listItem.isClickable = shortClickable
         if (!shortClickable) listItem.setOnClickListener(null)
         else

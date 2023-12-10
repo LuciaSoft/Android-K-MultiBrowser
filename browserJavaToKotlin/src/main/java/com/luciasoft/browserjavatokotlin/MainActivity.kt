@@ -30,13 +30,13 @@ class MainActivity
         )
         options2.fileFilterIndex = 3
         options2.browseMode = Options.BrowseMode.SaveFilesAndOrFolders
-        if (true) options2.onSelectFileForSave = object : OnSelectItem
+        /*if (true) options2.onSelectFileForSave = object : OnSelectItem
         {
             override fun onSelect(info: SelectedItemInfo)
             {
                 Toast.makeText(this@MainActivity, info.path, Toast.LENGTH_LONG).show()
             }
-        }
+        }*/
         val options3 = Options()
         //options3.advanced().setDebugMode(true);
 

@@ -206,10 +206,6 @@ class Options
         showImagesWhileBrowsingNormal = true
         showImagesWhileBrowsingGallery = true
         allowAccessToRestrictedFolders = false
-        onSelectFileForLoad = null
-        onSelectFileForSave = null
-        onSelectFolderForLoad = null
-        onSelectFolderForSave = null
         mAdvancedOptions.reset()
         mThemeOptions.reset()
     }
@@ -236,11 +232,6 @@ class Options
     var showImagesWhileBrowsingNormal = false
     var showImagesWhileBrowsingGallery = false
     var allowAccessToRestrictedFolders = false
-
-    var onSelectFileForLoad: OnSelectItem? = null
-    var onSelectFileForSave: OnSelectItem? = null
-    var onSelectFolderForLoad: OnSelectItem? = null
-    var onSelectFolderForSave: OnSelectItem? = null
 
     lateinit var mFileFilters: Array<Array<String>>
     lateinit var mFileFilterDescrips: Array<String>

@@ -48,7 +48,7 @@ open class MultiBrowserActivity
     : AppCompatActivity()
 {
     //private var tmpOptions: MultiBrowserOptions? = null
-    
+
     lateinit var DAT: DataHolder
     lateinit var OPT: Options
     lateinit var ADV: AdvancedOptions
@@ -103,10 +103,10 @@ open class MultiBrowserActivity
 
         configureScreenRotation();
     }*/
-    
+
     lateinit var mRecyclerView: MyRecyclerView
     lateinit var mEditTextSaveFileName: EditText
-    
+
     fun setEditTextSaveFileName(name: String)
     {
         mEditTextSaveFileName.setText(name)
@@ -116,12 +116,15 @@ open class MultiBrowserActivity
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_layout)
-        
-        DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))[DataHolder::class.java]
+
+        DAT = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        )[DataHolder::class.java]
         OPT = DAT.mOptions!!
         ADV = OPT.mAdvancedOptions
         THM = OPT.mThemeOptions
-        
+
         /*if (tmpOptions != null)
         {
             DAT.mOptions = tmpOptions
@@ -130,7 +133,7 @@ open class MultiBrowserActivity
         configureScreenRotation()
         try
         {
-            with (supportActionBar!!)
+            with(supportActionBar!!)
             {
                 val tv = TextView(applicationContext)
                 tv.typeface = THM.getFontBold(assets)
@@ -267,7 +270,7 @@ open class MultiBrowserActivity
     {
         if (DAT.mDefaultScreenOrientation == null) DAT.mDefaultScreenOrientation =
             requestedOrientation
-        
+
         if (ADV.screenRotationMode === Options.ScreenMode.AllowPortraitUprightOnly)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -627,38 +630,29 @@ open class MultiBrowserActivity
                 return
             }
         }
-        val onSelectItemObject = getOnSelectItemObject(file, load)
-        if (onSelectItemObject != null)
-        {
-            val action: SelectedItemInfo.SelectAction
-            if (saveButton) action = SelectedItemInfo.SelectAction.SaveButton
-            else if (longClick) action = SelectedItemInfo.SelectAction.LongClick
-            else action = SelectedItemInfo.SelectAction.ShortClick
-            onSelectItemObject.onSelect(SelectedItemInfo(path, action))
-        }
-        else
-        {
-            if (ADV.debugMode)
-            {
-                var title: String = ""
-                title += if (load) "LOAD " else "SAVE "
-                title += if (file) "FILE " else "FOLDER "
-                title += if (saveButton) "(SAVE BUTTON)" else (if (longClick) "(LONG CLICK)" else "(SHORT CLICK)")
-                val message = "PATH=[$path]"
-                show(this, title, message, MyMessageBox.ButtonsType.Ok, null, null)
-            }
-        }
+
+        val action =
+            if (saveButton) SelectAction.SaveButton
+            else if (longClick) SelectAction.LongClick
+            else SelectAction.ShortClick
+
+        onSelectItem(path, action, file, load)
     }
 
-    private fun getOnSelectItemObject(file: Boolean, load: Boolean): OnSelectItem?
+    open fun onSelectItem(
+        path: String,
+        action: SelectAction,
+        file: Boolean,
+        load: Boolean)
     {
-        return if (file)
+        if (ADV.debugMode)
         {
-            if (load) OPT.onSelectFileForLoad else OPT.onSelectFileForSave
-        }
-        else
-        {
-            if (load) OPT.onSelectFolderForLoad else OPT.onSelectFolderForSave
+            var title: String = ""
+            title += if (load) "LOAD " else "SAVE "
+            title += if (file) "FILE " else "FOLDER "
+            title += if (action == SelectAction.SaveButton) "(SAVE BUTTON)" else (if (action == SelectAction.LongClick) "(LONG CLICK)" else "(SHORT CLICK)")
+            val message = "PATH=[$path]"
+            show(this, title, message, MyMessageBox.ButtonsType.Ok, null, null)
         }
     }
 
