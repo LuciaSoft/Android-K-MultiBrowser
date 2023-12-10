@@ -18,7 +18,7 @@ class Options
     @Throws(IOException::class, TransformerException::class, ParserConfigurationException::class)
     fun saveXml(filePath: String)
     {
-        XmlOperations.saveOptions(this, filePath)
+        XmlOperations.saveXml(filePath, this)
     }
 
     enum class FontMode(private val value: Int)
