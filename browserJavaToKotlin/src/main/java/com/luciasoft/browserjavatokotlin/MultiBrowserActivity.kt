@@ -44,7 +44,8 @@ import com.luciasoft.browserjavatokotlin.Utils.toastLong
 import com.luciasoft.collections.DirectoryItem
 import java.io.File
 
-open class MultiBrowserActivity : AppCompatActivity
+open class MultiBrowserActivity
+    : AppCompatActivity
 {
     //private var tmpOptions: MultiBrowserOptions? = null
     
