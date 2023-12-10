@@ -3,7 +3,7 @@ package com.luciasoft.browserjavatokotlin
 import android.os.Bundle
 import android.widget.Toast
 
-class MainActivity : MultiBrowserActivity()
+class MainActivity : MultiBrowserActivity
 {
     override fun onCreate(savedInstanceState: Bundle?)
     {
