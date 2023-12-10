@@ -12,8 +12,7 @@ internal class MyYesNoDialog
             context: Context,
             title: String = "",
             message: String = "",
-            onYesClick: DialogInterface.OnClickListener? = null
-        )
+            onYesClick: DialogInterface.OnClickListener? = null)
         {
             show(context, title, message, MyMessageBox.ButtonsType.YesNo, onYesClick, null)
         }
