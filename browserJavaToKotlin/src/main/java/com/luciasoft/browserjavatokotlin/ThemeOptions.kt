@@ -103,7 +103,7 @@ class ThemeOptions
     var sizeSaveFileButtonText = 0f
     var sizeFileFilterText = 0f
     var sizeFileFilterPopupText = 0f
-    var fontMode: MultiBrowserOptions.FontMode? = null
+    lateinit var fontMode: MultiBrowserOptions.FontMode
 
     private var mFontAppDefaultNorm: Typeface? = null
     private var mFontAppDefaultBold: Typeface? = null
