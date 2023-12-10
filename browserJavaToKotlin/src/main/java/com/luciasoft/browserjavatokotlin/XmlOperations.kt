@@ -41,7 +41,7 @@ internal object XmlOperations
             "DefaultSaveFileName",
             options.fileFilterIndex,
             "FileFilterIndex",
-            options.fileFilterString,
+            options.getFileFilterString(),
             "FileFilterString",
             options.galleryViewColumnCount,
             "GalleryViewColumnCount",
@@ -193,7 +193,7 @@ internal object XmlOperations
             parseStringOption(
                 normal,
                 "BrowserTitle"
-            )
+            )?: throw Exception()
         options.browserViewType =
             MultiBrowserOptions.BrowserViewType.valueOf(
                 parseIntOption(
@@ -220,7 +220,7 @@ internal object XmlOperations
             parseStringOption(
                 normal,
                 "DefaultSaveFileName"
-            )
+            )?: throw Exception()
         options.fileFilterIndex =
             parseIntOption(
                 normal,
@@ -230,7 +230,7 @@ internal object XmlOperations
             parseStringOption(
                 normal,
                 "FileFilterString"
-            )!!
+            )?: throw Exception()
         )
         options.galleryViewColumnCount =
             parseIntOption(
@@ -243,7 +243,7 @@ internal object XmlOperations
                     normal,
                     "GalleryViewSortOrder"
                 )
-            )!!
+            )
         options.normalViewColumnCount =
             parseIntOption(
                 normal,
@@ -255,7 +255,7 @@ internal object XmlOperations
                     normal,
                     "NormalViewSortOrder"
                 )
-            )!!
+            )
         options.showFileNamesInGalleryView =
             parseBooleanOption(
                 normal,
@@ -729,7 +729,7 @@ internal object XmlOperations
         loadOptions(options, doc)
     }
 
-    fun parseStringOption(parentEl: Element, elName: String?): String?
+    fun parseStringOption(parentEl: Element, elName: String): String?
     {
         val el = parentEl.getElementsByTagName(elName).item(0) as Element
         var value = el.getAttribute("val")

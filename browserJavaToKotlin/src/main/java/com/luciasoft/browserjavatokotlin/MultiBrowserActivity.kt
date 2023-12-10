@@ -44,15 +44,15 @@ import com.luciasoft.browserjavatokotlin.Utils.toastLong
 import com.luciasoft.collections.DirectoryItem
 import java.io.File
 
-open class MultiBrowserActivity() : AppCompatActivity()
+open class MultiBrowserActivity : AppCompatActivity()
 {
     //private var tmpOptions: MultiBrowserOptions? = null
     
     lateinit var APP: MultiBrowser
     lateinit var DAT: DataHolder
     lateinit var OPT: MultiBrowserOptions
-    lateinit var ADV: MultiBrowserOptions.Advanced
-    lateinit var THM: MultiBrowserOptions.Theme
+    lateinit var ADV: AdvancedOptions
+    lateinit var THM: ThemeOptions
 
     /*val options: MultiBrowserOptions?
         get()
@@ -120,8 +120,8 @@ open class MultiBrowserActivity() : AppCompatActivity()
         APP = application as MultiBrowser
         DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))[DataHolder::class.java]
         OPT = DAT.mOptions!!
-        ADV = OPT.Advanced()
-        THM = OPT.Theme()
+        ADV = OPT.mAdvancedOptions
+        THM = OPT.mThemeOptions
         
         /*if (tmpOptions != null)
         {

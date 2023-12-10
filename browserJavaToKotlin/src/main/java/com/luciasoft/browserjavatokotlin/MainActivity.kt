@@ -8,7 +8,7 @@ class MainActivity : MultiBrowserActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         val options1 = MultiBrowserOptions()
-        options1.advanced().debugMode = true
+        options1.mAdvancedOptions.debugMode = true
         options1.setFileFilter(
             " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
                 " PNG Image Files ( *.png ) |*.png|" +
@@ -18,9 +18,9 @@ class MainActivity : MultiBrowserActivity()
         options1.fileFilterIndex = 3
         options1.browseMode = MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders
         val options2 = MultiBrowserOptions()
-        options2.advanced().debugMode = false
-        options2.advanced().allowLongClickFileForSave = true
-        options2.advanced().allowShortClickFileForSave = false
+        options2.mAdvancedOptions.debugMode = false
+        options2.mAdvancedOptions.allowLongClickFileForSave = true
+        options2.mAdvancedOptions.allowShortClickFileForSave = false
         options2.setFileFilter(
             " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
                 " PNG Image Files ( *.png ) |*.png|" +
