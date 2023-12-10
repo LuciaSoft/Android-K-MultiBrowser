@@ -10,8 +10,10 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Locale
 
-internal object Utils
+internal class Utils
 {
+    companion object
+    {
     @Throws(IOException::class)
     fun copyFileFromAssets(assets: AssetManager, inputFilePath: String, outputFilePath: String)
     {
@@ -28,8 +30,7 @@ internal object Utils
         fos.flush()
         fos.close()
     }
-
-    @JvmStatic
+    
     fun getValidExts(exts: Array<String>?): Array<String>
     {
         if (exts == null) return arrayOf("*")
@@ -46,7 +47,6 @@ internal object Utils
         return if (list.size == 0) arrayOf("*") else list.toTypedArray()
     }
 
-    @JvmStatic
     fun getValidExts(exts: String?): Array<String>
     {
         if (exts == null) return arrayOf("*")
@@ -54,7 +54,6 @@ internal object Utils
         return getValidExts(extArray)
     }
 
-    @JvmStatic
     fun getDateString(dateMs: Long): String
     {
         val t = Time()
@@ -62,7 +61,6 @@ internal object Utils
         return t.format("%m/%d/%Y")
     }
 
-    @JvmStatic
     fun getFileExtensionLowerCaseWithDot(fileNameOrPath: String): String
     {
         val pos1 = fileNameOrPath.lastIndexOf('.')
@@ -72,7 +70,6 @@ internal object Utils
         else fileNameOrPath.substring(pos1).lowercase(Locale.getDefault())
     }
 
-    @JvmStatic
     fun getParentDir(path: String): String
     {
         var path = path
@@ -83,7 +80,6 @@ internal object Utils
         return if (pos == 0) File.separator else path.substring(0, pos)
     }
 
-    @JvmStatic
     fun getShortName(path: String): String
     {
         var path = path
@@ -117,13 +113,11 @@ internal object Utils
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    @JvmStatic
     fun toastLong(context: Context, message: String)
     {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    @JvmStatic
     fun <T> arrayContains(array: Array<T>, item: T): Boolean
     {
         return item in array
@@ -139,7 +133,6 @@ internal object Utils
         return count
     }
 
-    @JvmStatic
     @SuppressLint("DefaultLocale")
     fun getFileSizeString(fileSize: Long): String
     {
@@ -152,7 +145,6 @@ internal object Utils
         return if (fileSize == 1L) "1 byte" else "$fileSize bytes"
     }
 
-    @JvmStatic
     fun filePassesFilter(exts: Array<String>?, fileNameOrPath: String): Boolean
     {
         var exts = exts
@@ -164,5 +156,7 @@ internal object Utils
             if (ext == "*" || ext == fileExt) return true
         }
         return false
+    }
+    
     }
 }
