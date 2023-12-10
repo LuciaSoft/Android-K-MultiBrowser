@@ -16,9 +16,10 @@ import java.io.File
 import java.util.Collections
 import java.util.Random
 
-internal object ListUtils
+internal class ListUtils
 {
-    @JvmStatic
+    companion object
+    {
     fun getImageInfos(act: MultiBrowserActivity): ArrayList<DirectoryItem>?
     {
         val sortOrder = if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
@@ -121,7 +122,6 @@ internal object ListUtils
         return list
     }
 
-    @JvmStatic
     fun getDirectoryItemsFromFileSystem(
         act: MultiBrowserActivity,
         directory: String,
@@ -242,6 +242,8 @@ internal object ListUtils
         }
         Collections.sort(dirItemList, DirItemComparator.getComparator(act))
         return dirItemList
+    }
+    
     }
 }
 
