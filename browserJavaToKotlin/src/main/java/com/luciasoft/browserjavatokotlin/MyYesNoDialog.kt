@@ -8,7 +8,7 @@ internal class MyYesNoDialog
 {
     companion object
     {
-	    fun show(
+        fun show(
             context: Context,
             title: String = "",
             message: String = "",
