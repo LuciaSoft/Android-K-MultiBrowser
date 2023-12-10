@@ -6,8 +6,7 @@ internal object Utils2
 {
     fun directoryIsReadable(act: MultiBrowserActivity, directory: String?): Boolean
     {
-        val dir: File
-        dir = try
+        val dir = try
         {
             File(directory)
         }
@@ -15,8 +14,7 @@ internal object Utils2
         {
             return false
         }
-        val exists: Boolean
-        exists = try
+        val exists = try
         {
             File(directory).exists()
         }
@@ -27,8 +25,7 @@ internal object Utils2
         if (!exists) return false
         if (!act.OPT.allowAccessToRestrictedFolders)
         {
-            val canRead: Boolean
-            canRead = try
+            val canRead = try
             {
                 dir.canRead()
             }

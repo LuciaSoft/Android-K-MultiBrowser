@@ -14,20 +14,16 @@ class MyRecyclerView : RecyclerView
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    private val textPaint = TextPaint()
-    private var text: String? = null
     private val act = context as MultiBrowserActivity
+    private val textPaint = TextPaint()
+
+    var text: String? = null
 
     init
     {
         textPaint.color = resources.getColor(R.color.colorListItemText)
         textPaint.textSize = 20 * resources.displayMetrics.density
         textPaint.isAntiAlias = true
-    }
-
-    fun setText(text: String)
-    {
-        this.text = text
     }
 
     fun clearText()

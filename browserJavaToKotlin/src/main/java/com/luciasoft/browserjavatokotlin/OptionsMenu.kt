@@ -206,7 +206,7 @@ internal object OptionsMenu
             val listDlg = MyListDialog()
             listDlg.show(act, "Sort Order", options, index) { dialog, which ->
                 val option = listDlg.choice
-                var order: Options.SortOrder? = when (option)
+                val order: Options.SortOrder? = when (option)
                 {
                     0 -> Options.SortOrder.PathAscending
                     1 -> Options.SortOrder.PathDescending

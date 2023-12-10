@@ -12,11 +12,11 @@ import javax.xml.transform.TransformerException
 
 internal object XmlOperations
 {
-    fun getOptions(options: Options): Array<Array<Any?>>
+    fun getOptions(options: Options): Array<Array<Any>>
     {
         val ad = options.mAdvancedOptions
         val th = options.mThemeOptions
-        val opArray = arrayOf<Any?>(
+        val opArray = arrayOf<Any>(
             options.allowAccessToRestrictedFolders,
             "AllowAccessToRestrictedFolders",
             options.alwaysShowDialogForSavingFile,
@@ -33,9 +33,9 @@ internal object XmlOperations
             "BrowserViewType",
             options.createDirOnActivityStart,
             "CreateDirOnActivityStart",
-            options.currentDir,
+            options.currentDir?: "null",
             "CurrentDir",
-            options.defaultDir,
+            options.defaultDir?: "null",
             "DefaultDir",
             options.defaultSaveFileName,
             "DefaultSaveFileName",
@@ -67,7 +67,7 @@ internal object XmlOperations
             options.showOverwriteDialogForSavingFileIfExists,
             "ShowOverwriteDialogForSavingFileIfExists"
         )
-        val adArray = arrayOf<Any?>(
+        val adArray = arrayOf<Any>(
             ad.allowLongClickFileForLoad, "AllowLongClickFileForLoad",
             ad.allowLongClickFileForSave, "AllowLongClickFileForSave",
             ad.allowLongClickFolderForLoad, "AllowLongClickFolderForLoad",
@@ -101,7 +101,7 @@ internal object XmlOperations
             ad.showParentDirectoryLayoutIfAvailable, "ShowParentDirectoryLayoutIfAvailable",
             ad.showSaveFileLayoutIfAvailable, "ShowSaveFileLayoutIfAvailable"
         )
-        val thArray = arrayOf<Any?>(
+        val thArray = arrayOf<Any>(
             th.colorActionBar, "ColorActionBar",
             th.colorBottomAccent, "ColorBottomAccent",
             th.colorBrowserTitle, "ColorBrowserTitle",
@@ -131,10 +131,10 @@ internal object XmlOperations
             th.colorSaveFileButtonBackground, "ColorSaveFileButtonBackground",
             th.colorSaveFileButtonText, "ColorSaveFileButtonText",
             th.colorTopAccent, "ColorTopAccent",
-            th.mFontCustomBdItPath, "FontCustomBdItPath",
-            th.mFontCustomBoldPath, "FontCustomBoldPath",
-            th.mFontCustomItalPath, "FontCustomItalPath",
-            th.mFontCustomNormPath, "FontCustomNormPath",
+            th.mFontCustomBdItPath?: "null", "FontCustomBdItPath",
+            th.mFontCustomBoldPath?: "null", "FontCustomBoldPath",
+            th.mFontCustomItalPath?: "null", "FontCustomItalPath",
+            th.mFontCustomNormPath?: "null", "FontCustomNormPath",
             th.fontMode, "FontMode",
             th.sizeBrowserTitle, "SizeBrowserTitle",
             th.sizeCurDirLabel, "SizeCurDirLabel",
@@ -153,7 +153,7 @@ internal object XmlOperations
         return arrayOf(opArray, adArray, thArray)
     }
 
-    fun loadOptions(
+    private fun loadOptions(
         options: Options,
         doc: Document
     )
@@ -193,7 +193,7 @@ internal object XmlOperations
             parseStringOption(
                 normal,
                 "BrowserTitle"
-            ) ?: throw Exception()
+            )
         options.browserViewType =
             Options.BrowserViewType.valueOf(
                 parseIntOption(
@@ -220,7 +220,7 @@ internal object XmlOperations
             parseStringOption(
                 normal,
                 "DefaultSaveFileName"
-            ) ?: throw Exception()
+            )
         options.fileFilterIndex =
             parseIntOption(
                 normal,
@@ -230,7 +230,7 @@ internal object XmlOperations
             parseStringOption(
                 normal,
                 "FileFilterString"
-            ) ?: throw Exception()
+            )
         )
         options.galleryViewColumnCount =
             parseIntOption(
@@ -338,7 +338,7 @@ internal object XmlOperations
             parseStringOption(
                 advanced,
                 "MediaStoreImageExts"
-            )?: throw Exception()
+            )
         ad.menuEnabled =
             parseBooleanOption(
                 advanced,
@@ -729,11 +729,11 @@ internal object XmlOperations
         loadOptions(options, doc)
     }
 
-    fun parseStringOption(parentEl: Element, elName: String): String?
+    private fun parseStringOption(parentEl: Element, elName: String): String
     {
         val el = parentEl.getElementsByTagName(elName).item(0) as Element
         var value = el.getAttribute("val")
-        if (value.equals("null", ignoreCase = true)) return null
+        if (value.equals("null", ignoreCase = true)) return "null" // FIX
         if (value.startsWith("$")) value = value.substring(1)
         return value
     }
@@ -788,7 +788,7 @@ internal object XmlOperations
         return doc
     }
 
-    fun getElement(doc: Document, name: Any?, value: Any?): Element
+    private fun getElement(doc: Document, name: Any, value: Any?): Element
     {
         val nameStr = "" + name
         val valStr = getStringValue(nameStr, value)
@@ -797,7 +797,7 @@ internal object XmlOperations
         return el
     }
 
-    fun getStringValue(name: String, value: Any?): String
+    private fun getStringValue(name: String, value: Any?): String
     {
         if (value == null) return "null"
         if (value is Enum<*>) return value.toString()
@@ -809,21 +809,21 @@ internal object XmlOperations
         else "" + value
     }
 
-    fun getColorHexString(color: Int): String
+    private fun getColorHexString(color: Int): String
     {
         var hex = Integer.toHexString(color)
         if (hex.length == 8 && hex.startsWith("ff")) hex = hex.substring(2)
         return "#$hex"
     }
 
-    fun parseBooleanOption(parentEl: Element, elName: String?): Boolean
+    private fun parseBooleanOption(parentEl: Element, elName: String): Boolean
     {
         val el = parentEl.getElementsByTagName(elName).item(0) as Element
         val str = el.getAttribute("val").uppercase(Locale.getDefault())
         return str == "T"
     }
 
-    fun parseIntOption(parentEl: Element, elName: String?): Int
+    private fun parseIntOption(parentEl: Element, elName: String): Int
     {
         val el = parentEl.getElementsByTagName(elName).item(0) as Element
         var str = el.getAttribute("val")
@@ -831,7 +831,7 @@ internal object XmlOperations
         return str.toInt()
     }
 
-    fun parseFloatOption(parentEl: Element, elName: String?): Float
+    fun parseFloatOption(parentEl: Element, elName: String): Float
     {
         val el = parentEl.getElementsByTagName(elName).item(0) as Element
         return el.getAttribute("val").toFloat()

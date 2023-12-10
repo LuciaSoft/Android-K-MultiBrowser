@@ -128,26 +128,25 @@ open class MultiBrowserActivity
             tmpOptions = null
         }*/
         configureScreenRotation()
-        var actionBar: ActionBar?
         try
         {
-            actionBar = supportActionBar
+            with (supportActionBar!!)
+            {
+                val tv = TextView(applicationContext)
+                tv.typeface = THM.getFontBold(assets)
+                tv.text = OPT.browserTitle
+                tv.setTextColor(THM.colorBrowserTitle)
+                tv.setTextSize(THM.unitSp, THM.sizeBrowserTitle)
+                this.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+                this.customView = tv
+                this.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
+            }
         }
         catch (ex: Exception)
         {
-            actionBar = null
+
         }
-        if (actionBar != null)
-        {
-            val tv = TextView(applicationContext)
-            tv.setTypeface(THM.getFontBold(assets))
-            tv.text = OPT.browserTitle
-            tv.setTextColor(THM.colorBrowserTitle)
-            tv.setTextSize(THM.unitSp, THM.sizeBrowserTitle)
-            actionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-            actionBar.customView = tv
-            actionBar.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
-        }
+
         if (OPT.currentDir != null)
         {
             try
@@ -343,7 +342,7 @@ open class MultiBrowserActivity
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View
             {
                 val view = super.getView(position, convertView, parent)
-                (view as TextView).setTypeface(THM.getFontNorm(assets))
+                (view as TextView).typeface = THM.getFontNorm(assets)
                 view.setTextColor(THM.colorFilterText)
                 view.setTextSize(THM.unitSp, THM.sizeFileFilterText)
                 return view
@@ -422,14 +421,14 @@ open class MultiBrowserActivity
         {
             if (galleryView || dir == null)
             {
-                mRecyclerView.setText("error reading items")
+                mRecyclerView.text = "error reading items"
                 showLayouts = false
             }
             else
             {
                 if (firstLoad)
                 {
-                    mRecyclerView.setText("cannot read directory:\n$dir")
+                    mRecyclerView.text = "cannot read directory:\n$dir"
                     showLayouts = false
                 }
                 else
@@ -442,7 +441,7 @@ open class MultiBrowserActivity
         {
             if (!galleryView) OPT.currentDir = dir
             if (refreshLayout) refreshLayoutManager()
-            if (items.size == 0) mRecyclerView.setText("no items")
+            if (items.size == 0) mRecyclerView.text = "no items"
             else mRecyclerView.clearText()
             mRecyclerView.adapter = MyListAdapter(this, items)
         }
@@ -706,7 +705,7 @@ open class MultiBrowserActivity
         if (ADV.menuEnabled)
         {
             menuInflater.inflate(R.menu.menu, menu)
-            applyFontToMenu(menu, this)
+            applyFontToMenu(menu)
         }
         return true
     }
@@ -722,21 +721,21 @@ open class MultiBrowserActivity
         return if (onOptionsItemSelected(this, item)) true else super.onOptionsItemSelected(item)
     }
 
-    fun applyFontToMenu(m: Menu, mContext: Context?)
+    private fun applyFontToMenu(m: Menu)
     {
         for (i in 0 until m.size())
         {
-            applyFontToMenuItem(m.getItem(i), mContext)
+            applyFontToMenuItem(m.getItem(i))
         }
     }
 
-    fun applyFontToMenuItem(mi: MenuItem, mContext: Context?)
+    private fun applyFontToMenuItem(mi: MenuItem)
     {
         if (mi.hasSubMenu())
         {
             for (i in 0 until mi.subMenu!!.size())
             {
-                applyFontToMenuItem(mi.subMenu!!.getItem(i), mContext)
+                applyFontToMenuItem(mi.subMenu!!.getItem(i))
             }
         }
         val font = THM.getFontNorm(assets)
