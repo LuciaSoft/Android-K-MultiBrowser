@@ -39,9 +39,9 @@ class AdvancedOptions
     }
 
     var debugMode = false
-    var screenRotationMode: MultiBrowserOptions.ScreenMode? = null
-    var shortClickSaveFileBehavior: MultiBrowserOptions.SaveFileBehavior? = null
-    var longClickSaveFileBehavior: MultiBrowserOptions.SaveFileBehavior? = null
+    lateinit var screenRotationMode: MultiBrowserOptions.ScreenMode
+    lateinit var shortClickSaveFileBehavior: MultiBrowserOptions.SaveFileBehavior
+    lateinit var longClickSaveFileBehavior: MultiBrowserOptions.SaveFileBehavior
     var allowShortClickFileForLoad = false
     var allowShortClickFileForSave = false
     var allowLongClickFileForLoad = false
@@ -72,5 +72,5 @@ class AdvancedOptions
 
     var autoRefreshDirectorySource = false
 
-    var mediaStoreImageExts: String? = null
+    lateinit var mediaStoreImageExts: String
 }
