@@ -5,7 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import com.luciasoft.collections.DirectoryItem
 import com.luciasoft.collections.MediaStoreImageInfoTree
 
-class DataHolder(var app: Application) : AndroidViewModel(app)
+class DataHolder(var app: Application)
+    : AndroidViewModel(app)
 {
     @JvmField
     var mOptions: MultiBrowserOptions? = null
