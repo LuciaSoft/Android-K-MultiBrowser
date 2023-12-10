@@ -10,8 +10,10 @@ import java.util.Locale
 import javax.xml.parsers.ParserConfigurationException
 import javax.xml.transform.TransformerException
 
-internal object XmlOperations
+internal class XmlOperations
 {
+    companion object
+    {
     fun getOptions(options: MultiBrowserOptions): Array<Array<Any?>>
     {
         val ad = options.mAdvancedOptions
@@ -835,5 +837,7 @@ internal object XmlOperations
     {
         val el = parentEl.getElementsByTagName(elName).item(0) as Element
         return el.getAttribute("val").toFloat()
+    }
+    
     }
 }
