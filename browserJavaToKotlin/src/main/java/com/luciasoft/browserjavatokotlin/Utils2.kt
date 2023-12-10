@@ -2,43 +2,45 @@ package com.luciasoft.browserjavatokotlin
 
 import java.io.File
 
-internal object Utils2
+internal class Utils2
 {
-    @JvmStatic
-    fun directoryIsReadable(act: MultiBrowserActivity, directory: String?): Boolean
+    companion object
     {
-        val dir: File
-        dir = try
+        fun directoryIsReadable(act: MultiBrowserActivity, directory: String?): Boolean
         {
-            File(directory)
-        }
-        catch (ex: Exception)
-        {
-            return false
-        }
-        val exists: Boolean
-        exists = try
-        {
-            File(directory).exists()
-        }
-        catch (ex: Exception)
-        {
-            return false
-        }
-        if (!exists) return false
-        if (!act.OPT.allowAccessToRestrictedFolders)
-        {
-            val canRead: Boolean
-            canRead = try
+            val dir: File
+            dir = try
             {
-                dir.canRead()
+                File(directory)
             }
             catch (ex: Exception)
             {
                 return false
             }
-            return canRead
+            val exists: Boolean
+            exists = try
+            {
+                File(directory).exists()
+            }
+            catch (ex: Exception)
+            {
+                return false
+            }
+            if (!exists) return false
+            if (!act.OPT.allowAccessToRestrictedFolders)
+            {
+                val canRead: Boolean
+                canRead = try
+                {
+                    dir.canRead()
+                }
+                catch (ex: Exception)
+                {
+                    return false
+                }
+                return canRead
+            }
+            return true
         }
-        return true
     }
 }
