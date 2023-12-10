@@ -10,17 +10,17 @@ import android.widget.EditText
 import android.widget.TextView
 
 internal class MyInputDialog(
-    context: Context?,
-    title: String?,
-    subTitle: String?,
-    doSomething: DoSomethingWithResult
+    context: Context,
+    title: String = "",
+    subTitle: String = "",
+    doSomething: DoSomethingWithResult? = null
 )
 {
-    private val builder: AlertDialog.Builder?
+    private var builder: AlertDialog.Builder
 
     internal interface DoSomethingWithResult
     {
-        fun doSomething(result: String?)
+        fun doSomething(result: String)
     }
 
     init
@@ -30,17 +30,16 @@ internal class MyInputDialog(
             LayoutInflater.from(context).inflate(R.layout.input_dialog, null)
         builder.setView(dialogLayout)
         val inputText = dialogLayout.findViewById<View>(R.id.inputText) as EditText
-        if (title != null) (dialogLayout.findViewById<View>(R.id.title) as TextView).text = title
-        if (subTitle != null) (dialogLayout.findViewById<View>(R.id.subTitle) as TextView).text =
-            subTitle
+        (dialogLayout.findViewById<View>(R.id.title) as TextView).text = title
+        (dialogLayout.findViewById<View>(R.id.subTitle) as TextView).text = subTitle
         builder.setPositiveButton(
-            "OK",
+            "OK", if (doSomething == null) null else
             DialogInterface.OnClickListener { dialog, which -> doSomething.doSomething(inputText.text.toString()) })
         builder.setNegativeButton("Cancel", null)
     }
 
     fun show()
     {
-        builder?.show()
+        builder.show()
     }
 }

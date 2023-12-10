@@ -11,37 +11,22 @@ import androidx.recyclerview.widget.RecyclerView
 class MyRecyclerView : RecyclerView
 {
     constructor(context: Context) : super(context)
-    {
-        Initialize()
-    }
-
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    {
-        Initialize()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    )
-    {
-        Initialize()
-    }
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private val textPaint = TextPaint()
     private var text: String? = null
-    var act: MultiBrowserActivity? = null
-    private fun Initialize()
+    private val act = context as MultiBrowserActivity
+
+    init
     {
         textPaint.color = resources.getColor(R.color.colorListItemText)
         textPaint.textSize = 20 * resources.displayMetrics.density
         textPaint.isAntiAlias = true
     }
 
-    fun setText(act: MultiBrowserActivity?, text: String?)
+    fun setText(text: String)
     {
-        this.act = act
         this.text = text
     }
 
@@ -63,7 +48,7 @@ class MyRecyclerView : RecyclerView
     private fun drawCenter(canvas: Canvas, paint: TextPaint, text: String)
     {
         if (text.isEmpty()) return
-        val font = act!!.THM.getFontBdIt(act!!.assets)
+        val font = act.THM.getFontBdIt(act.assets)
         textPaint.typeface = font
         val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val textHeight = paint.textSize

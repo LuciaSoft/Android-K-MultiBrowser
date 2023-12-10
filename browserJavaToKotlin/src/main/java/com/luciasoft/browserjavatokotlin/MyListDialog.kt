@@ -10,32 +10,29 @@ internal class MyListDialog
         private set
 
     fun show(
-        context: Context?,
-        title: String?,
-        options: Array<String?>?,
+        context: Context,
+        title: String = "",
+        options: Array<String>,
         defaultChoice: Int,
-        onOkClick: DialogInterface.OnClickListener?
+        onOkClick: DialogInterface.OnClickListener? = null
     )
     {
-        var title = title
-        if (title == null) title = ""
-        val builder = AlertDialog.Builder(
-            context!!
-        )
-        builder.setTitle(title)
-        builder.setSingleChoiceItems(
-            options,
-            defaultChoice,
-            object : DialogInterface.OnClickListener
-            {
-                override fun onClick(dialog: DialogInterface, which: Int)
+        with (AlertDialog.Builder(context))
+        {
+            this.setTitle(title)
+            this.setSingleChoiceItems(
+                options,
+                defaultChoice,
+                object : DialogInterface.OnClickListener
                 {
-                    choice = which
-                }
-            })
-        builder.setPositiveButton("OK", onOkClick)
-        builder.setNegativeButton("Cancel", null)
-        val dialog = builder.create()
-        dialog.show()
+                    override fun onClick(dialog: DialogInterface, which: Int)
+                    {
+                        choice = which
+                    }
+                })
+            this.setPositiveButton("OK", onOkClick)
+            this.setNegativeButton("Cancel", null)
+            this.create().show()
+        }
     }
 }

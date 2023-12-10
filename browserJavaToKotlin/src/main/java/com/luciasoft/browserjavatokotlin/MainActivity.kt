@@ -31,9 +31,9 @@ class MainActivity : MultiBrowserActivity()
         options2.browseMode = MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders
         if (true) options2.onSelectFileForSave = object : OnSelectItem
         {
-            override fun onSelect(info: SelectedItemInfo?)
+            override fun onSelect(info: SelectedItemInfo)
             {
-                Toast.makeText(this@MainActivity, info!!.path, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, info.path, Toast.LENGTH_LONG).show()
             }
         }
         val options3 = MultiBrowserOptions()

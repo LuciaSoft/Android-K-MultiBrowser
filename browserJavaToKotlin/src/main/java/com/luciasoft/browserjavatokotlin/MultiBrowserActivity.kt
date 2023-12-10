@@ -58,7 +58,7 @@ open class MultiBrowserActivity : AppCompatActivity()
         get()
         {
             if (DAT == null && tmpOptions == null) return null
-            return if (DAT == null) tmpOptions else DAT!!.mOptions
+            return if (DAT == null) tmpOptions else DAT.mOptions
         }*/
 
     /*fun setOptions(options: MultiBrowserOptions?, squelchException: Boolean): Boolean
@@ -74,7 +74,7 @@ open class MultiBrowserActivity : AppCompatActivity()
         }
         else
         {
-            DAT!!.mOptions = options
+            DAT.mOptions = options
             tmpOptions = null
         }
         return true
@@ -109,7 +109,7 @@ open class MultiBrowserActivity : AppCompatActivity()
     
     fun setEditTextSaveFileName(name: String?)
     {
-        mEditTextSaveFileName!!.setText(name)
+        mEditTextSaveFileName.setText(name)
     }
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -125,7 +125,7 @@ open class MultiBrowserActivity : AppCompatActivity()
         
         /*if (tmpOptions != null)
         {
-            DAT!!.mOptions = tmpOptions
+            DAT.mOptions = tmpOptions
             tmpOptions = null
         }*/
         configureScreenRotation()
@@ -142,34 +142,34 @@ open class MultiBrowserActivity : AppCompatActivity()
         {
             val tv = TextView(applicationContext)
             tv.setTypeface(THM.getFontBold(assets))
-            tv.text = OPT!!.browserTitle
+            tv.text = OPT.browserTitle
             tv.setTextColor(THM.colorBrowserTitle)
             tv.setTextSize(THM.unitSp, THM.sizeBrowserTitle)
             actionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
             actionBar.customView = tv
             actionBar.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
         }
-        if (OPT!!.currentDir != null)
+        if (OPT.currentDir != null)
         {
             try
             {
-                val dir = File(OPT!!.currentDir!!)
-                if (!dir.exists() && OPT!!.createDirOnActivityStart) try
+                val dir = File(OPT.currentDir!!)
+                if (!dir.exists() && OPT.createDirOnActivityStart) try
                 {
                     dir.mkdirs()
                 }
                 catch (ex2: Exception)
                 {
                 }
-                OPT!!.currentDir = dir.canonicalPath
+                OPT.currentDir = dir.canonicalPath
             }
             catch (ex: Exception)
             {
             }
-            if (OPT!!.defaultDir == null) OPT!!.defaultDir = OPT!!.currentDir
+            if (OPT.defaultDir == null) OPT.defaultDir = OPT.currentDir
         }
         mRecyclerView = findViewById(R.id.recyclerView)
-        mRecyclerView!!.setHasFixedSize(true)
+        mRecyclerView.setHasFixedSize(true)
         setupParentDirLayout()
         setupSaveFileLayout()
         setupFileFilterLayout()
@@ -267,7 +267,7 @@ open class MultiBrowserActivity : AppCompatActivity()
 
     private fun configureScreenRotation()
     {
-        if (DAT!!.mDefaultScreenOrientation == null) DAT!!.mDefaultScreenOrientation =
+        if (DAT.mDefaultScreenOrientation == null) DAT.mDefaultScreenOrientation =
             requestedOrientation
         
         if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.AllowPortraitUprightOnly)
@@ -288,8 +288,8 @@ open class MultiBrowserActivity : AppCompatActivity()
         }
         else if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.SystemDefault)
         {
-            if (DAT!!.mDefaultScreenOrientation != null) requestedOrientation =
-                DAT!!.mDefaultScreenOrientation!!
+            if (DAT.mDefaultScreenOrientation != null) requestedOrientation =
+                DAT.mDefaultScreenOrientation!!
         }
     }
 
@@ -297,10 +297,8 @@ open class MultiBrowserActivity : AppCompatActivity()
     {
         (findViewById<View>(R.id.parDirLayout) as LinearLayout).setOnClickListener(
             View.OnClickListener {
-                val parentDir = getParentDir(
-                    (OPT!!.currentDir)!!
-                )
-                if (!parentDir.isEmpty()) refreshView(parentDir, false, false)
+                val parentDir = if (OPT.currentDir == null) null else getParentDir(OPT.currentDir!!)
+                if (!parentDir.isNullOrEmpty()) refreshView(parentDir, false, false)
             })
         (findViewById<View>(R.id.parentDirIcon) as ImageView).setImageResource(R.mipmap.ic_folder_up)
         (findViewById<View>(R.id.parDirSubText) as TextView).text = "(Go Up)"
@@ -309,24 +307,24 @@ open class MultiBrowserActivity : AppCompatActivity()
     private fun setupSaveFileLayout()
     {
         mEditTextSaveFileName = findViewById<View>(R.id.saveFileEditText) as EditText
-        if (OPT!!.defaultSaveFileName != null) mEditTextSaveFileName!!.setText(OPT!!.defaultSaveFileName)
+        if (OPT.defaultSaveFileName != "") mEditTextSaveFileName.setText(OPT.defaultSaveFileName)
         val btnSaveFile = findViewById<View>(R.id.saveFileButton) as Button
         btnSaveFile.setOnClickListener(object : View.OnClickListener
         {
             override fun onClick(view: View)
             {
-                var filename: String? = mEditTextSaveFileName!!.text.toString().trim { it <= ' ' }
-                mEditTextSaveFileName!!.setText(filename)
-                if (filename!!.isEmpty()) return
-                filename = checkFileNameAndExt(filename)
-                if (filename == null)
+                val filename: String = mEditTextSaveFileName.text.toString().trim { it <= ' ' }
+                mEditTextSaveFileName.setText(filename)
+                if (filename.isEmpty()) return
+                val filename2 = checkFileNameAndExt(filename)
+                if (filename2 == null)
                 {
                     toastLong(this@MultiBrowserActivity, "Invalid file name or extension.")
                 }
                 else
                 {
-                    var dir = OPT!!.currentDir
-                    if (!dir!!.endsWith("/")) dir += "/"
+                    var dir = OPT.currentDir!!
+                    if (!dir.endsWith("/")) dir += "/"
                     val fullpath = dir + filename
                     onSelect(true, false, false, true, fullpath)
                 }
@@ -340,7 +338,7 @@ open class MultiBrowserActivity : AppCompatActivity()
         val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(
             this,
             R.layout.file_filter_popup_item,
-            OPT!!.mFileFilterDescrips
+            OPT.mFileFilterDescrips
         )
         {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View
@@ -373,18 +371,18 @@ open class MultiBrowserActivity : AppCompatActivity()
                 id: Long
             )
             {
-                if (OPT!!.fileFilterIndex == position) return
-                if (mEditTextSaveFileName!!.visibility != View.GONE)
+                if (OPT.fileFilterIndex == position) return
+                if (mEditTextSaveFileName.visibility != View.GONE)
                 {
                     var filename: String =
-                        mEditTextSaveFileName!!.text.toString().trim { it <= ' ' }
+                        mEditTextSaveFileName.text.toString().trim { it <= ' ' }
                     if (!filename.isEmpty())
                     {
-                        filename = changeFileExt(filename, OPT!!.fileFilterIndex, position)
+                        filename = changeFileExt(filename, OPT.fileFilterIndex, position)
                     }
-                    mEditTextSaveFileName!!.setText(filename)
+                    mEditTextSaveFileName.setText(filename)
                 }
-                OPT!!.fileFilterIndex = position
+                OPT.fileFilterIndex = position
                 refreshView(false, false)
             }
 
@@ -392,7 +390,7 @@ open class MultiBrowserActivity : AppCompatActivity()
             {
             }
         }
-        spinnerFileFilters.setSelection(OPT!!.fileFilterIndex)
+        spinnerFileFilters.setSelection(OPT.fileFilterIndex)
     }
 
     private fun setupSwipeRefreshLayout()
@@ -411,30 +409,28 @@ open class MultiBrowserActivity : AppCompatActivity()
 
     fun refreshView(forceSourceReload: Boolean, refreshLayout: Boolean)
     {
-        refreshView(OPT!!.currentDir, forceSourceReload, refreshLayout)
+        refreshView(OPT.currentDir, forceSourceReload, refreshLayout)
     }
 
     fun refreshView(dir: String?, forceSourceReload: Boolean, refreshLayout: Boolean)
     {
-        val firstLoad = DAT!!.mFirstLoad
-        DAT!!.mFirstLoad = false
+        val firstLoad = DAT.mFirstLoad
+        DAT.mFirstLoad = false
         val items = getDirectoryItems(dir, forceSourceReload)
-        val galleryView = OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
+        val galleryView = OPT.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
         var showLayouts = true
         if (items == null)
         {
             if (galleryView || dir == null)
             {
-                val text = "error reading items"
-                mRecyclerView!!.setText(this, text)
+                mRecyclerView.setText("error reading items")
                 showLayouts = false
             }
             else
             {
                 if (firstLoad)
                 {
-                    val text = "cannot read directory:\n$dir"
-                    mRecyclerView!!.setText(this, text)
+                    mRecyclerView.setText("cannot read directory:\n$dir")
                     showLayouts = false
                 }
                 else
@@ -445,14 +441,11 @@ open class MultiBrowserActivity : AppCompatActivity()
         }
         else
         {
-            if (!galleryView) OPT!!.currentDir = dir
+            if (!galleryView) OPT.currentDir = dir
             if (refreshLayout) refreshLayoutManager()
-            if (items.size == 0) mRecyclerView!!.setText(
-                this,
-                "no items"
-            )
-            else mRecyclerView!!.clearText()
-            mRecyclerView!!.adapter = MyListAdapter(this, items)
+            if (items.size == 0) mRecyclerView.setText("no items")
+            else mRecyclerView.clearText()
+            mRecyclerView.adapter = MyListAdapter(this, items)
         }
         configureLayouts(showLayouts)
     }
@@ -463,31 +456,31 @@ open class MultiBrowserActivity : AppCompatActivity()
     ): ArrayList<DirectoryItem>?
     {
         if (dir == null) return null
-        val galleryView = OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
+        val galleryView = OPT.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
         val readable = galleryView || directoryIsReadable(this, dir)
         if (!readable) return null
-        if (galleryView || OPT!!.showImagesWhileBrowsingNormal)
+        if (galleryView || OPT.showImagesWhileBrowsingNormal)
         {
             val reload = (forceSourceReload ||
-                ADV.autoRefreshDirectorySource || (DAT!!.mMediaStoreImageInfoList == null))
-            if (reload) DAT!!.mMediaStoreImageInfoList = getImageInfos(this)
+                ADV.autoRefreshDirectorySource || (DAT.mMediaStoreImageInfoList == null))
+            if (reload) DAT.mMediaStoreImageInfoList = getImageInfos(this)
         }
         val items: ArrayList<DirectoryItem>?
         if (galleryView)
         {
-            items = DAT!!.mMediaStoreImageInfoList
+            items = DAT.mMediaStoreImageInfoList
         }
         else
         {
             val reload = forceSourceReload || ADV.autoRefreshDirectorySource || (
-                DAT!!.mFileSystemDirectoryItems == null) || (
-                OPT!!.currentDir == null) || !dir.equals(OPT!!.currentDir, ignoreCase = true)
-            if (reload) DAT!!.mFileSystemDirectoryItems = getDirectoryItemsFromFileSystem(
+                DAT.mFileSystemDirectoryItems == null) || (
+                OPT.currentDir == null) || !dir.equals(OPT.currentDir, ignoreCase = true)
+            if (reload) DAT.mFileSystemDirectoryItems = getDirectoryItemsFromFileSystem(
                 this,
                 dir,
-                OPT!!.mFileFilters[OPT!!.fileFilterIndex]
+                OPT.mFileFilters[OPT.fileFilterIndex]
             )
-            items = DAT!!.mFileSystemDirectoryItems
+            items = DAT.mFileSystemDirectoryItems
         }
         return items
     }
@@ -502,22 +495,22 @@ open class MultiBrowserActivity : AppCompatActivity()
         var showParentDirLayout = false
         var showSaveFileLayout = false
         var showFileFilterLayout = false
-        val galleryView = OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
+        val galleryView = OPT.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
         if (!galleryView && showLayouts)
         {
-            val isRoot = (OPT!!.currentDir == "/")
+            val isRoot = (OPT.currentDir == "/")
             showParentDirLayout = ADV.showParentDirectoryLayoutIfAvailable && !isRoot
             showCurrentDirLayout = ADV.showCurrentDirectoryLayoutIfAvailable
             showSaveFileLayout = ADV.showSaveFileLayoutIfAvailable &&
-                OPT!!.browseMode === MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders
+                OPT.browseMode === MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders
             showFileFilterLayout = ADV.showFileFilterLayoutIfAvailable &&
-                (OPT!!.browseMode === MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders ||
-                    OPT!!.browseMode === MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders)
+                (OPT.browseMode === MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders ||
+                    OPT.browseMode === MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders)
         }
         if (showCurrentDirLayout)
         {
             curDirLayout.visibility = View.VISIBLE
-            (findViewById<View>(R.id.curDirText) as TextView).text = OPT!!.currentDir
+            (findViewById<View>(R.id.curDirText) as TextView).text = OPT.currentDir
         }
         else
         {
@@ -526,9 +519,7 @@ open class MultiBrowserActivity : AppCompatActivity()
         if (showParentDirLayout)
         {
             parDirLayout.visibility = View.VISIBLE
-            (findViewById<View>(R.id.parDirText) as TextView).text = getParentDir(
-                (OPT!!.currentDir)!!
-            )
+            (findViewById<View>(R.id.parDirText) as TextView).text = getParentDir(OPT.currentDir!!)
         }
         else
         {
@@ -555,17 +546,17 @@ open class MultiBrowserActivity : AppCompatActivity()
     private fun refreshLayoutManager()
     {
         val manager: RecyclerView.LayoutManager
-        if (OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.List)
+        if (OPT.browserViewType === MultiBrowserOptions.BrowserViewType.List)
         {
             manager = LinearLayoutManager(applicationContext)
         }
         else
         {
             val columnCount =
-                if (OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.Tiles) OPT!!.normalViewColumnCount else OPT!!.galleryViewColumnCount
+                if (OPT.browserViewType === MultiBrowserOptions.BrowserViewType.Tiles) OPT.normalViewColumnCount else OPT.galleryViewColumnCount
             manager = GridLayoutManager(applicationContext, columnCount)
         }
-        mRecyclerView!!.layoutManager = manager
+        mRecyclerView.layoutManager = manager
     }
 
     fun onSelect(
@@ -591,18 +582,18 @@ open class MultiBrowserActivity : AppCompatActivity()
         if (!skipDialog && !load)
         {
             var showDialog = false
-            if (OPT!!.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery)
+            if (OPT.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery)
             {
-                if (OPT!!.alwaysShowDialogForSavingGalleryItem) showDialog = true
+                if (OPT.alwaysShowDialogForSavingGalleryItem) showDialog = true
             }
             else if (file)
             {
-                if (OPT!!.alwaysShowDialogForSavingFile || OPT!!.showOverwriteDialogForSavingFileIfExists) showDialog =
+                if (OPT.alwaysShowDialogForSavingFile || OPT.showOverwriteDialogForSavingFileIfExists) showDialog =
                     true
             }
             else
             {
-                if (OPT!!.alwaysShowDialogForSavingFolder) showDialog = true
+                if (OPT.alwaysShowDialogForSavingFolder) showDialog = true
             }
             if (showDialog)
             {
@@ -663,13 +654,13 @@ open class MultiBrowserActivity : AppCompatActivity()
 
     private fun getOnSelectItemObject(file: Boolean, load: Boolean): OnSelectItem?
     {
-        if (file)
+        return if (file)
         {
-            return if (load) OPT!!.onSelectFileForLoad else OPT!!.onSelectFileForSave
+            if (load) OPT.onSelectFileForLoad else OPT.onSelectFileForSave
         }
         else
         {
-            return if (load) OPT!!.onSelectFolderForLoad else OPT!!.onSelectFolderForSave
+            if (load) OPT.onSelectFolderForLoad else OPT.onSelectFolderForSave
         }
     }
 
@@ -680,12 +671,12 @@ open class MultiBrowserActivity : AppCompatActivity()
     ): String
     {
         var filename = filename
-        val newExts = OPT!!.mFileFilters[newFileFilterIndex]
+        val newExts = OPT.mFileFilters[newFileFilterIndex]
         if ((newExts[0] == "*")) return filename
         val ext = getFileExtensionLowerCaseWithDot(filename)
         if (ext.isEmpty()) return filename + newExts[0]
         if (arrayContains(newExts, ext)) return filename
-        val oldExts = OPT!!.mFileFilters[oldFileFilterIndex]
+        val oldExts = OPT.mFileFilters[oldFileFilterIndex]
         if (oldExts.get(0) != "*" && arrayContains(oldExts, ext))
         {
             filename = filename.substring(0, filename.length - ext.length)
@@ -694,23 +685,21 @@ open class MultiBrowserActivity : AppCompatActivity()
         return filename
     }
 
-    private fun checkFileNameAndExt(filename: String?): String?
+    private fun checkFileNameAndExt(filename: String): String?
     {
         //if (!OPTIONS().mAllowHiddenFiles && filename.startsWith(".")) return null;
-        val ext = getFileExtensionLowerCaseWithDot(
-            (filename)!!
-        )
-        val filters = OPT!!.mFileFilters[OPT!!.fileFilterIndex]
+        val ext = getFileExtensionLowerCaseWithDot(filename)
+        val filters = OPT.mFileFilters[OPT.fileFilterIndex]
         if ((filters[0] == "*"))
         {
             //if (ext.isEmpty() && !OPTIONS().mAllowUndottedFileExts) return null;
             return filename
         }
-        return if (!ext.isEmpty() && arrayContains(
+        return if (ext.isNotEmpty() && arrayContains(
                 filters,
                 ext
             )) filename
-        else filename + filters.get(0)
+        else filename + filters[0]
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean
@@ -754,7 +743,7 @@ open class MultiBrowserActivity : AppCompatActivity()
         val font = THM.getFontNorm(assets)
         val mNewTitle = SpannableString(mi.title)
         mNewTitle.setSpan(
-            CustomTypefaceSpan("Font", (font)!!), 0,
+            CustomTypefaceSpan("Font", font), 0,
             mNewTitle.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE
         )
         mi.title = mNewTitle

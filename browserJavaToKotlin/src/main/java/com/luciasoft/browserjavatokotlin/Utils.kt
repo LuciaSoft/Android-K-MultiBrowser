@@ -13,18 +13,18 @@ import java.util.Locale
 internal object Utils
 {
     @Throws(IOException::class)
-    fun copyFileFromAssets(assets: AssetManager, inputFilePath: String?, outputFilePath: String?)
+    fun copyFileFromAssets(assets: AssetManager, inputFilePath: String, outputFilePath: String)
     {
-        val `is` = assets.open(inputFilePath!!)
+        val op = assets.open(inputFilePath)
         val fos = FileOutputStream(outputFilePath)
         val buffer = ByteArray(10240)
         while (true)
         {
-            val count = `is`.read(buffer, 0, 10240)
+            val count = op.read(buffer, 0, 10240)
             if (count == -1) break
             fos.write(buffer, 0, count)
         }
-        `is`.close()
+        op.close()
         fos.flush()
         fos.close()
     }
@@ -67,29 +67,28 @@ internal object Utils
     {
         val pos1 = fileNameOrPath.lastIndexOf('.')
         if (pos1 == -1) return ""
-        val pos2 = fileNameOrPath.lastIndexOf('/', pos1)
+        val pos2 = fileNameOrPath.lastIndexOf(File.separatorChar, pos1)
         return if (pos2 > pos1) ""
-        else fileNameOrPath.substring(pos1)
-            .lowercase(Locale.getDefault())
+        else fileNameOrPath.substring(pos1).lowercase(Locale.getDefault())
     }
 
     @JvmStatic
     fun getParentDir(path: String): String
     {
         var path = path
-        if (path == "/") return ""
-        if (path.endsWith("/")) path = path.substring(0, path.length - 1)
-        val pos = path.lastIndexOf('/')
+        if (path == File.separator) return ""
+        if (path.endsWith(File.separatorChar)) path = path.substring(0, path.length - 1)
+        val pos = path.lastIndexOf(File.separatorChar)
         if (pos == -1) return ""
-        return if (pos == 0) "/" else path.substring(0, pos)
+        return if (pos == 0) File.separator else path.substring(0, pos)
     }
 
     @JvmStatic
     fun getShortName(path: String): String
     {
         var path = path
-        if (path.endsWith("/")) path = path.substring(0, path.length - 1)
-        val pos = path.lastIndexOf('/')
+        if (path.endsWith(File.separatorChar)) path = path.substring(0, path.length - 1)
+        val pos = path.lastIndexOf(File.separatorChar)
         return if (pos == -1) path else path.substring(pos + 1)
     }
 
@@ -113,13 +112,13 @@ internal object Utils
         return str
     }
 
-    fun toastShort(context: Context?, message: String?)
+    fun toastShort(context: Context, message: String)
     {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     @JvmStatic
-    fun toastLong(context: Context?, message: String?)
+    fun toastLong(context: Context, message: String)
     {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
@@ -127,19 +126,15 @@ internal object Utils
     @JvmStatic
     fun <T> arrayContains(array: Array<T>, item: T): Boolean
     {
-        for (i in array.indices)
-        {
-            if (array[i] == item) return true
-        }
-        return false
+        return item in array
     }
 
     fun charCount(str: String, ch: Char): Int
     {
         var count = 0
-        for (i in 0 until str.length)
+        for (c in str)
         {
-            if (str[i] == ch) count++
+            if (c == ch) count++
         }
         return count
     }
@@ -161,7 +156,7 @@ internal object Utils
     fun filePassesFilter(exts: Array<String>?, fileNameOrPath: String): Boolean
     {
         var exts = exts
-        if (exts == null || exts.size == 0) return true
+        if (exts.isNullOrEmpty()) return true
         exts = getValidExts(exts)
         val fileExt = getFileExtensionLowerCaseWithDot(fileNameOrPath)
         for (ext in exts)

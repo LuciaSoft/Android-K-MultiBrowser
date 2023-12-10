@@ -16,20 +16,14 @@ internal class MyMessageBox private constructor(context: Context) : AlertDialog(
         @JvmStatic
         fun show(
             context: Context,
-            title: String?,
-            message: String?,
-            buttons: ButtonsType?,
-            onOkYesClick: DialogInterface.OnClickListener?,
-            onCancelNoClick: DialogInterface.OnClickListener?
+            title: String = "",
+            message: String = "",
+            buttons: ButtonsType = ButtonsType.Ok,
+            onOkYesClick: DialogInterface.OnClickListener? = null,
+            onCancelNoClick: DialogInterface.OnClickListener? = null
         )
         {
-            var title = title
-            var message = message
-            var buttons = buttons
-            if (title == null) title = ""
-            if (message == null) message = ""
             val mb = MyMessageBox(context)
-            if (buttons == null) buttons = ButtonsType.Ok
             val twoButtons = buttons == ButtonsType.OkCancel || buttons == ButtonsType.YesNo
             mb.setTitle(title)
             mb.setMessage(message)

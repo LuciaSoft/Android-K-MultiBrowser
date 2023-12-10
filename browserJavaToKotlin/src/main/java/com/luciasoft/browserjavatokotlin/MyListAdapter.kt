@@ -202,9 +202,7 @@ internal class MyListAdapter(
                     val saveFile =
                         !saveBoxVisible || act.ADV.shortClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
                     if (sendToSaveBoxShortClick) act.setEditTextSaveFileName(
-                        getShortName(
-                            path!!
-                        )
+                        getShortName(path)
                     )
                     if (saveFile) act.onSelect(true, false, false, false, path)
                 }
@@ -238,9 +236,7 @@ internal class MyListAdapter(
                     val saveFile =
                         !saveBoxVisible || act.ADV.longClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
                     if (sendToSaveBoxLongClick) act.setEditTextSaveFileName(
-                        getShortName(
-                            path!!
-                        )
+                        getShortName(path)
                     )
                     if (saveFile) act.onSelect(true, false, true, false, path)
                 }

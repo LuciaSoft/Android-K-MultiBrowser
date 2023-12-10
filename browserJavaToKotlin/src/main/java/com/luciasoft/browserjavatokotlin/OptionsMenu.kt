@@ -84,10 +84,10 @@ internal object OptionsMenu
                 "New Folder Name",
                 object : MyInputDialog.DoSomethingWithResult
                 {
-                    override fun doSomething(result: String?)
+                    override fun doSomething(result: String)
                     {
                         var result = result
-                        result = result!!.trim { it <= ' ' }
+                        result = result.trim { it <= ' ' }
                         if (result.isEmpty()) return
                         if (!dir.endsWith("/")) dir += "/"
                         dir += result
@@ -149,8 +149,7 @@ internal object OptionsMenu
         }
         if (itemId == R.id.menuItemColumnCount)
         {
-            val counts = arrayOfNulls<String>(10)
-            for (i in 0..9) counts[i] = "" + (i + 1)
+            val counts = Array(10) { "" + (it + 1) }
             val listDlg = MyListDialog()
             val galleryView =
                 act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery
@@ -201,7 +200,7 @@ internal object OptionsMenu
                 MultiBrowserOptions.SortOrder.SizeDescending -> 5
                 else -> 0
             }
-            val options = arrayOf<String?>(
+            val options = arrayOf(
                 "Path Ascending", "Path Descending",
                 "Date Ascending", "Date Descending",
                 "Size Ascending", "Size Descending"

@@ -5,7 +5,7 @@ import android.graphics.Typeface
 import android.text.TextPaint
 import android.text.style.TypefaceSpan
 
-internal class CustomTypefaceSpan(family: String?, private val newType: Typeface) :
+internal class CustomTypefaceSpan(family: String, private val newType: Typeface) :
     TypefaceSpan(family)
 {
     override fun updateDrawState(ds: TextPaint)
@@ -22,10 +22,8 @@ internal class CustomTypefaceSpan(family: String?, private val newType: Typeface
     {
         private fun applyCustomTypeFace(paint: Paint, tf: Typeface)
         {
-            val oldStyle: Int
             val old = paint.typeface
-            oldStyle = old?.style ?: 0
-            val fake = oldStyle and tf.style.inv()
+            val fake = old.style and tf.style.inv()
             if (fake and Typeface.BOLD != 0)
             {
                 paint.isFakeBoldText = true
