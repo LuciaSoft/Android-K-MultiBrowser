@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.widget.Toast
 
 class MainActivity
-    : MultiBrowserActivity
+    : MultiBrowserActivity()
 {
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        val options1 = MultiBrowserOptions()
+        val options1 = Options()
         options1.mAdvancedOptions.debugMode = true
         options1.setFileFilter(
             " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
@@ -17,8 +17,8 @@ class MainActivity
                 " All Files ( *.* ) |*"
         )
         options1.fileFilterIndex = 3
-        options1.browseMode = MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders
-        val options2 = MultiBrowserOptions()
+        options1.browseMode = Options.BrowseMode.LoadFilesAndOrFolders
+        val options2 = Options()
         options2.mAdvancedOptions.debugMode = false
         options2.mAdvancedOptions.allowLongClickFileForSave = true
         options2.mAdvancedOptions.allowShortClickFileForSave = false
@@ -29,7 +29,7 @@ class MainActivity
                 " All Files ( *.* ) |*"
         )
         options2.fileFilterIndex = 3
-        options2.browseMode = MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders
+        options2.browseMode = Options.BrowseMode.SaveFilesAndOrFolders
         if (true) options2.onSelectFileForSave = object : OnSelectItem
         {
             override fun onSelect(info: SelectedItemInfo)
@@ -37,7 +37,7 @@ class MainActivity
                 Toast.makeText(this@MainActivity, info.path, Toast.LENGTH_LONG).show()
             }
         }
-        val options3 = MultiBrowserOptions()
+        val options3 = Options()
         //options3.advanced().setDebugMode(true);
 
         //setOptions(options3, false);

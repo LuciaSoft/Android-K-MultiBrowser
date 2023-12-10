@@ -54,7 +54,7 @@ class ThemeOptions
         sizeSaveFileButtonText = 20f
         sizeFileFilterText = 16f
         sizeFileFilterPopupText = 16f
-        fontMode = MultiBrowserOptions.FontMode.AppDefault
+        fontMode = Options.FontMode.AppDefault
         //mFontCustomNorm = null;
         //mFontCustomBold = null;
         //mFontCustomItal = null;
@@ -103,7 +103,7 @@ class ThemeOptions
     var sizeSaveFileButtonText = 0f
     var sizeFileFilterText = 0f
     var sizeFileFilterPopupText = 0f
-    lateinit var fontMode: MultiBrowserOptions.FontMode
+    lateinit var fontMode: Options.FontMode
 
     private var mFontAppDefaultNorm: Typeface? = null
     private var mFontAppDefaultBold: Typeface? = null
@@ -128,41 +128,41 @@ class ThemeOptions
 
     fun getFontNorm(assets: AssetManager): Typeface
     {
-        if (fontMode == MultiBrowserOptions.FontMode.CustomOrAppDefault || fontMode == MultiBrowserOptions.FontMode.CustomOrSystem)
+        if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
             if (fontCustomNorm != null) return fontCustomNorm!!
         }
-        return if (fontMode == MultiBrowserOptions.FontMode.AppDefault || fontMode == MultiBrowserOptions.FontMode.CustomOrAppDefault) getFontAppDefaultNorm(assets)
+        return if (fontMode == Options.FontMode.AppDefault || fontMode == Options.FontMode.CustomOrAppDefault) getFontAppDefaultNorm(assets)
         else fontSystemNorm
     }
 
     fun getFontBold(assets: AssetManager): Typeface
     {
-        if (fontMode == MultiBrowserOptions.FontMode.CustomOrAppDefault || fontMode == MultiBrowserOptions.FontMode.CustomOrSystem)
+        if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
             if (fontCustomBold != null) return fontCustomBold!!
         }
-        return if (fontMode == MultiBrowserOptions.FontMode.AppDefault || fontMode == MultiBrowserOptions.FontMode.CustomOrAppDefault) getFontAppDefaultBold(assets)
+        return if (fontMode == Options.FontMode.AppDefault || fontMode == Options.FontMode.CustomOrAppDefault) getFontAppDefaultBold(assets)
         else fontSystemBold
     }
 
     fun getFontItal(assets: AssetManager): Typeface
     {
-        if (fontMode == MultiBrowserOptions.FontMode.CustomOrAppDefault || fontMode == MultiBrowserOptions.FontMode.CustomOrSystem)
+        if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
             if (fontCustomItal != null) return fontCustomItal!!
         }
-        return if (fontMode == MultiBrowserOptions.FontMode.AppDefault || fontMode == MultiBrowserOptions.FontMode.CustomOrAppDefault) getFontAppDefaultItal(assets)
+        return if (fontMode == Options.FontMode.AppDefault || fontMode == Options.FontMode.CustomOrAppDefault) getFontAppDefaultItal(assets)
         else fontSystemItal
     }
 
     fun getFontBdIt(assets: AssetManager): Typeface
     {
-        if (fontMode == MultiBrowserOptions.FontMode.CustomOrAppDefault || fontMode == MultiBrowserOptions.FontMode.CustomOrSystem)
+        if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
         {
             if (fontCustomBdIt != null) return fontCustomBdIt!!
         }
-        return if (fontMode == MultiBrowserOptions.FontMode.AppDefault || fontMode == MultiBrowserOptions.FontMode.CustomOrAppDefault) getFontAppDefaultBdIt(assets)
+        return if (fontMode == Options.FontMode.AppDefault || fontMode == Options.FontMode.CustomOrAppDefault) getFontAppDefaultBdIt(assets)
         else fontSystemBdIt
     }
 

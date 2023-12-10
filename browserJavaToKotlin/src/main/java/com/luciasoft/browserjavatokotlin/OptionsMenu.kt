@@ -5,10 +5,8 @@ import android.view.MenuItem
 import com.luciasoft.browserjavatokotlin.MyMessageBox.Companion.show
 import java.io.File
 
-internal class OptionsMenu
+internal object OptionsMenu
 {
-    companion object
-    {
     fun onMenuOpened(act: MultiBrowserActivity, menu: Menu)
     {
         var newFolderOptionVisible = false
@@ -19,7 +17,7 @@ internal class OptionsMenu
         var resetDirectoryOptionVisible = false
         var sortOrderOptionVisible = false
         var showHideFileNamesOptionVisible = false
-        if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List)
+        if (act.OPT.browserViewType == Options.BrowserViewType.List)
         {
             newFolderOptionVisible = true
             listViewOptionVisible = false
@@ -29,7 +27,7 @@ internal class OptionsMenu
             resetDirectoryOptionVisible = true
             sortOrderOptionVisible = true
         }
-        else if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Tiles)
+        else if (act.OPT.browserViewType == Options.BrowserViewType.Tiles)
         {
             newFolderOptionVisible = true
             listViewOptionVisible = true
@@ -39,7 +37,7 @@ internal class OptionsMenu
             resetDirectoryOptionVisible = true
             sortOrderOptionVisible = true
         }
-        else if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+        else if (act.OPT.browserViewType == Options.BrowserViewType.Gallery)
         {
             newFolderOptionVisible = false
             listViewOptionVisible = true
@@ -50,7 +48,7 @@ internal class OptionsMenu
             showHideFileNamesOptionVisible = true
             sortOrderOptionVisible = true
         }
-        if (act.OPT.browseMode == MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders)
+        if (act.OPT.browseMode == Options.BrowseMode.LoadFilesAndOrFolders)
         {
             newFolderOptionVisible = false
         }
@@ -128,22 +126,22 @@ internal class OptionsMenu
         }
         if (itemId == R.id.menuItemListView)
         {
-            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List) return false
-            act.OPT.browserViewType = MultiBrowserOptions.BrowserViewType.List
+            if (act.OPT.browserViewType == Options.BrowserViewType.List) return false
+            act.OPT.browserViewType = Options.BrowserViewType.List
             act.refreshView(true, true)
             return true
         }
         if (itemId == R.id.menuItemTilesView)
         {
-            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Tiles) return false
-            act.OPT.browserViewType = MultiBrowserOptions.BrowserViewType.Tiles
+            if (act.OPT.browserViewType == Options.BrowserViewType.Tiles) return false
+            act.OPT.browserViewType = Options.BrowserViewType.Tiles
             act.refreshView(true, true)
             return true
         }
         if (itemId == R.id.menuItemGalleryView)
         {
-            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery) return false
-            act.OPT.browserViewType = MultiBrowserOptions.BrowserViewType.Gallery
+            if (act.OPT.browserViewType == Options.BrowserViewType.Gallery) return false
+            act.OPT.browserViewType = Options.BrowserViewType.Gallery
             act.refreshView(true, true)
             return true
         }
@@ -152,7 +150,7 @@ internal class OptionsMenu
             val counts = Array(10) { "" + (it + 1) }
             val listDlg = MyListDialog()
             val galleryView =
-                act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery
+                act.OPT.browserViewType == Options.BrowserViewType.Gallery
             val columnCount =
                 if (galleryView) act.OPT.galleryViewColumnCount else act.OPT.normalViewColumnCount
             listDlg.show(act, "Column Count", counts, columnCount - 1) { dialog, which ->
@@ -187,17 +185,17 @@ internal class OptionsMenu
         if (itemId == R.id.menuItemSortOrder)
         {
             val index: Int
-            val sortOrder: MultiBrowserOptions.SortOrder
+            val sortOrder: Options.SortOrder
             sortOrder =
-                if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+                if (act.OPT.browserViewType == Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
             index = when (sortOrder)
             {
-                MultiBrowserOptions.SortOrder.PathAscending -> 0
-                MultiBrowserOptions.SortOrder.PathDescending -> 1
-                MultiBrowserOptions.SortOrder.DateAscending -> 2
-                MultiBrowserOptions.SortOrder.DateDescending -> 3
-                MultiBrowserOptions.SortOrder.SizeAscending -> 4
-                MultiBrowserOptions.SortOrder.SizeDescending -> 5
+                Options.SortOrder.PathAscending -> 0
+                Options.SortOrder.PathDescending -> 1
+                Options.SortOrder.DateAscending -> 2
+                Options.SortOrder.DateDescending -> 3
+                Options.SortOrder.SizeAscending -> 4
+                Options.SortOrder.SizeDescending -> 5
                 else -> 0
             }
             val options = arrayOf(
@@ -208,20 +206,20 @@ internal class OptionsMenu
             val listDlg = MyListDialog()
             listDlg.show(act, "Sort Order", options, index) { dialog, which ->
                 val option = listDlg.choice
-                var order: MultiBrowserOptions.SortOrder? = when (option)
+                var order: Options.SortOrder? = when (option)
                 {
-                    0 -> MultiBrowserOptions.SortOrder.PathAscending
-                    1 -> MultiBrowserOptions.SortOrder.PathDescending
-                    2 -> MultiBrowserOptions.SortOrder.DateAscending
-                    3 -> MultiBrowserOptions.SortOrder.DateDescending
-                    4 -> MultiBrowserOptions.SortOrder.SizeAscending
-                    5 -> MultiBrowserOptions.SortOrder.SizeDescending
+                    0 -> Options.SortOrder.PathAscending
+                    1 -> Options.SortOrder.PathDescending
+                    2 -> Options.SortOrder.DateAscending
+                    3 -> Options.SortOrder.DateDescending
+                    4 -> Options.SortOrder.SizeAscending
+                    5 -> Options.SortOrder.SizeDescending
                     else -> null
                 }
                 var refresh = false
                 if (order != null)
                 {
-                    if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+                    if (act.OPT.browserViewType == Options.BrowserViewType.Gallery)
                     {
                         if (act.OPT.galleryViewSortOrder != order)
                         {
@@ -249,7 +247,5 @@ internal class OptionsMenu
             return true
         }
         return false
-    }
-    
     }
 }

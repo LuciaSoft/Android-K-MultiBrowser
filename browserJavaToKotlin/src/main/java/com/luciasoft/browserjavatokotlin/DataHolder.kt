@@ -9,7 +9,7 @@ class DataHolder(var app: Application)
     : AndroidViewModel(app)
 {
     @JvmField
-    var mOptions: MultiBrowserOptions? = null
+    var mOptions: Options? = null
     @JvmField
     var mDefaultScreenOrientation: Int? = null
     @JvmField
@@ -23,7 +23,7 @@ class DataHolder(var app: Application)
 
     init
     {
-        mOptions = MultiBrowserOptions()
+        mOptions = Options()
     }
 
     override fun onCleared()

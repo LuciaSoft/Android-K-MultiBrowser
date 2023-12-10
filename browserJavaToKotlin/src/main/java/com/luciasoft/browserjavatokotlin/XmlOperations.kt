@@ -10,11 +10,9 @@ import java.util.Locale
 import javax.xml.parsers.ParserConfigurationException
 import javax.xml.transform.TransformerException
 
-internal class XmlOperations
+internal object XmlOperations
 {
-    companion object
-    {
-    fun getOptions(options: MultiBrowserOptions): Array<Array<Any?>>
+    fun getOptions(options: Options): Array<Array<Any?>>
     {
         val ad = options.mAdvancedOptions
         val th = options.mThemeOptions
@@ -156,7 +154,7 @@ internal class XmlOperations
     }
 
     fun loadOptions(
-        options: MultiBrowserOptions,
+        options: Options,
         doc: Document
     )
     {
@@ -185,7 +183,7 @@ internal class XmlOperations
                 "AlwaysShowDialogForSavingGalleryItem"
             )
         options.browseMode =
-            MultiBrowserOptions.BrowseMode.valueOf(
+            Options.BrowseMode.valueOf(
                 parseIntOption(
                     normal,
                     "BrowseMode"
@@ -195,9 +193,9 @@ internal class XmlOperations
             parseStringOption(
                 normal,
                 "BrowserTitle"
-            )?: throw Exception()
+            ) ?: throw Exception()
         options.browserViewType =
-            MultiBrowserOptions.BrowserViewType.valueOf(
+            Options.BrowserViewType.valueOf(
                 parseIntOption(
                     normal,
                     "BrowserViewType"
@@ -222,7 +220,7 @@ internal class XmlOperations
             parseStringOption(
                 normal,
                 "DefaultSaveFileName"
-            )?: throw Exception()
+            ) ?: throw Exception()
         options.fileFilterIndex =
             parseIntOption(
                 normal,
@@ -232,7 +230,7 @@ internal class XmlOperations
             parseStringOption(
                 normal,
                 "FileFilterString"
-            )?: throw Exception()
+            ) ?: throw Exception()
         )
         options.galleryViewColumnCount =
             parseIntOption(
@@ -240,7 +238,7 @@ internal class XmlOperations
                 "GalleryViewColumnCount"
             )
         options.galleryViewSortOrder =
-            MultiBrowserOptions.SortOrder.valueOf(
+            Options.SortOrder.valueOf(
                 parseIntOption(
                     normal,
                     "GalleryViewSortOrder"
@@ -252,7 +250,7 @@ internal class XmlOperations
                 "NormalViewColumnCount"
             )
         options.normalViewSortOrder =
-            MultiBrowserOptions.SortOrder.valueOf(
+            Options.SortOrder.valueOf(
                 parseIntOption(
                     normal,
                     "NormalViewSortOrder"
@@ -330,7 +328,7 @@ internal class XmlOperations
                 "DebugMode"
             )
         ad.longClickSaveFileBehavior =
-            MultiBrowserOptions.SaveFileBehavior.valueOf(
+            Options.SaveFileBehavior.valueOf(
                 parseIntOption(
                     advanced,
                     "LongClickSaveFileBehavior"
@@ -340,7 +338,7 @@ internal class XmlOperations
             parseStringOption(
                 advanced,
                 "MediaStoreImageExts"
-            )
+            )?: throw Exception()
         ad.menuEnabled =
             parseBooleanOption(
                 advanced,
@@ -392,14 +390,14 @@ internal class XmlOperations
                 "MenuOptionTilesViewEnabled"
             )
         ad.screenRotationMode =
-            MultiBrowserOptions.ScreenMode.valueOf(
+            Options.ScreenMode.valueOf(
                 parseIntOption(
                     advanced,
                     "ScreenRotationMode"
                 )
             )
         ad.shortClickSaveFileBehavior =
-            MultiBrowserOptions.SaveFileBehavior.valueOf(
+            Options.SaveFileBehavior.valueOf(
                 parseIntOption(
                     advanced,
                     "ShortClickSaveFileBehavior"
@@ -651,7 +649,7 @@ internal class XmlOperations
                 "FontCustomNormPath"
             )
         th.fontMode =
-            MultiBrowserOptions.FontMode.valueOf(
+            Options.FontMode.valueOf(
                 parseIntOption(
                     theme,
                     "FontMode"
@@ -725,7 +723,7 @@ internal class XmlOperations
     }
 
     @Throws(IOException::class, SAXException::class, ParserConfigurationException::class)
-    fun loadOptions(options: MultiBrowserOptions, filePath: String)
+    fun loadOptions(options: Options, filePath: String)
     {
         val doc = XmlUtils.loadXmlFile(filePath)
         loadOptions(options, doc)
@@ -741,14 +739,14 @@ internal class XmlOperations
     }
 
     @Throws(ParserConfigurationException::class, TransformerException::class, IOException::class)
-    fun saveOptions(options: MultiBrowserOptions, filePath: String)
+    fun saveOptions(options: Options, filePath: String)
     {
         val doc = getOptionsXml(options)
         XmlUtils.saveXml(doc, filePath)
     }
 
     @Throws(ParserConfigurationException::class)
-    fun getOptionsXml(options: MultiBrowserOptions): Document
+    fun getOptionsXml(options: Options): Document
     {
         val arrays = getOptions(options)
         val opArray = arrays[0]
@@ -837,7 +835,5 @@ internal class XmlOperations
     {
         val el = parentEl.getElementsByTagName(elName).item(0) as Element
         return el.getAttribute("val").toFloat()
-    }
-    
     }
 }

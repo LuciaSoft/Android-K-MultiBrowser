@@ -19,7 +19,7 @@ import java.io.File
 internal class MyListAdapter(
     private val act: MultiBrowserActivity,
     private val itemList: ArrayList<DirectoryItem>)
-    : RecyclerView.Adapter<MyViewHolder>
+    : RecyclerView.Adapter<MyViewHolder>()
 {
     private val mIdMap = HashMap<DirectoryItem, Int>()
 
@@ -43,7 +43,7 @@ internal class MyListAdapter(
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MyViewHolder
     {
         val view: View
-        if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List)
+        if (act.OPT.browserViewType == Options.BrowserViewType.List)
         {
             view = LayoutInflater.from(viewGroup.context).inflate(
                 R.layout.list_item_list_view, viewGroup, false
@@ -54,7 +54,7 @@ internal class MyListAdapter(
             view = LayoutInflater.from(viewGroup.context).inflate(
                 R.layout.list_item_tiles_view, viewGroup, false
             )
-            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery && !act.OPT.showFileNamesInGalleryView) view.findViewById<View>(
+            if (act.OPT.browserViewType == Options.BrowserViewType.Gallery && !act.OPT.showFileNamesInGalleryView) view.findViewById<View>(
                 R.id.listItemText
             ).visibility = View.GONE
             else view.findViewById<View>(R.id.listItemText).visibility = View.VISIBLE
@@ -97,7 +97,7 @@ internal class MyListAdapter(
             }
             image.scaleType = ImageView.ScaleType.FIT_CENTER
             image.setImageBitmap(BitmapFactory.decodeResource(act.resources, iconId))
-            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List)
+            if (act.OPT.browserViewType == Options.BrowserViewType.List)
             {
                 val str = "$infoType not found"
                 viewHolder.info!!.text = str
@@ -108,7 +108,7 @@ internal class MyListAdapter(
             listItem.setOnLongClickListener(null)
             return
         }
-        val galleryView = act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery
+        val galleryView = act.OPT.browserViewType == Options.BrowserViewType.Gallery
         val isFile = item is FileItem
         if (isFile)
         {
@@ -160,23 +160,23 @@ internal class MyListAdapter(
             }
         }
         if (hidden) image.imageAlpha = 127 else image.imageAlpha = 255
-        if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List) viewHolder.info!!.text =
+        if (act.OPT.browserViewType == Options.BrowserViewType.List) viewHolder.info!!.text =
             item.info
         val loadFilesFolders =
-            act.OPT.browseMode == MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders
+            act.OPT.browseMode == Options.BrowseMode.LoadFilesAndOrFolders
         val saveFilesFolders =
-            act.OPT.browseMode == MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders
-        val loadFolders = act.OPT.browseMode == MultiBrowserOptions.BrowseMode.LoadFolders
-        val saveFolders = act.OPT.browseMode == MultiBrowserOptions.BrowseMode.SaveFolders
+            act.OPT.browseMode == Options.BrowseMode.SaveFilesAndOrFolders
+        val loadFolders = act.OPT.browseMode == Options.BrowseMode.LoadFolders
+        val saveFolders = act.OPT.browseMode == Options.BrowseMode.SaveFolders
         val load = isFile && loadFilesFolders || !isFile && (loadFolders || loadFilesFolders)
         val save = isFile && saveFilesFolders || !isFile && (saveFolders || saveFilesFolders)
         val saveBoxVisible = act.findViewById<View>(R.id.saveFileLayout).visibility != View.GONE
         val sendToSaveBoxShortClick =
             save && isFile && saveBoxVisible && act.ADV.allowShortClickFileForSave &&
-                (act.ADV.debugMode || act.OPT.onSelectFileForSave != null) && act.ADV.shortClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SaveFile
+                (act.ADV.debugMode || act.OPT.onSelectFileForSave != null) && act.ADV.shortClickSaveFileBehavior != Options.SaveFileBehavior.SaveFile
         val sendToSaveBoxLongClick =
             save && isFile && saveBoxVisible && act.ADV.allowLongClickFileForSave &&
-                (act.ADV.debugMode || act.OPT.onSelectFileForSave != null) && act.ADV.longClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SaveFile
+                (act.ADV.debugMode || act.OPT.onSelectFileForSave != null) && act.ADV.longClickSaveFileBehavior != Options.SaveFileBehavior.SaveFile
         val shortClickable =
             act.ADV.debugMode || !isFile || sendToSaveBoxShortClick || load && act.ADV.allowShortClickFileForLoad && act.OPT.onSelectFileForLoad != null || save && act.ADV.allowShortClickFileForSave && act.OPT.onSelectFileForSave != null
         val longClickable =
@@ -200,7 +200,7 @@ internal class MyListAdapter(
                 else
                 {
                     val saveFile =
-                        !saveBoxVisible || act.ADV.shortClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
+                        !saveBoxVisible || act.ADV.shortClickSaveFileBehavior != Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
                     if (sendToSaveBoxShortClick) act.setEditTextSaveFileName(
                         getShortName(path)
                     )
@@ -234,7 +234,7 @@ internal class MyListAdapter(
                 else
                 {
                     val saveFile =
-                        !saveBoxVisible || act.ADV.longClickSaveFileBehavior != MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
+                        !saveBoxVisible || act.ADV.longClickSaveFileBehavior != Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
                     if (sendToSaveBoxLongClick) act.setEditTextSaveFileName(
                         getShortName(path)
                     )
@@ -261,7 +261,7 @@ internal class MyViewHolder(view: View, act: MultiBrowserActivity)
         title = view.findViewById(R.id.listItemText)
         title.typeface = act.THM.getFontBdIt(act.assets)
         image = view.findViewById(R.id.listItemIcon)
-        if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery)
+        if (act.OPT.browserViewType == Options.BrowserViewType.Gallery)
         {
             title.setTextColor(act.THM.colorGalleryItemText)
             title.setTextSize(act.THM.unitSp, act.THM.sizeGalleryViewItemText)
@@ -269,7 +269,7 @@ internal class MyViewHolder(view: View, act: MultiBrowserActivity)
         else
         {
             title.setTextColor(act.THM.colorListItemText)
-            if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.List)
+            if (act.OPT.browserViewType == Options.BrowserViewType.List)
             {
                 title.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemText)
                 info = view.findViewById(R.id.listItemSubText)

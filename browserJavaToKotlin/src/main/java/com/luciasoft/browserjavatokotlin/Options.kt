@@ -7,7 +7,7 @@ import java.util.Locale
 import javax.xml.parsers.ParserConfigurationException
 import javax.xml.transform.TransformerException
 
-class MultiBrowserOptions
+class Options
 {
     private val ALL_FILES_FILTER = " All Files ( * ) |*"
 

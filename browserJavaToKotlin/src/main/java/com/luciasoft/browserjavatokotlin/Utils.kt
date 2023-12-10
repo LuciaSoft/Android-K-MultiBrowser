@@ -10,10 +10,8 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Locale
 
-internal class Utils
+internal object Utils
 {
-    companion object
-    {
     @Throws(IOException::class)
     fun copyFileFromAssets(assets: AssetManager, inputFilePath: String, outputFilePath: String)
     {
@@ -30,7 +28,7 @@ internal class Utils
         fos.flush()
         fos.close()
     }
-    
+
     fun getValidExts(exts: Array<String>?): Array<String>
     {
         if (exts == null) return arrayOf("*")
@@ -156,7 +154,5 @@ internal class Utils
             if (ext == "*" || ext == fileExt) return true
         }
         return false
-    }
-    
     }
 }

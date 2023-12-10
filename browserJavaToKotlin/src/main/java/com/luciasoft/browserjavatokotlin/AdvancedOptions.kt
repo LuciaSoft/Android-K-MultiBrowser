@@ -5,9 +5,9 @@ class AdvancedOptions
     fun reset()
     {
         debugMode = false
-        screenRotationMode = MultiBrowserOptions.ScreenMode.NotSpecified
-        shortClickSaveFileBehavior = MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
-        longClickSaveFileBehavior = MultiBrowserOptions.SaveFileBehavior.SendNameToSaveBoxAndSaveFile
+        screenRotationMode = Options.ScreenMode.NotSpecified
+        shortClickSaveFileBehavior = Options.SaveFileBehavior.SendNameToSaveBoxOrSaveFile
+        longClickSaveFileBehavior = Options.SaveFileBehavior.SendNameToSaveBoxAndSaveFile
         allowShortClickFileForLoad = true
         allowShortClickFileForSave = true
         allowLongClickFileForLoad = false
@@ -39,9 +39,9 @@ class AdvancedOptions
     }
 
     var debugMode = false
-    lateinit var screenRotationMode: MultiBrowserOptions.ScreenMode
-    lateinit var shortClickSaveFileBehavior: MultiBrowserOptions.SaveFileBehavior
-    lateinit var longClickSaveFileBehavior: MultiBrowserOptions.SaveFileBehavior
+    lateinit var screenRotationMode: Options.ScreenMode
+    lateinit var shortClickSaveFileBehavior: Options.SaveFileBehavior
+    lateinit var longClickSaveFileBehavior: Options.SaveFileBehavior
     var allowShortClickFileForLoad = false
     var allowShortClickFileForSave = false
     var allowLongClickFileForLoad = false

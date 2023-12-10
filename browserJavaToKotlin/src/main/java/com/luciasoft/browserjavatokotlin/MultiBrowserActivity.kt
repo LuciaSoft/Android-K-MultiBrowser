@@ -45,12 +45,12 @@ import com.luciasoft.collections.DirectoryItem
 import java.io.File
 
 open class MultiBrowserActivity
-    : AppCompatActivity
+    : AppCompatActivity()
 {
     //private var tmpOptions: MultiBrowserOptions? = null
     
     lateinit var DAT: DataHolder
-    lateinit var OPT: MultiBrowserOptions
+    lateinit var OPT: Options
     lateinit var ADV: AdvancedOptions
     lateinit var THM: ThemeOptions
 
@@ -269,23 +269,23 @@ open class MultiBrowserActivity
         if (DAT.mDefaultScreenOrientation == null) DAT.mDefaultScreenOrientation =
             requestedOrientation
         
-        if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.AllowPortraitUprightOnly)
+        if (ADV.screenRotationMode === Options.ScreenMode.AllowPortraitUprightOnly)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
-        else if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.AllowPortraitUprightAndLandscape)
+        else if (ADV.screenRotationMode === Options.ScreenMode.AllowPortraitUprightAndLandscape)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
         }
-        else if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.AllowLandscapeOnly)
+        else if (ADV.screenRotationMode === Options.ScreenMode.AllowLandscapeOnly)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
         }
-        else if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.AllowAll)
+        else if (ADV.screenRotationMode === Options.ScreenMode.AllowAll)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         }
-        else if (ADV.screenRotationMode === MultiBrowserOptions.ScreenMode.SystemDefault)
+        else if (ADV.screenRotationMode === Options.ScreenMode.SystemDefault)
         {
             if (DAT.mDefaultScreenOrientation != null) requestedOrientation =
                 DAT.mDefaultScreenOrientation!!
@@ -416,7 +416,7 @@ open class MultiBrowserActivity
         val firstLoad = DAT.mFirstLoad
         DAT.mFirstLoad = false
         val items = getDirectoryItems(dir, forceSourceReload)
-        val galleryView = OPT.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
+        val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         var showLayouts = true
         if (items == null)
         {
@@ -455,7 +455,7 @@ open class MultiBrowserActivity
     ): ArrayList<DirectoryItem>?
     {
         if (dir == null) return null
-        val galleryView = OPT.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
+        val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         val readable = galleryView || directoryIsReadable(this, dir)
         if (!readable) return null
         if (galleryView || OPT.showImagesWhileBrowsingNormal)
@@ -494,17 +494,17 @@ open class MultiBrowserActivity
         var showParentDirLayout = false
         var showSaveFileLayout = false
         var showFileFilterLayout = false
-        val galleryView = OPT.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery
+        val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         if (!galleryView && showLayouts)
         {
             val isRoot = (OPT.currentDir == "/")
             showParentDirLayout = ADV.showParentDirectoryLayoutIfAvailable && !isRoot
             showCurrentDirLayout = ADV.showCurrentDirectoryLayoutIfAvailable
             showSaveFileLayout = ADV.showSaveFileLayoutIfAvailable &&
-                OPT.browseMode === MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders
+                OPT.browseMode === Options.BrowseMode.SaveFilesAndOrFolders
             showFileFilterLayout = ADV.showFileFilterLayoutIfAvailable &&
-                (OPT.browseMode === MultiBrowserOptions.BrowseMode.LoadFilesAndOrFolders ||
-                    OPT.browseMode === MultiBrowserOptions.BrowseMode.SaveFilesAndOrFolders)
+                (OPT.browseMode === Options.BrowseMode.LoadFilesAndOrFolders ||
+                    OPT.browseMode === Options.BrowseMode.SaveFilesAndOrFolders)
         }
         if (showCurrentDirLayout)
         {
@@ -545,14 +545,14 @@ open class MultiBrowserActivity
     private fun refreshLayoutManager()
     {
         val manager: RecyclerView.LayoutManager
-        if (OPT.browserViewType === MultiBrowserOptions.BrowserViewType.List)
+        if (OPT.browserViewType === Options.BrowserViewType.List)
         {
             manager = LinearLayoutManager(applicationContext)
         }
         else
         {
             val columnCount =
-                if (OPT.browserViewType === MultiBrowserOptions.BrowserViewType.Tiles) OPT.normalViewColumnCount else OPT.galleryViewColumnCount
+                if (OPT.browserViewType === Options.BrowserViewType.Tiles) OPT.normalViewColumnCount else OPT.galleryViewColumnCount
             manager = GridLayoutManager(applicationContext, columnCount)
         }
         mRecyclerView.layoutManager = manager
@@ -581,7 +581,7 @@ open class MultiBrowserActivity
         if (!skipDialog && !load)
         {
             var showDialog = false
-            if (OPT.browserViewType === MultiBrowserOptions.BrowserViewType.Gallery)
+            if (OPT.browserViewType === Options.BrowserViewType.Gallery)
             {
                 if (OPT.alwaysShowDialogForSavingGalleryItem) showDialog = true
             }

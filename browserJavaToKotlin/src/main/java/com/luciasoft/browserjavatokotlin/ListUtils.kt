@@ -16,21 +16,20 @@ import java.io.File
 import java.util.Collections
 import java.util.Random
 
-internal class ListUtils
+internal object ListUtils
 {
-    companion object
-    {
     fun getImageInfos(act: MultiBrowserActivity): ArrayList<DirectoryItem>?
     {
-        val sortOrder = if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+        val sortOrder =
+            if (act.OPT.browserViewType == Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
         val sortOrderString: String = when (sortOrder)
         {
-            MultiBrowserOptions.SortOrder.PathAscending -> MediaStore.Images.Media.DATA
-            MultiBrowserOptions.SortOrder.PathDescending -> MediaStore.Images.Media.DATA + " DESC"
-            MultiBrowserOptions.SortOrder.DateAscending -> MediaStore.Images.Media.DATE_MODIFIED
-            MultiBrowserOptions.SortOrder.DateDescending -> MediaStore.Images.Media.DATE_MODIFIED + " DESC"
-            MultiBrowserOptions.SortOrder.SizeAscending -> MediaStore.Images.Media.SIZE
-            MultiBrowserOptions.SortOrder.SizeDescending -> MediaStore.Images.Media.SIZE + " DESC"
+            Options.SortOrder.PathAscending -> MediaStore.Images.Media.DATA
+            Options.SortOrder.PathDescending -> MediaStore.Images.Media.DATA + " DESC"
+            Options.SortOrder.DateAscending -> MediaStore.Images.Media.DATE_MODIFIED
+            Options.SortOrder.DateDescending -> MediaStore.Images.Media.DATE_MODIFIED + " DESC"
+            Options.SortOrder.SizeAscending -> MediaStore.Images.Media.SIZE
+            Options.SortOrder.SizeDescending -> MediaStore.Images.Media.SIZE + " DESC"
             else -> MediaStore.Images.Media.DATA
         }
 
@@ -116,7 +115,8 @@ internal class ListUtils
             infoArray[i] = infoArray[pos]
             infoArray[pos] = tmp
         }
-        if (act.DAT.mMediaStoreImageInfoTree == null) act.DAT.mMediaStoreImageInfoTree = MediaStoreImageInfoTree()
+        if (act.DAT.mMediaStoreImageInfoTree == null) act.DAT.mMediaStoreImageInfoTree =
+            MediaStoreImageInfoTree()
         else act.DAT.mMediaStoreImageInfoTree!!.reset()
         for (info in infoArray) act.DAT.mMediaStoreImageInfoTree!!.add(info as FileItem)
         return list
@@ -175,7 +175,7 @@ internal class ListUtils
             }
             if (!isFile && !isDirectory) continue
             if (isFile &&
-                (!act.ADV.showFilesInNormalView || act.OPT.browseMode == MultiBrowserOptions.BrowseMode.LoadFolders || act.OPT.browseMode == MultiBrowserOptions.BrowseMode.SaveFolders)) continue
+                (!act.ADV.showFilesInNormalView || act.OPT.browseMode == Options.BrowseMode.LoadFolders || act.OPT.browseMode == Options.BrowseMode.SaveFolders)) continue
             if (isDirectory && !act.ADV.showFoldersInNormalView) continue
             val isHidden = try
             {
@@ -236,14 +236,16 @@ internal class ListUtils
                 }
                 info += if (size == null || !act.ADV.showFileSizesInListView) "file"
                 else getFileSizeString(size)
-                val imageId = if (act.OPT.showImagesWhileBrowsingNormal && act.DAT.mMediaStoreImageInfoTree != null) act.DAT.mMediaStoreImageInfoTree!!.getImageId(path) else null
+                val imageId =
+                    if (act.OPT.showImagesWhileBrowsingNormal && act.DAT.mMediaStoreImageInfoTree != null) act.DAT.mMediaStoreImageInfoTree!!.getImageId(
+                        path
+                    )
+                    else null
                 dirItemList.add(FileItem(path, date, size, info, imageId))
             }
         }
         Collections.sort(dirItemList, DirItemComparator.getComparator(act))
         return dirItemList
-    }
-    
     }
 }
 
@@ -254,15 +256,15 @@ internal class DirItemComparator(private var act: MultiBrowserActivity) : Compar
         val item1isDir = item1 is FolderItem
         val item2isDir = item2 is FolderItem
         if (item1isDir && !item2isDir) return -1 else if (item2isDir && !item1isDir) return 1
-        val sortOrder = if (act.OPT.browserViewType == MultiBrowserOptions.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
-        var path = sortOrder == MultiBrowserOptions.SortOrder.PathAscending ||
-            sortOrder == MultiBrowserOptions.SortOrder.PathDescending
-        var date = sortOrder == MultiBrowserOptions.SortOrder.DateAscending ||
-            sortOrder == MultiBrowserOptions.SortOrder.DateDescending
-        var size = sortOrder == MultiBrowserOptions.SortOrder.SizeAscending ||
-            sortOrder == MultiBrowserOptions.SortOrder.SizeDescending
+        val sortOrder = if (act.OPT.browserViewType == Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+        var path = sortOrder == Options.SortOrder.PathAscending ||
+            sortOrder == Options.SortOrder.PathDescending
+        var date = sortOrder == Options.SortOrder.DateAscending ||
+            sortOrder == Options.SortOrder.DateDescending
+        var size = sortOrder == Options.SortOrder.SizeAscending ||
+            sortOrder == Options.SortOrder.SizeDescending
         var desc =
-            sortOrder == MultiBrowserOptions.SortOrder.PathDescending || sortOrder == MultiBrowserOptions.SortOrder.DateDescending || sortOrder == MultiBrowserOptions.SortOrder.SizeDescending
+            sortOrder == Options.SortOrder.PathDescending || sortOrder == Options.SortOrder.DateDescending || sortOrder == Options.SortOrder.SizeDescending
         var compare = 0
         if (size && item1isDir)
         {

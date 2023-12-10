@@ -3,7 +3,7 @@ package com.luciasoft.browserjavatokotlin
 import android.app.Application
 
 class MultiBrowser
-    : Application
+    : Application()
 {
     override fun onCreate()
     {
