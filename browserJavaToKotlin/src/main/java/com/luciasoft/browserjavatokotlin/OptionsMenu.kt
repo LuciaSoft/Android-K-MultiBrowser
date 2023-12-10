@@ -5,9 +5,10 @@ import android.view.MenuItem
 import com.luciasoft.browserjavatokotlin.MyMessageBox.Companion.show
 import java.io.File
 
-internal object OptionsMenu
+internal class OptionsMenu
 {
-    @JvmStatic
+    companion object
+    {
     fun onMenuOpened(act: MultiBrowserActivity, menu: Menu)
     {
         var newFolderOptionVisible = false
@@ -71,7 +72,6 @@ internal object OptionsMenu
         menu.findItem(R.id.menuItemShowHideFileNames).isVisible = showHideFileNamesOptionVisible
     }
 
-    @JvmStatic
     fun onOptionsItemSelected(act: MultiBrowserActivity, item: MenuItem): Boolean
     {
         val itemId = item.itemId
@@ -249,5 +249,7 @@ internal object OptionsMenu
             return true
         }
         return false
+    }
+    
     }
 }
