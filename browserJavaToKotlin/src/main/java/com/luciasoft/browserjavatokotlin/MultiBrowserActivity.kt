@@ -48,7 +48,6 @@ open class MultiBrowserActivity : AppCompatActivity()
 {
     //private var tmpOptions: MultiBrowserOptions? = null
     
-    lateinit var APP: MultiBrowser
     lateinit var DAT: DataHolder
     lateinit var OPT: MultiBrowserOptions
     lateinit var ADV: AdvancedOptions
@@ -107,7 +106,7 @@ open class MultiBrowserActivity : AppCompatActivity()
     lateinit var mRecyclerView: MyRecyclerView
     lateinit var mEditTextSaveFileName: EditText
     
-    fun setEditTextSaveFileName(name: String?)
+    fun setEditTextSaveFileName(name: String)
     {
         mEditTextSaveFileName.setText(name)
     }
@@ -117,7 +116,6 @@ open class MultiBrowserActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_layout)
         
-        APP = application as MultiBrowser
         DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application))[DataHolder::class.java]
         OPT = DAT.mOptions!!
         ADV = OPT.mAdvancedOptions
