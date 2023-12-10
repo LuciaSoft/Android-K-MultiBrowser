@@ -18,8 +18,8 @@ import java.io.File
 
 internal class MyListAdapter(
     private val act: MultiBrowserActivity,
-    private val itemList: ArrayList<DirectoryItem>
-) : RecyclerView.Adapter<MyViewHolder>()
+    private val itemList: ArrayList<DirectoryItem>)
+    : RecyclerView.Adapter<MyViewHolder>
 {
     private val mIdMap = HashMap<DirectoryItem, Int>()
 
@@ -246,7 +246,8 @@ internal class MyListAdapter(
     }
 }
 
-internal class MyViewHolder(view: View, act: MultiBrowserActivity) : RecyclerView.ViewHolder(view)
+internal class MyViewHolder(view: View, act: MultiBrowserActivity)
+    : RecyclerView.ViewHolder(view)
 {
     var listItem: LinearLayout
     var title: TextView
