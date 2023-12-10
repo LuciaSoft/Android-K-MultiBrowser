@@ -4,16 +4,18 @@ import android.content.Context
 import android.content.DialogInterface
 import com.luciasoft.browserjavatokotlin.MyMessageBox.Companion.show
 
-internal object MyYesNoDialog
+internal class MyYesNoDialog
 {
-    @JvmStatic
-	fun show(
-        context: Context,
-        title: String = "",
-        message: String = "",
-        onYesClick: DialogInterface.OnClickListener? = null
-    )
+    companion object
     {
-        show(context, title, message, MyMessageBox.ButtonsType.YesNo, onYesClick, null)
+	    fun show(
+            context: Context,
+            title: String = "",
+            message: String = "",
+            onYesClick: DialogInterface.OnClickListener? = null
+        )
+        {
+            show(context, title, message, MyMessageBox.ButtonsType.YesNo, onYesClick, null)
+        }
     }
 }
