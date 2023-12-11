@@ -78,7 +78,7 @@ internal object XmlOperations
             val tree = trees[i]
             for (info in tree)
             {
-                val element = try { elList[i].getElementsByTagName("$head.${info.name}").item(0) as Element } catch (ex: Exception) { continue }
+                val element = try { root.getElementsByTagName("$head.${info.name}").item(0) as Element } catch (ex: Exception) { continue }
                 val type = element.getAttribute("type").lowercase()
                 val valStr = element.getAttribute("value")
 
