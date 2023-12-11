@@ -84,9 +84,9 @@ internal object OptionsMenu
                 var filePath = Options.extStoragePath
                 if (!filePath!!.endsWith(File.separatorChar)) filePath += File.separatorChar
                 filePath += "xml-file.xml"
-                act.OPT.saveXml(filePath)
+                XmlOperations.saveXml(filePath, act)
 
-                val array = act.OPT.loadXml(filePath)
+                val array = XmlOperations.loadXml(filePath, act)
                 Utils.toastLong(act, "NUM SET=" + array[0] + ", NUM SKIPPED=" + array[1])
             }
 
