@@ -27,34 +27,34 @@ internal object XmlOperations
     {
         val doc = XmlUtils.createXmlDocument("options")
         var root = doc.documentElement
-        for (prop in getPropertyInfoTree(opt, Mutability.Mutable))
+        for (info in getPropertyInfoTree(opt, Mutability.Mutable))
         {
-            if (prop.name == opt::mAdvancedOptions.name) continue
-            if (prop.name == opt::mThemeOptions.name) continue
+            if (info.name == opt::mAdvancedOptions.name) continue
+            if (info.name == opt::mThemeOptions.name) continue
 
-            val element = doc.createElement("opt.${prop.name}")
-            val type = getType("" + prop.type)
+            val element = doc.createElement("opt.${info.name}")
+            val type = getType("" + info.type)
             if (type.lowercase().startsWith("array")) continue
             element.setAttribute("type", type)
-            element.setAttribute("value", "" + prop.value)
+            element.setAttribute("value", "" + info.value)
             root.appendChild(element)
         }
-        for (prop in getPropertyInfoTree(opt.mAdvancedOptions, Mutability.Mutable))
+        for (info in getPropertyInfoTree(opt.mAdvancedOptions, Mutability.Mutable))
         {
-            val element = doc.createElement("adv.${prop.name}")
-            val type = getType("" + prop.type)
+            val element = doc.createElement("adv.${info.name}")
+            val type = getType("" + info.type)
             if (type.lowercase().startsWith("array")) continue
             element.setAttribute("type", type)
-            element.setAttribute("value", "" + prop.value)
+            element.setAttribute("value", "" + info.value)
             root.appendChild(element)
         }
-        for (prop in getPropertyInfoTree(opt.mThemeOptions, Mutability.Mutable))
+        for (info in getPropertyInfoTree(opt.mThemeOptions, Mutability.Mutable))
         {
-            val element = doc.createElement("thm.${prop.name}")
-            val type = getType("" + prop.type)
+            val element = doc.createElement("thm.${info.name}")
+            val type = getType("" + info.type)
             if (type.lowercase().startsWith("array")) continue
             element.setAttribute("type", type)
-            element.setAttribute("value", "" + prop.value)
+            element.setAttribute("value", "" + info.value)
             root.appendChild(element)
         }
         return doc
