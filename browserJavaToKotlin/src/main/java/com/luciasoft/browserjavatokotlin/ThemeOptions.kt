@@ -117,13 +117,9 @@ class ThemeOptions
     private var fontCustomBold: Typeface? = null
     private var fontCustomItal: Typeface? = null
     private var fontCustomBdIt: Typeface? = null
-    @JvmField
     var mFontCustomNormPath: String? = null
-    @JvmField
     var mFontCustomBoldPath: String? = null
-    @JvmField
     var mFontCustomItalPath: String? = null
-    @JvmField
     var mFontCustomBdItPath: String? = null
 
     fun getFontNorm(assets: AssetManager): Typeface
