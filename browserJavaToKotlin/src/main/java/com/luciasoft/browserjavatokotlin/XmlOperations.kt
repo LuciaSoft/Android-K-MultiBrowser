@@ -26,33 +26,26 @@ internal object XmlOperations
     private fun getXml(act: MultiBrowserActivity): Document
     {
         val doc = XmlUtils.createXmlDocument("options")
-        var root = doc.documentElement
-        for (info in getPropertyInfoTree(act.OPT, Mutability.Mutable))
+        val root = doc.documentElement
+        val heads = arrayOf("opt", "adv", "thm")
+        val trees = arrayOf(
+            getPropertyInfoTree(act.OPT, Mutability.Mutable),
+            getPropertyInfoTree(act.ADV, Mutability.Mutable),
+            getPropertyInfoTree(act.THM, Mutability.Mutable))
+        for (i in heads.indices)
         {
-            val element = doc.createElement("opt.${info.name}")
-            val type = getType("" + info.type)
-            if (type.lowercase().startsWith("array")) continue
-            element.setAttribute("type", type)
-            element.setAttribute("value", "" + info.value)
-            root.appendChild(element)
-        }
-        for (info in getPropertyInfoTree(act.ADV, Mutability.Mutable))
-        {
-            val element = doc.createElement("adv.${info.name}")
-            val type = getType("" + info.type)
-            if (type.lowercase().startsWith("array")) continue
-            element.setAttribute("type", type)
-            element.setAttribute("value", "" + info.value)
-            root.appendChild(element)
-        }
-        for (info in getPropertyInfoTree(act.THM, Mutability.Mutable))
-        {
-            val element = doc.createElement("thm.${info.name}")
-            val type = getType("" + info.type)
-            if (type.lowercase().startsWith("array")) continue
-            element.setAttribute("type", type)
-            element.setAttribute("value", "" + info.value)
-            root.appendChild(element)
+            val head = heads[i]
+            val tree = trees[i]
+        
+            for (info in trees)
+            {
+                val element = doc.createElement("$head.${info.name}")
+                val type = getType("" + info.type)
+                if (type.lowercase().startsWith("array")) continue
+                element.setAttribute("type", type)
+                element.setAttribute("value", "" + info.value)
+                root.appendChild(element)
+            }
         }
         return doc
     }
