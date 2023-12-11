@@ -11,27 +11,24 @@ import kotlin.reflect.KMutableProperty1
 
 internal object XmlOperations
 {
-    fun saveXml(filePath: String, options: Options)
+    fun saveXml(filePath: String, act: MultiBrowserActivity)
     {
-        val doc = getXml(options)
+        val doc = getXml(act)
         XmlUtils.saveXml(doc, filePath)
     }
 
-    fun loadXml(filePath: String, options: Options): Array<Int>
+    fun loadXml(filePath: String, act: MultiBrowserActivity): Array<Int>
     {
         val doc = XmlUtils.loadXmlFile(filePath)
-        return loadXml(doc, options)
+        return loadXml(doc, act)
     }
 
-    private fun getXml(opt: Options): Document
+    private fun getXml(act: MultiBrowserActivity): Document
     {
         val doc = XmlUtils.createXmlDocument("options")
         var root = doc.documentElement
-        for (info in getPropertyInfoTree(opt, Mutability.Mutable))
+        for (info in getPropertyInfoTree(act.OPT, Mutability.Mutable))
         {
-            if (info.name == opt::mAdvancedOptions.name) continue
-            if (info.name == opt::mThemeOptions.name) continue
-
             val element = doc.createElement("opt.${info.name}")
             val type = getType("" + info.type)
             if (type.lowercase().startsWith("array")) continue
@@ -39,7 +36,7 @@ internal object XmlOperations
             element.setAttribute("value", "" + info.value)
             root.appendChild(element)
         }
-        for (info in getPropertyInfoTree(opt.mAdvancedOptions, Mutability.Mutable))
+        for (info in getPropertyInfoTree(act.ADV, Mutability.Mutable))
         {
             val element = doc.createElement("adv.${info.name}")
             val type = getType("" + info.type)
@@ -48,7 +45,7 @@ internal object XmlOperations
             element.setAttribute("value", "" + info.value)
             root.appendChild(element)
         }
-        for (info in getPropertyInfoTree(opt.mThemeOptions, Mutability.Mutable))
+        for (info in getPropertyInfoTree(act.THM, Mutability.Mutable))
         {
             val element = doc.createElement("thm.${info.name}")
             val type = getType("" + info.type)
@@ -60,14 +57,14 @@ internal object XmlOperations
         return doc
     }
 
-    private fun loadXml(doc: Document, options: Options): Array<Int>
+    private fun loadXml(doc: Document, act: MultiBrowserActivity): Array<Int>
     {
         val root = doc.documentElement
         val heads = arrayOf("opt", "adv", "thm")
         val trees = arrayOf(
-            getPropertyInfoTree(options, Mutability.Mutable),
-            getPropertyInfoTree(options.mAdvancedOptions, Mutability.Mutable),
-            getPropertyInfoTree(options.mThemeOptions, Mutability.Mutable))
+            getPropertyInfoTree(act.OPT, Mutability.Mutable),
+            getPropertyInfoTree(act.ADV, Mutability.Mutable),
+            getPropertyInfoTree(act.THM, Mutability.Mutable))
         
         var count = 0
         var skipped = 0
