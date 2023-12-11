@@ -15,17 +15,6 @@ class Options
 {
     private val ALL_FILES_FILTER = " All Files ( * ) |*"
 
-    @Throws(IOException::class, TransformerException::class, ParserConfigurationException::class)
-    fun saveXml(filePath: String)
-    {
-        XmlOperations.saveXml(filePath, this)
-    }
-
-    fun loadXml(filePath: String): Array<Int>
-    {
-        return XmlOperations.loadXml(filePath, this)
-    }
-
     enum class FontMode(private val value: Int)
     {
         System(1), AppDefault(2), CustomOrSystem(3), CustomOrAppDefault(4);
@@ -187,9 +176,6 @@ class Options
         }
     }
 
-    var mAdvancedOptions = AdvancedOptions()
-    var mThemeOptions = ThemeOptions()
-
     fun reset()
     {
         setFileFilter(ALL_FILES_FILTER)
@@ -215,8 +201,6 @@ class Options
         showImagesWhileBrowsingNormal = true
         showImagesWhileBrowsingGallery = true
         allowAccessToRestrictedFolders = false
-        mAdvancedOptions.reset()
-        mThemeOptions.reset()
     }
 
     lateinit var browserTitle: String
