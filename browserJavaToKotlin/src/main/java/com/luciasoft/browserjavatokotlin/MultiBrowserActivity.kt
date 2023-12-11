@@ -119,7 +119,7 @@ open class MultiBrowserActivity: AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         APP = application as AppBase
-        DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(APP)).get(Data::class.java)
+        DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(APP))[Data::class.java]
         setContentView(R.layout.activity_layout)
 
         val pair = FileFilters.getFileFilterArrays(OPT.mFileFilterString)
