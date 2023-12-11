@@ -115,10 +115,10 @@ internal object ListUtils
             infoArray[i] = infoArray[pos]
             infoArray[pos] = tmp
         }
-        if (act.DAT.mMediaStoreImageInfoTree == null) act.DAT.mMediaStoreImageInfoTree =
+        if (act.DAT.mediaStoreImageInfoTree == null) act.DAT.mediaStoreImageInfoTree =
             MediaStoreImageInfoTree()
-        else act.DAT.mMediaStoreImageInfoTree!!.reset()
-        for (info in infoArray) act.DAT.mMediaStoreImageInfoTree!!.add(info as FileItem)
+        else act.DAT.mediaStoreImageInfoTree!!.reset()
+        for (info in infoArray) act.DAT.mediaStoreImageInfoTree!!.add(info as FileItem)
         return list
     }
 
@@ -237,7 +237,7 @@ internal object ListUtils
                 info += if (size == null || !act.ADV.showFileSizesInListView) "file"
                 else getFileSizeString(size)
                 val imageId =
-                    if (act.OPT.showImagesWhileBrowsingNormal && act.DAT.mMediaStoreImageInfoTree != null) act.DAT.mMediaStoreImageInfoTree!!.getImageId(
+                    if (act.OPT.showImagesWhileBrowsingNormal && act.DAT.mediaStoreImageInfoTree != null) act.DAT.mediaStoreImageInfoTree!!.getImageId(
                         path
                     )
                     else null

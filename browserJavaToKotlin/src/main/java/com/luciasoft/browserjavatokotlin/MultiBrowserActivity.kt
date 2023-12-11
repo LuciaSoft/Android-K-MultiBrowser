@@ -45,74 +45,21 @@ import java.io.File
 
 open class MultiBrowserActivity: AppCompatActivity()
 {
-    //private var tmpOptions: MultiBrowserOptions? = null
-
-    lateinit var APP: AppBase
+    private lateinit var APP: AppBase
 
     lateinit var DAT: Data
-    val OPT get() = DAT.OPT!!
-    val ADV get() = DAT.ADV!!
-    val THM get() = DAT.THM!!
+    val OPT get() = DAT.OPT
+    val ADV get() = DAT.ADV
+    val THM get() = DAT.THM
 
-    lateinit var fileFilterArray: Array<Array<String>>
-    lateinit var fileFilterDescripArray: Array<String>
-
-    lateinit var mRecyclerView: MyRecyclerView
-    lateinit var mEditTextSaveFileName: EditText
-
-    /*val options: MultiBrowserOptions?
-        get()
-        {
-            if (DAT == null && tmpOptions == null) return null
-            return if (DAT == null) tmpOptions else DAT.mOptions
-        }*/
-
-    /*fun setOptions(options: MultiBrowserOptions?, squelchException: Boolean): Boolean
-    {
-        if (options == null)
-        {
-            if (squelchException) return false
-            throw IllegalArgumentException("The options cannot be null.")
-        }
-        if (DAT == null)
-        {
-            tmpOptions = options
-        }
-        else
-        {
-            DAT.mOptions = options
-            tmpOptions = null
-        }
-        return true
-    }*/
-
-    /*public MultiBrowserActivity()
-    {
-        super();
-
-        if (MultiBrowserOptions.mDefaultScreenOrientation == null)
-            MultiBrowserOptions.mDefaultScreenOrientation = getRequestedOrientation();
-
-        oh = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(OptionsHolder.class);
-
-        configureScreenRotation();
-    }
-
-    public MultiBrowserActivity(int contentLayoutId)
-    {
-        super(contentLayoutId);
-
-        if (MultiBrowserOptions.mDefaultScreenOrientation == null)
-            MultiBrowserOptions.mDefaultScreenOrientation = getRequestedOrientation();
-
-        oh = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(OptionsHolder.class);
-
-        configureScreenRotation();
-    }*/
+    private lateinit var fileFilterArray: Array<Array<String>>
+    private lateinit var fileFilterDescripArray: Array<String>
+    private lateinit var recyclerView: MyRecyclerView
+    private lateinit var editTextSaveFileName: EditText
 
     fun setEditTextSaveFileName(name: String)
     {
-        mEditTextSaveFileName.setText(name)
+        editTextSaveFileName.setText(name)
     }
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -122,17 +69,11 @@ open class MultiBrowserActivity: AppCompatActivity()
         DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(APP))[Data::class.java]
         setContentView(R.layout.activity_layout)
 
-        val pair = FileFilters.getFileFilterArrays(OPT.mFileFilterString)
-        fileFilterArray = pair.first
-        fileFilterDescripArray = pair.second
-
         if (!Permissions.checkExternalStoragePermission(this)) Permissions.requestExternalStoragePermission(this)
 
-        /*if (tmpOptions != null)
-        {
-            DAT.mOptions = tmpOptions
-            tmpOptions = null
-        }*/
+        val pair = FileFilters.getFileFilterArrays(OPT.fileFilterString)
+        fileFilterArray = pair.first
+        fileFilterDescripArray = pair.second
 
         configureScreenRotation()
 
@@ -174,8 +115,8 @@ open class MultiBrowserActivity: AppCompatActivity()
             }
             if (OPT.defaultDir == null) OPT.defaultDir = DAT.currentDir
         }
-        mRecyclerView = findViewById(R.id.recyclerView)
-        mRecyclerView.setHasFixedSize(true)
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.setHasFixedSize(true)
         setupParentDirLayout()
         setupSaveFileLayout()
         setupFileFilterLayout()
@@ -273,7 +214,7 @@ open class MultiBrowserActivity: AppCompatActivity()
 
     private fun configureScreenRotation()
     {
-        if (DAT.mDefaultScreenOrientation == null) DAT.mDefaultScreenOrientation =
+        if (DAT.defaultScreenOrientation == null) DAT.defaultScreenOrientation =
             requestedOrientation
 
         if (ADV.screenRotationMode == Options.ScreenMode.AllowPortraitUprightOnly)
@@ -294,8 +235,8 @@ open class MultiBrowserActivity: AppCompatActivity()
         }
         else if (ADV.screenRotationMode == Options.ScreenMode.SystemDefault)
         {
-            if (DAT.mDefaultScreenOrientation != null) requestedOrientation =
-                DAT.mDefaultScreenOrientation!!
+            if (DAT.defaultScreenOrientation != null) requestedOrientation =
+                DAT.defaultScreenOrientation!!
         }
     }
 
@@ -312,15 +253,15 @@ open class MultiBrowserActivity: AppCompatActivity()
 
     private fun setupSaveFileLayout()
     {
-        mEditTextSaveFileName = findViewById<View>(R.id.saveFileEditText) as EditText
-        if (OPT.defaultSaveFileName != "") mEditTextSaveFileName.setText(OPT.defaultSaveFileName)
+        editTextSaveFileName = findViewById<View>(R.id.saveFileEditText) as EditText
+        if (OPT.defaultSaveFileName != "") editTextSaveFileName.setText(OPT.defaultSaveFileName)
         val btnSaveFile = findViewById<View>(R.id.saveFileButton) as Button
         btnSaveFile.setOnClickListener(object : View.OnClickListener
         {
             override fun onClick(view: View)
             {
-                val filename: String = mEditTextSaveFileName.text.toString().trim { it <= ' ' }
-                mEditTextSaveFileName.setText(filename)
+                val filename: String = editTextSaveFileName.text.toString().trim { it <= ' ' }
+                editTextSaveFileName.setText(filename)
                 if (filename.isEmpty()) return
                 val filename2 = checkFileNameAndExt(filename)
                 if (filename2 == null)
@@ -378,15 +319,15 @@ open class MultiBrowserActivity: AppCompatActivity()
             )
             {
                 if (DAT.fileFilterIndex == position) return
-                if (mEditTextSaveFileName.visibility != View.GONE)
+                if (editTextSaveFileName.visibility != View.GONE)
                 {
                     var filename: String =
-                        mEditTextSaveFileName.text.toString().trim { it <= ' ' }
+                        editTextSaveFileName.text.toString().trim { it <= ' ' }
                     if (!filename.isEmpty())
                     {
                         filename = changeFileExt(filename, DAT.fileFilterIndex!!, position)
                     }
-                    mEditTextSaveFileName.setText(filename)
+                    editTextSaveFileName.setText(filename)
                 }
                 DAT.fileFilterIndex = position
                 refreshView(false, false)
@@ -420,8 +361,8 @@ open class MultiBrowserActivity: AppCompatActivity()
 
     fun refreshView(dir: String?, forceSourceReload: Boolean, refreshLayout: Boolean)
     {
-        val firstLoad = DAT.mFirstLoad
-        DAT.mFirstLoad = false
+        val firstLoad = DAT.firstLoad
+        DAT.firstLoad = false
         val items = getDirectoryItems(dir, forceSourceReload)
         val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         var showLayouts = true
@@ -429,14 +370,14 @@ open class MultiBrowserActivity: AppCompatActivity()
         {
             if (galleryView || dir == null)
             {
-                mRecyclerView.text = "error reading items"
+                recyclerView.text = "error reading items"
                 showLayouts = false
             }
             else
             {
                 if (firstLoad)
                 {
-                    mRecyclerView.text = "cannot read directory:\n$dir"
+                    recyclerView.text = "cannot read directory:\n$dir"
                     showLayouts = false
                 }
                 else
@@ -449,9 +390,9 @@ open class MultiBrowserActivity: AppCompatActivity()
         {
             if (!galleryView) DAT.currentDir = dir
             if (refreshLayout) refreshLayoutManager()
-            if (items.size == 0) mRecyclerView.text = "no items"
-            else mRecyclerView.clearText()
-            mRecyclerView.adapter = MyListAdapter(this, items)
+            if (items.size == 0) recyclerView.text = "no items"
+            else recyclerView.clearText()
+            recyclerView.adapter = MyListAdapter(this, items)
         }
         configureLayouts(showLayouts)
     }
@@ -468,25 +409,25 @@ open class MultiBrowserActivity: AppCompatActivity()
         if (galleryView || OPT.showImagesWhileBrowsingNormal)
         {
             val reload = (forceSourceReload ||
-                ADV.autoRefreshDirectorySource || (DAT.mMediaStoreImageInfoList == null))
-            if (reload) DAT.mMediaStoreImageInfoList = getImageInfos(this)
+                ADV.autoRefreshDirectorySource || (DAT.mediaStoreImageInfoList == null))
+            if (reload) DAT.mediaStoreImageInfoList = getImageInfos(this)
         }
         val items: ArrayList<DirectoryItem>?
         if (galleryView)
         {
-            items = DAT.mMediaStoreImageInfoList
+            items = DAT.mediaStoreImageInfoList
         }
         else
         {
             val reload = forceSourceReload || ADV.autoRefreshDirectorySource || (
-                DAT.mFileSystemDirectoryItems == null) || (
+                DAT.fileSystemDirectoryItems == null) || (
                 DAT.currentDir == null) || !dir.equals(DAT.currentDir, ignoreCase = true)
-            if (reload) DAT.mFileSystemDirectoryItems = getDirectoryItemsFromFileSystem(
+            if (reload) DAT.fileSystemDirectoryItems = getDirectoryItemsFromFileSystem(
                 this,
                 dir,
                 fileFilterArray[DAT.fileFilterIndex!!]
             )
-            items = DAT.mFileSystemDirectoryItems
+            items = DAT.fileSystemDirectoryItems
         }
         return items
     }
@@ -562,7 +503,7 @@ open class MultiBrowserActivity: AppCompatActivity()
                 if (OPT.browserViewType === Options.BrowserViewType.Tiles) OPT.normalViewColumnCount else OPT.galleryViewColumnCount
             manager = GridLayoutManager(applicationContext, columnCount)
         }
-        mRecyclerView.layoutManager = manager
+        recyclerView.layoutManager = manager
     }
 
     fun onSelect(

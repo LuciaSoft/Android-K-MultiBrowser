@@ -169,7 +169,7 @@ class Options
 
     fun reset()
     {
-        mFileFilterString = ALL_FILES_FILTER
+        fileFilterString = ALL_FILES_FILTER
         browserTitle = "Multi Browser"
         browseMode = BrowseMode.SaveFilesAndOrFolders
         browserViewType = BrowserViewType.List
@@ -192,7 +192,7 @@ class Options
         allowAccessToRestrictedFolders = false
         startFileFilterIndex = 0
         startDir = extStoragePath
-        mFileFilterString = ALL_FILES_FILTER
+        fileFilterString = ALL_FILES_FILTER
     }
 
     lateinit var browserTitle: String
@@ -217,7 +217,7 @@ class Options
     var allowAccessToRestrictedFolders = false
     var startFileFilterIndex = 0
     var startDir: String? = null
-    lateinit var mFileFilterString: String
+    lateinit var fileFilterString: String
 
     init
     {

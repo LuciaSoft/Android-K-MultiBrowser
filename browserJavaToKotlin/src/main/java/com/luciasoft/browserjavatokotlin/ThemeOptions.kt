@@ -55,10 +55,10 @@ class ThemeOptions
         sizeFileFilterText = 16f
         sizeFileFilterPopupText = 16f
         fontMode = Options.FontMode.AppDefault
-        //mFontCustomNorm = null;
-        //mFontCustomBold = null;
-        //mFontCustomItal = null;
-        //mFontCustomBdIt = null;
+        //fontCustomNorm = null;
+        //fontCustomBold = null;
+        //fontCustomItal = null;
+        //fontCustomBdIt = null;
     }
 
     var colorBrowserTitle = 0
@@ -105,10 +105,10 @@ class ThemeOptions
     var sizeFileFilterPopupText = 0f
     lateinit var fontMode: Options.FontMode
 
-    private var mFontAppDefaultNorm: Typeface? = null
-    private var mFontAppDefaultBold: Typeface? = null
-    private var mFontAppDefaultItal: Typeface? = null
-    private var mFontAppDefaultBdIt: Typeface? = null
+    private var fontAppDefaultNorm: Typeface? = null
+    private var fontAppDefaultBold: Typeface? = null
+    private var fontAppDefaultItal: Typeface? = null
+    private var fontAppDefaultBdIt: Typeface? = null
     private val fontSystemNorm: Typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
     private val fontSystemBold: Typeface = Typeface.defaultFromStyle(Typeface.BOLD)
     private val fontSystemItal: Typeface = Typeface.defaultFromStyle(Typeface.ITALIC)
@@ -117,10 +117,10 @@ class ThemeOptions
     private var fontCustomBold: Typeface? = null
     private var fontCustomItal: Typeface? = null
     private var fontCustomBdIt: Typeface? = null
-    var mFontCustomNormPath: String? = null
-    var mFontCustomBoldPath: String? = null
-    var mFontCustomItalPath: String? = null
-    var mFontCustomBdItPath: String? = null
+    var fontCustomNormPath: String? = null
+    var fontCustomBoldPath: String? = null
+    var fontCustomItalPath: String? = null
+    var fontCustomBdItPath: String? = null
 
     init
     {
@@ -169,30 +169,30 @@ class ThemeOptions
 
     fun getFontAppDefaultNorm(assets: AssetManager): Typeface
     {
-        if (mFontAppDefaultNorm == null) mFontAppDefaultNorm =
+        if (fontAppDefaultNorm == null) fontAppDefaultNorm =
             Typeface.createFromAsset(assets, "fonts/cambria.ttf")
-        return mFontAppDefaultNorm!!
+        return fontAppDefaultNorm!!
     }
 
     fun getFontAppDefaultBold(assets: AssetManager): Typeface
     {
-        if (mFontAppDefaultBold == null) mFontAppDefaultBold =
+        if (fontAppDefaultBold == null) fontAppDefaultBold =
             Typeface.createFromAsset(assets, "fonts/cambriab.ttf")
-        return mFontAppDefaultBold!!
+        return fontAppDefaultBold!!
     }
 
     fun getFontAppDefaultItal(assets: AssetManager): Typeface
     {
-        if (mFontAppDefaultItal == null) mFontAppDefaultItal =
+        if (fontAppDefaultItal == null) fontAppDefaultItal =
             Typeface.createFromAsset(assets, "fonts/cambriai.ttf")
-        return mFontAppDefaultItal!!
+        return fontAppDefaultItal!!
     }
 
     fun getFontAppDefaultBdIt(assets: AssetManager): Typeface
     {
-        if (mFontAppDefaultBdIt == null) mFontAppDefaultBdIt =
+        if (fontAppDefaultBdIt == null) fontAppDefaultBdIt =
             Typeface.createFromAsset(assets, "fonts/cambriaz.ttf")
-        return mFontAppDefaultBdIt!!
+        return fontAppDefaultBdIt!!
     }
 
     fun setFontCustomNorm(fontFilePath: String)
@@ -200,12 +200,12 @@ class ThemeOptions
         try
         {
             fontCustomNorm = Typeface.createFromFile(fontFilePath)
-            mFontCustomNormPath = fontFilePath
+            fontCustomNormPath = fontFilePath
         }
         catch (ex: Exception)
         {
             fontCustomNorm = null
-            mFontCustomNormPath = null
+            fontCustomNormPath = null
         }
     }
 
@@ -214,12 +214,12 @@ class ThemeOptions
         try
         {
             fontCustomBold = Typeface.createFromFile(fontFilePath)
-            mFontCustomBoldPath = fontFilePath
+            fontCustomBoldPath = fontFilePath
         }
         catch (ex: Exception)
         {
             fontCustomBold = null
-            mFontCustomBoldPath = null
+            fontCustomBoldPath = null
         }
     }
 
@@ -228,12 +228,12 @@ class ThemeOptions
         try
         {
             fontCustomItal = Typeface.createFromFile(fontFilePath)
-            mFontCustomItalPath = fontFilePath
+            fontCustomItalPath = fontFilePath
         }
         catch (ex: Exception)
         {
             fontCustomItal = null
-            mFontCustomItalPath = null
+            fontCustomItalPath = null
         }
     }
 
@@ -242,12 +242,12 @@ class ThemeOptions
         try
         {
             fontCustomBdIt = Typeface.createFromFile(fontFilePath)
-            mFontCustomBdItPath = fontFilePath
+            fontCustomBdItPath = fontFilePath
         }
         catch (ex: Exception)
         {
             fontCustomBdIt = null
-            mFontCustomBdItPath = null
+            fontCustomBdItPath = null
         }
     }
 }
