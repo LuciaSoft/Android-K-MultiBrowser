@@ -234,7 +234,7 @@ class Options
     }
     
     var mFileFilterString: String = ALL_FILES_FILTER
-        get()  = getFileFilterString()
+        get() = getFileFilterString()
         set(value) { setFileFilter(value) }
 
     fun setFileFilter(filterString: String)
