@@ -210,11 +210,11 @@ class Options
     lateinit var galleryViewSortOrder: SortOrder
     var normalViewColumnCount = 0
     var galleryViewColumnCount = 0
-    var currentDir: String? = null
+    var currentDir: String? = null // MOVE TO DATA HOLDER
     var defaultDir: String? = null
     lateinit var defaultSaveFileName: String
     var createDirOnActivityStart = false
-    var fileFilterIndex = 0
+    var fileFilterIndex = 0 // MOVE TO DATA HOLDER
     var alwaysShowDialogForSavingFile = false
     var alwaysShowDialogForSavingFolder = false
     var alwaysShowDialogForSavingGalleryItem = false
@@ -225,8 +225,8 @@ class Options
     var showImagesWhileBrowsingNormal = false
     var showImagesWhileBrowsingGallery = false
     var allowAccessToRestrictedFolders = false
-    lateinit var mFileFilters: Array<Array<String>>
-    lateinit var mFileFilterDescrips: Array<String>
+    lateinit var mFileFilters: Array<Array<String>> // MOVE TO DATA HOLDER
+    lateinit var mFileFilterDescrips: Array<String> // MOVE TO DATA HOLDER
 
     init
     {
