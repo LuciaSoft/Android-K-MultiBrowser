@@ -9,7 +9,11 @@ class DataHolder(var app: Application)
     : AndroidViewModel(app)
 {
     @JvmField
-    var mOptions: Options? = null
+    var OPT: Options? = null
+    @JvmField
+    var ADV: AdvancedOptions? = null
+    @JvmField
+    var THM: ThemeOptions? = null
     @JvmField
     var mDefaultScreenOrientation: Int? = null
     @JvmField
@@ -23,13 +27,17 @@ class DataHolder(var app: Application)
 
     init
     {
-        mOptions = Options()
+        OPT = Options()
+        ADV = AdvancedOptions()
+        THM = ThemeOptions()
     }
 
     override fun onCleared()
     {
         super.onCleared()
-        mOptions = null
+        OPT = null
+        ADV = null
+        THM = null
         mDefaultScreenOrientation = null
         mFileSystemDirectoryItems = null
         mMediaStoreImageInfoList = null
