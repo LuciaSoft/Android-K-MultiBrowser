@@ -44,6 +44,7 @@ object FileFilters
         return Pair(filterArray, newDescrips)
     }
 
+    // UNUSED
     fun getFileFilterString(filterArray: Array<Array<String>>, descripArray: Array<String>): String
     {
         var result = ""

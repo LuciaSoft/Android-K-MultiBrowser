@@ -9,14 +9,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="DAtaHolder">
-      <change afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/FileFilters.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/DataHolder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/DataHolder.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MultiBrowserActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MultiBrowserActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Options.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Options.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/OptionsMenu.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/OptionsMenu.kt" afterDir="false" />
+    <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="C">
+      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/FileFilters.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/FileFilters.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -464,7 +458,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702316522596</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="C">
+      <created>1702319960954</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1702319960954</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -480,11 +481,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="!!" />
-    <MESSAGE value="C" />
     <MESSAGE value="?" />
     <MESSAGE value="Perms" />
     <MESSAGE value="XmlOps" />
     <MESSAGE value="DAtaHolder" />
-    <option name="LAST_COMMIT_MESSAGE" value="DAtaHolder" />
+    <MESSAGE value="C" />
+    <option name="LAST_COMMIT_MESSAGE" value="C" />
   </component>
 </project>
