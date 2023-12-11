@@ -48,10 +48,12 @@ open class MultiBrowserActivity
 {
     //private var tmpOptions: MultiBrowserOptions? = null
 
-    lateinit var DAT: DataHolder
-    lateinit var OPT: Options
-    lateinit var ADV: AdvancedOptions
-    lateinit var THM: ThemeOptions
+    lateinit var APP: MultiBrowser
+
+    val DAT get() = APP.DAT
+    val OPT get() = APP.OPT
+    val ADV get() = APP.ADV
+    val THM get() = APP.THM
 
     lateinit var fileFilterArray: Array<Array<String>>
     lateinit var fileFilterDescripArray: Array<String>
@@ -114,18 +116,17 @@ open class MultiBrowserActivity
         mEditTextSaveFileName.setText(name)
     }
 
+    open fun initialize()
+    {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+        APP = application as MultiBrowser
+        initialize()
         setContentView(R.layout.activity_layout)
-
-        DAT = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        )[DataHolder::class.java]
-        OPT = DAT.OPT!!
-        ADV = DAT.ADV!!
-        THM = DAT.THM!!
 
         val pair = FileFilters.getFileFilterArrays(OPT.mFileFilterString)
         fileFilterArray = pair.first

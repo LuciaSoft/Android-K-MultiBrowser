@@ -5,15 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import com.luciasoft.collections.DirectoryItem
 import com.luciasoft.collections.MediaStoreImageInfoTree
 
-class DataHolder(var app: Application)
+class DataHolder(app: Application)
     : AndroidViewModel(app)
 {
-    var OPT: Options? = Options()
-    var ADV: AdvancedOptions? = AdvancedOptions()
-    var THM: ThemeOptions? = ThemeOptions()
-
-    var currentDir: String? = OPT!!.startDir
-    var fileFilterIndex = OPT!!.startFileFilterIndex
+    var mb = app as MultiBrowser
+    var currentDir: String? = mb.OPT.startDir
+    var fileFilterIndex = mb.OPT.startFileFilterIndex
 
     var mDefaultScreenOrientation: Int? = null
     var mFileSystemDirectoryItems: ArrayList<DirectoryItem>? = null
@@ -24,9 +21,6 @@ class DataHolder(var app: Application)
     override fun onCleared()
     {
         super.onCleared()
-        OPT = null
-        ADV = null
-        THM = null
         currentDir = null
         fileFilterIndex = 0
         mDefaultScreenOrientation = null

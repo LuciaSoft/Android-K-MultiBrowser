@@ -9,4 +9,9 @@ class MultiBrowser
     {
         super.onCreate()
     }
+
+    var OPT = Options()
+    var ADV = AdvancedOptions()
+    var THM = ThemeOptions()
+    var DAT = Data(this)
 }

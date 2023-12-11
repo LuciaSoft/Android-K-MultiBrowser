@@ -6,11 +6,11 @@ class Options
 {
     private val ALL_FILES_FILTER = " All Files ( * ) |*"
 
-    private val TEST_FILE_FILTER =
+    /*private val TEST_FILE_FILTER =
         " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
             " PNG Image Files ( *.png ) |*.png|" +
             " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
-            " All Files ( *.* ) |*"
+            " All Files ( *.* ) |*"*/
 
     enum class FontMode(private val value: Int)
     {
@@ -198,7 +198,7 @@ class Options
         allowAccessToRestrictedFolders = false
         startFileFilterIndex = 0
         startDir = extStoragePath
-        mFileFilterString = TEST_FILE_FILTER
+        mFileFilterString = ALL_FILES_FILTER
     }
 
     lateinit var browserTitle: String
