@@ -26,41 +26,36 @@ internal object XmlOperations
     private fun getXml(opt: Options): Document
     {
         val doc = XmlUtils.createXmlDocument("options")
-        var el = doc.createElement("opt")
-        doc.documentElement.appendChild(el)
+        var root = doc.documentElement
         for (prop in getPropertyInfoTree(opt, Mutability.Mutable))
         {
             if (prop.name == opt::mAdvancedOptions.name) continue
             if (prop.name == opt::mThemeOptions.name) continue
 
-            val element = doc.createElement(prop.name)
+            val element = doc.createElement("opt.${prop.name}")
             val type = getType("" + prop.type)
             if (type.lowercase().startsWith("array")) continue
             element.setAttribute("type", type)
             element.setAttribute("value", "" + prop.value)
-            el.appendChild(element)
+            root.appendChild(element)
         }
-        el = doc.createElement("adv")
-        doc.documentElement.appendChild(el)
         for (prop in getPropertyInfoTree(opt.mAdvancedOptions, Mutability.Mutable))
         {
-            val element = doc.createElement(prop.name)
+            val element = doc.createElement("adv.${prop.name}")
             val type = getType("" + prop.type)
             if (type.lowercase().startsWith("array")) continue
             element.setAttribute("type", type)
             element.setAttribute("value", "" + prop.value)
-            el.appendChild(element)
+            root.appendChild(element)
         }
-        el = doc.createElement("thm")
-        doc.documentElement.appendChild(el)
         for (prop in getPropertyInfoTree(opt.mThemeOptions, Mutability.Mutable))
         {
-            val element = doc.createElement(prop.name)
+            val element = doc.createElement("thm.${prop.name}")
             val type = getType("" + prop.type)
             if (type.lowercase().startsWith("array")) continue
             element.setAttribute("type", type)
             element.setAttribute("value", "" + prop.value)
-            el.appendChild(element)
+            root.appendChild(element)
         }
         return doc
     }
@@ -68,39 +63,22 @@ internal object XmlOperations
     private fun loadXml(doc: Document, options: Options): Array<Int>
     {
         val root = doc.documentElement
-
-        val optEl = try { root.getElementsByTagName("opt").item(0) as Element } catch (ex: Exception) { null }
-        val advEl = try { root.getElementsByTagName("adv").item(0) as Element } catch (ex: Exception) { null }
-        var thmEl = try { root.getElementsByTagName("thm").item(0) as Element } catch (ex: Exception) { null }
-
-        val elList = ArrayList<Element>()
-        val treeList = ArrayList<PropertyInfoTree>()
-
-        if (optEl != null)
-        {
-            elList.add(optEl)
-            treeList.add(getPropertyInfoTree(options, Mutability.Mutable))
-        }
-        if (advEl != null)
-        {
-            elList.add(advEl)
-            treeList.add(getPropertyInfoTree(options.mAdvancedOptions, Mutability.Mutable))
-        }
-        if (thmEl != null)
-        {
-            elList.add(thmEl)
-            treeList.add(getPropertyInfoTree(options.mThemeOptions, Mutability.Mutable))
-        }
-
+        val heads = arrayOf("opt", "adv", "thm")
+        val trees = arrayOf(
+            getPropertyInfoTree(options, Mutability.Mutable),
+            getPropertyInfoTree(options.mAdvancedOptions, Mutability.Mutable),
+            getPropertyInfoTree(options.mThemeOptions, Mutability.Mutable))
+        
         var count = 0
         var skipped = 0
 
-        for (i in elList.indices)
+        for (i in heads.indices)
         {
-            val tree = treeList[i]
+            val head = heads[i]
+            val tree = trees[i]
             for (info in tree)
             {
-                val element = try { elList[i].getElementsByTagName(info.name).item(0) as Element } catch (ex: Exception) { continue }
+                val element = try { elList[i].getElementsByTagName("$head.${info.name}").item(0) as Element } catch (ex: Exception) { continue }
                 val type = element.getAttribute("type").lowercase()
                 val valStr = element.getAttribute("value")
 
