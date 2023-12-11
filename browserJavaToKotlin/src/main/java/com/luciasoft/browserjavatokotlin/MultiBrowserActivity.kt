@@ -49,8 +49,8 @@ open class MultiBrowserActivity
     //private var tmpOptions: MultiBrowserOptions? = null
 
     lateinit var APP: MultiBrowser
+    lateinit var DAT: Data
 
-    val DAT get() = APP.DAT
     val OPT get() = APP.OPT
     val ADV get() = APP.ADV
     val THM get() = APP.THM
@@ -126,6 +126,7 @@ open class MultiBrowserActivity
         super.onCreate(savedInstanceState)
         APP = application as MultiBrowser
         initialize()
+        DAT = Data(APP)
         setContentView(R.layout.activity_layout)
 
         val pair = FileFilters.getFileFilterArrays(OPT.mFileFilterString)

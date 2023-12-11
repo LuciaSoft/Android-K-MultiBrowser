@@ -13,5 +13,4 @@ class MultiBrowser
     var OPT = Options()
     var ADV = AdvancedOptions()
     var THM = ThemeOptions()
-    var DAT = Data(this)
 }
