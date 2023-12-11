@@ -1,9 +1,9 @@
 package com.luciasoft.browserjavatokotlin
 
-import Mutability
-import PropertyInfo
-import PropertyInfo.Companion.getPropertyInfoTree
-import PropertyInfoTree
+import com.luciasoft.collections.Mutability
+import com.luciasoft.collections.PropertyInfo
+import com.luciasoft.collections.PropertyInfo.Companion.getPropertyInfoTree
+import com.luciasoft.collections.PropertyInfoTree
 import com.luciasoft.xml.XmlUtils
 import org.w3c.dom.Document
 import org.w3c.dom.Element
