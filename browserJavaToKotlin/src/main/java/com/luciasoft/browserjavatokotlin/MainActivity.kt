@@ -8,28 +8,33 @@ class MainActivity
 {
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        val options1 = Options()
-        options1.mAdvancedOptions.debugMode = true
-        options1.setFileFilter(
+        val opt1 = Options()
+        val adv1 = AdvancedOptions()
+        
+        adv1.debugMode = true
+        opt1.setFileFilter(
             " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
                 " PNG Image Files ( *.png ) |*.png|" +
                 " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
                 " All Files ( *.* ) |*"
         )
-        options1.fileFilterIndex = 3
-        options1.browseMode = Options.BrowseMode.LoadFilesAndOrFolders
-        val options2 = Options()
-        options2.mAdvancedOptions.debugMode = false
-        options2.mAdvancedOptions.allowLongClickFileForSave = true
-        options2.mAdvancedOptions.allowShortClickFileForSave = false
-        options2.setFileFilter(
+        opt1.fileFilterIndex = 3
+        opt1.browseMode = Options.BrowseMode.LoadFilesAndOrFolders
+        
+        val opt2 = Options()
+        val adv2 = AdvancedOptions()
+        
+        adv2.debugMode = false
+        adv2.allowLongClickFileForSave = true
+        adv2.allowShortClickFileForSave = false
+        opt2.setFileFilter(
             " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
                 " PNG Image Files ( *.png ) |*.png|" +
                 " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
                 " All Files ( *.* ) |*"
         )
-        options2.fileFilterIndex = 3
-        options2.browseMode = Options.BrowseMode.SaveFilesAndOrFolders
+        opt2.fileFilterIndex = 3
+        opt2.browseMode = Options.BrowseMode.SaveFilesAndOrFolders
         /*if (true) options2.onSelectFileForSave = object : OnSelectItem
         {
             override fun onSelect(info: SelectedItemInfo)
@@ -37,11 +42,14 @@ class MainActivity
                 Toast.makeText(this@MainActivity, info.path, Toast.LENGTH_LONG).show()
             }
         }*/
+        
         val options3 = Options()
         //options3.advanced().setDebugMode(true);
 
         //setOptions(options3, false);
+        
         super.onCreate(savedInstanceState)
+        
         /*try
         {
             options2.saveXml("/sdcard/mboptions.xml")
