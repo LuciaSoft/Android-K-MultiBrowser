@@ -1,15 +1,8 @@
 package com.luciasoft.browserjavatokotlin
 
-import PropertyInfo
 import android.os.Environment
-import com.luciasoft.xml.XmlUtils
-import org.w3c.dom.Document
-import org.w3c.dom.Element
-import java.io.IOException
 import java.util.Arrays
 import java.util.Locale
-import javax.xml.parsers.ParserConfigurationException
-import javax.xml.transform.TransformerException
 
 class Options
 {
@@ -203,6 +196,11 @@ class Options
         allowAccessToRestrictedFolders = false
     }
 
+    var currentDir: String? = null // MOVE TO DATA HOLDER
+    var fileFilterIndex = 0 // MOVE TO DATA HOLDER
+    lateinit var mFileFilters: Array<Array<String>> // MOVE TO DATA HOLDER
+    lateinit var mFileFilterDescrips: Array<String> // MOVE TO DATA HOLDER
+
     lateinit var browserTitle: String
     lateinit var browseMode: BrowseMode
     lateinit var browserViewType: BrowserViewType
@@ -210,11 +208,9 @@ class Options
     lateinit var galleryViewSortOrder: SortOrder
     var normalViewColumnCount = 0
     var galleryViewColumnCount = 0
-    var currentDir: String? = null // MOVE TO DATA HOLDER
     var defaultDir: String? = null
     lateinit var defaultSaveFileName: String
     var createDirOnActivityStart = false
-    var fileFilterIndex = 0 // MOVE TO DATA HOLDER
     var alwaysShowDialogForSavingFile = false
     var alwaysShowDialogForSavingFolder = false
     var alwaysShowDialogForSavingGalleryItem = false
@@ -225,15 +221,13 @@ class Options
     var showImagesWhileBrowsingNormal = false
     var showImagesWhileBrowsingGallery = false
     var allowAccessToRestrictedFolders = false
-    lateinit var mFileFilters: Array<Array<String>> // MOVE TO DATA HOLDER
-    lateinit var mFileFilterDescrips: Array<String> // MOVE TO DATA HOLDER
 
     init
     {
         reset()
     }
     
-    var mFileFilterString: String = ALL_FILES_FILTER
+    var mFileFilterString: String
         get() = getFileFilterString()
         set(value) { setFileFilter(value) }
 

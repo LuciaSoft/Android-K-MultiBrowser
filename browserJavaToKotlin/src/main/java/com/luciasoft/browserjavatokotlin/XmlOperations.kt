@@ -3,7 +3,6 @@ package com.luciasoft.browserjavatokotlin
 import com.luciasoft.collections.Mutability
 import com.luciasoft.collections.PropertyInfo
 import com.luciasoft.collections.PropertyInfo.Companion.getPropertyInfoTree
-import com.luciasoft.collections.PropertyInfoTree
 import com.luciasoft.xml.XmlUtils
 import org.w3c.dom.Document
 import org.w3c.dom.Element
@@ -38,7 +37,7 @@ internal object XmlOperations
             val head = heads[i]
             val tree = trees[i]
         
-            for (info in trees)
+            for (info in tree)
             {
                 val element = doc.createElement("$head.${info.name}")
                 val type = getType("" + info.type)

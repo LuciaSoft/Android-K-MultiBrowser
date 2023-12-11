@@ -73,4 +73,9 @@ class AdvancedOptions
     var autoRefreshDirectorySource = false
 
     lateinit var mediaStoreImageExts: String
+
+    init
+    {
+        reset()
+    }
 }

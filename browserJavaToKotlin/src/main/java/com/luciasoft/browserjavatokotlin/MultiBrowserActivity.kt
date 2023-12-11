@@ -125,14 +125,16 @@ open class MultiBrowserActivity
         ADV = DAT.ADV!!
         THM = DAT.THM!!
 
-        Permissions.requestExternalStoragePermission(this)
+        //Permissions.requestExternalStoragePermission(this)
 
         /*if (tmpOptions != null)
         {
             DAT.mOptions = tmpOptions
             tmpOptions = null
         }*/
+
         configureScreenRotation()
+
         try
         {
             with(supportActionBar!!)
@@ -273,23 +275,23 @@ open class MultiBrowserActivity
         if (DAT.mDefaultScreenOrientation == null) DAT.mDefaultScreenOrientation =
             requestedOrientation
 
-        if (ADV.screenRotationMode === Options.ScreenMode.AllowPortraitUprightOnly)
+        if (ADV.screenRotationMode == Options.ScreenMode.AllowPortraitUprightOnly)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
-        else if (ADV.screenRotationMode === Options.ScreenMode.AllowPortraitUprightAndLandscape)
+        else if (ADV.screenRotationMode == Options.ScreenMode.AllowPortraitUprightAndLandscape)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
         }
-        else if (ADV.screenRotationMode === Options.ScreenMode.AllowLandscapeOnly)
+        else if (ADV.screenRotationMode == Options.ScreenMode.AllowLandscapeOnly)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
         }
-        else if (ADV.screenRotationMode === Options.ScreenMode.AllowAll)
+        else if (ADV.screenRotationMode == Options.ScreenMode.AllowAll)
         {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         }
-        else if (ADV.screenRotationMode === Options.ScreenMode.SystemDefault)
+        else if (ADV.screenRotationMode == Options.ScreenMode.SystemDefault)
         {
             if (DAT.mDefaultScreenOrientation != null) requestedOrientation =
                 DAT.mDefaultScreenOrientation!!

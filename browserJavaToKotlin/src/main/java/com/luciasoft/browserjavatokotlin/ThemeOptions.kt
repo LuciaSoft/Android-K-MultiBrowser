@@ -122,6 +122,11 @@ class ThemeOptions
     var mFontCustomItalPath: String? = null
     var mFontCustomBdItPath: String? = null
 
+    init
+    {
+        reset()
+    }
+
     fun getFontNorm(assets: AssetManager): Typeface
     {
         if (fontMode == Options.FontMode.CustomOrAppDefault || fontMode == Options.FontMode.CustomOrSystem)
