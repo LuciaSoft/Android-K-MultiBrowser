@@ -9,6 +9,8 @@ internal object OptionsMenu
 {
     fun onMenuOpened(act: MultiBrowserActivity, menu: Menu)
     {
+        var testVisible = true
+
         var newFolderOptionVisible = false
         var listViewOptionVisible = false
         var tilesViewOptionVisible = false
@@ -68,11 +70,29 @@ internal object OptionsMenu
         menu.findItem(R.id.menuItemResetDir).isVisible = resetDirectoryOptionVisible
         menu.findItem(R.id.menuItemSortOrder).isVisible = sortOrderOptionVisible
         menu.findItem(R.id.menuItemShowHideFileNames).isVisible = showHideFileNamesOptionVisible
+        menu.findItem(R.id.menuItemTest).isVisible = testVisible
     }
 
     fun onOptionsItemSelected(act: MultiBrowserActivity, item: MenuItem): Boolean
     {
         val itemId = item.itemId
+
+        if (itemId == R.id.menuItemTest)
+        {
+            if (Permissions.checkExternalStoragePermission(act))
+            {
+                var filePath = Options.extStoragePath
+                if (!filePath!!.endsWith(File.separatorChar)) filePath += File.separatorChar
+                filePath += "xml-file.xml"
+                act.OPT.saveXml(filePath)
+
+                val array = act.OPT.loadXml(filePath)
+                Utils.toastLong(act, "NUM SET=" + array[0] + ", NUM SKIPPED=" + array[1])
+            }
+
+            return true
+        }
+
         if (itemId == R.id.menuItemNewFolder)
         {
             var dir = act.OPT.currentDir ?: return true

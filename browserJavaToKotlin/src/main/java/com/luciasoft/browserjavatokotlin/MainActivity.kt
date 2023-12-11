@@ -42,14 +42,14 @@ class MainActivity
 
         //setOptions(options3, false);
         super.onCreate(savedInstanceState)
-        try
+        /*try
         {
             options2.saveXml("/sdcard/mboptions.xml")
         }
         catch (ex: Exception)
         {
             Toast.makeText(this, "" + ex.message, Toast.LENGTH_LONG).show()
-        }
+        }*/
 
         /*try
         {

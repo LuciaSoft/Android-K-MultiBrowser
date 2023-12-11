@@ -125,20 +125,7 @@ open class MultiBrowserActivity
         ADV = OPT.mAdvancedOptions
         THM = OPT.mThemeOptions
 
-        // TEST:
-
-        if (!Permissions.checkExternalStoragePermission(this)) Permissions.requestExternalStoragePermission(this)
-
-        if (Permissions.checkExternalStoragePermission(this))
-        {
-            var filePath = Options.extStoragePath
-            if (!filePath!!.endsWith(File.separatorChar)) filePath += File.separatorChar
-            filePath += "xml-file.xml"
-            OPT.saveXml(filePath)
-
-            val array = OPT.loadXml(filePath)
-            toastLong(this, "NUM SET=" + array[0] + ", NUM SKIPPED=" + array[1])
-        }
+        Permissions.requestExternalStoragePermission(this)
 
         /*if (tmpOptions != null)
         {

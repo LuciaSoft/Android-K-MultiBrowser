@@ -43,4 +43,9 @@
         app:showAsAction="never"
         android:title="Show/Hide File Names">
     </item>
+    <item
+        android:id="@+id/menuItemTest"
+        app:showAsAction="never"
+        android:title="Test">
+    </item>
 </menu>
