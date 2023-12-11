@@ -112,7 +112,28 @@ open class MultiBrowserActivity: AppCompatActivity()
         setupFileFilterLayout()
         setupSwipeRefreshLayout()
         refreshLayoutManager()
+        setupViews()
 
+        refreshView(true, false)
+    }
+
+    private fun configureScreenRotation()
+    {
+        if (DAT.defaultScreenOrientation == null) DAT.defaultScreenOrientation = requestedOrientation
+        fun set(orientation: Int) { requestedOrientation = orientation }
+        when (ADV.screenRotationMode)
+        {
+            Options.ScreenMode.AllowPortraitUprightOnly -> set(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            Options.ScreenMode.AllowPortraitUprightAndLandscape -> set(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+            Options.ScreenMode.AllowLandscapeOnly -> set(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
+            Options.ScreenMode.AllowAll -> set(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)
+            Options.ScreenMode.SystemDefault -> set(DAT.defaultScreenOrientation!!)
+            else -> { }
+        }
+    }
+
+    private fun setupViews()
+    {
         findViewById<View>(R.id.deadSpaceBackground).setBackgroundColor(THM.colorDeadSpaceBackground)
         findViewById<View>(R.id.topAccent).setBackgroundColor(THM.colorTopAccent)
         with (findViewById<TextView>(R.id.curDirLabel))
@@ -145,8 +166,8 @@ open class MultiBrowserActivity: AppCompatActivity()
             this.setTextColor(THM.colorSaveFileButtonText)
             this.setTextSize(THM.unitSp, THM.sizeSaveFileButtonText)
             ViewCompat.setBackgroundTintList(this, ColorStateList(
-                    arrayOf(intArrayOf(android.R.attr.state_enabled)),
-                    intArrayOf(THM.colorSaveFileButtonBackground)))
+                arrayOf(intArrayOf(android.R.attr.state_enabled)),
+                intArrayOf(THM.colorSaveFileButtonBackground)))
         }
         findViewById<View>(R.id.fileFilterLayout).setBackgroundColor(THM.colorFilterBackground)
         findViewById<View>(R.id.bottomAccent2).setBackgroundColor(THM.colorSaveFileBoxBottomAccent)
@@ -166,22 +187,6 @@ open class MultiBrowserActivity: AppCompatActivity()
             this.setTextSize(THM.unitSp, THM.sizeParDirSubText)
         }
         findViewById<View>(R.id.parDirLayoutAccent).setBackgroundColor(THM.colorListAccent)
-        refreshView(true, false)
-    }
-
-    private fun configureScreenRotation()
-    {
-        if (DAT.defaultScreenOrientation == null) DAT.defaultScreenOrientation = requestedOrientation
-        fun set(orientation: Int) { requestedOrientation = orientation }
-        when (ADV.screenRotationMode)
-        {
-            Options.ScreenMode.AllowPortraitUprightOnly -> set(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-            Options.ScreenMode.AllowPortraitUprightAndLandscape -> set(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
-            Options.ScreenMode.AllowLandscapeOnly -> set(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
-            Options.ScreenMode.AllowAll -> set(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)
-            Options.ScreenMode.SystemDefault -> set(DAT.defaultScreenOrientation!!)
-            else -> { }
-        }
     }
 
     private fun setupParentDirLayout()
