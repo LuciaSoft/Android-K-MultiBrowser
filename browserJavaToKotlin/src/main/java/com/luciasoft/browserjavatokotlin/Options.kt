@@ -1,12 +1,16 @@
 package com.luciasoft.browserjavatokotlin
 
 import android.os.Environment
-import java.util.Arrays
-import java.util.Locale
 
 class Options
 {
     private val ALL_FILES_FILTER = " All Files ( * ) |*"
+
+    private val TEST_FILE_FILTER =
+        " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
+            " PNG Image Files ( *.png ) |*.png|" +
+            " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
+            " All Files ( *.* ) |*"
 
     enum class FontMode(private val value: Int)
     {
@@ -171,7 +175,7 @@ class Options
 
     fun reset()
     {
-        setFileFilter(ALL_FILES_FILTER)
+        mFileFilterString = ALL_FILES_FILTER
         browserTitle = "Multi Browser"
         browseMode = BrowseMode.SaveFilesAndOrFolders
         browserViewType = BrowserViewType.List
@@ -179,11 +183,9 @@ class Options
         galleryViewSortOrder = SortOrder.DateDescending
         normalViewColumnCount = 4
         galleryViewColumnCount = 3
-        currentDir = extStoragePath
         defaultDir = null
         defaultSaveFileName = ""
         createDirOnActivityStart = false
-        fileFilterIndex = 0
         alwaysShowDialogForSavingFile = true
         alwaysShowDialogForSavingFolder = true
         alwaysShowDialogForSavingGalleryItem = true
@@ -194,12 +196,10 @@ class Options
         showImagesWhileBrowsingNormal = true
         showImagesWhileBrowsingGallery = true
         allowAccessToRestrictedFolders = false
+        startFileFilterIndex = 0
+        startDir = extStoragePath
+        mFileFilterString = TEST_FILE_FILTER
     }
-
-    var currentDir: String? = null // MOVE TO DATA HOLDER
-    var fileFilterIndex = 0 // MOVE TO DATA HOLDER
-    lateinit var mFileFilters: Array<Array<String>> // MOVE TO DATA HOLDER
-    lateinit var mFileFilterDescrips: Array<String> // MOVE TO DATA HOLDER
 
     lateinit var browserTitle: String
     lateinit var browseMode: BrowseMode
@@ -221,82 +221,13 @@ class Options
     var showImagesWhileBrowsingNormal = false
     var showImagesWhileBrowsingGallery = false
     var allowAccessToRestrictedFolders = false
+    var startFileFilterIndex = 0
+    var startDir: String? = null
+    lateinit var mFileFilterString: String
 
     init
     {
         reset()
-    }
-    
-    var mFileFilterString: String
-        get() = getFileFilterString()
-        set(value) { setFileFilter(value) }
-
-    fun setFileFilter(filterString: String)
-    {
-        val array = filterString.split("\\|".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        require(array.size % 2 == 0) { "The filter string must be divisible by 2." }
-        val filters = Array(array.size / 2) { "" }
-        val descriptions = Array(array.size / 2) { "" }
-        for (i in array.indices step(2))
-        {
-            descriptions[i / 2] = array[i]
-            filters[i / 2] = array[i + 1]
-        }
-        setFileFilter(filters, descriptions)
-    }
-
-    @Throws(IllegalArgumentException::class)
-    fun setFileFilter(filters: Array<String>, descriptions: Array<String>)
-    {
-        require(filters.size == descriptions.size) { "The filters and the descriptions must have the same length." }
-        val filterArray: Array<Array<String>> = Array(filters.size) { emptyArray() }
-        for (i in filters.indices)
-        {
-            val list = ArrayList<String>()
-            val exts = filters[i].split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            for (j in exts.indices)
-            {
-                var ext = exts[j].trim { it <= ' ' }.lowercase(Locale.getDefault())
-                if (ext == "*" || ext == "*.*")
-                {
-                    list.clear()
-                    list.add("*")
-                    break
-                }
-                while (ext.startsWith("*")) ext = ext.substring(1)
-                if (ext.isEmpty()) continue
-                if (!ext.startsWith(".")) ext = ".$ext"
-                list.add(ext)
-            }
-            filterArray[i] = list.toTypedArray()
-        }
-        val newDescrips = Arrays.copyOf(descriptions, descriptions.size)
-        for (i in newDescrips.indices) newDescrips[i] = " " + newDescrips[i].trim { it <= ' ' } + " "
-        mFileFilters = filterArray
-        mFileFilterDescrips = newDescrips
-    }
-
-    fun getFileFilterString(): String
-    {
-        var result = ""
-        for (i in mFileFilters.indices)
-        {
-            val filters = mFileFilters[i]
-            val descrip = mFileFilterDescrips[i].trim { it <= ' ' }
-            if (i > 0) result += "|"
-            result += " $descrip |"
-            for (j in filters.indices)
-            {
-                var filter = filters[j].trim { it <= ' ' }
-                if (!filter.startsWith("*"))
-                {
-                    filter = if (!filter.startsWith(".")) "*.$filter" else "*$filter"
-                }
-                if (j > 0) result += ","
-                result += filter
-            }
-        }
-        return result
     }
 
     companion object

@@ -8,21 +8,18 @@ import com.luciasoft.collections.MediaStoreImageInfoTree
 class DataHolder(var app: Application)
     : AndroidViewModel(app)
 {
-    var OPT: Options? = null
-    var ADV: AdvancedOptions? = null
-    var THM: ThemeOptions? = null
+    var OPT: Options? = Options()
+    var ADV: AdvancedOptions? = AdvancedOptions()
+    var THM: ThemeOptions? = ThemeOptions()
+
+    var currentDir: String? = OPT!!.startDir
+    var fileFilterIndex = OPT!!.startFileFilterIndex
+
     var mDefaultScreenOrientation: Int? = null
     var mFileSystemDirectoryItems: ArrayList<DirectoryItem>? = null
     var mMediaStoreImageInfoList: ArrayList<DirectoryItem>? = null
     var mMediaStoreImageInfoTree: MediaStoreImageInfoTree? = null
     var mFirstLoad = true
-
-    init
-    {
-        OPT = Options()
-        ADV = AdvancedOptions()
-        THM = ThemeOptions()
-    }
 
     override fun onCleared()
     {
@@ -30,6 +27,8 @@ class DataHolder(var app: Application)
         OPT = null
         ADV = null
         THM = null
+        currentDir = null
+        fileFilterIndex = 0
         mDefaultScreenOrientation = null
         mFileSystemDirectoryItems = null
         mMediaStoreImageInfoList = null

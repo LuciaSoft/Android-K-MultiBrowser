@@ -1,6 +1,5 @@
 package com.luciasoft.browserjavatokotlin
 
-import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
@@ -37,10 +36,10 @@ import com.luciasoft.browserjavatokotlin.MyYesNoDialog.show
 import com.luciasoft.browserjavatokotlin.OptionsMenu.onMenuOpened
 import com.luciasoft.browserjavatokotlin.OptionsMenu.onOptionsItemSelected
 import com.luciasoft.browserjavatokotlin.Utils.arrayContains
-import com.luciasoft.browserjavatokotlin.Utils2.directoryIsReadable
 import com.luciasoft.browserjavatokotlin.Utils.getFileExtensionLowerCaseWithDot
 import com.luciasoft.browserjavatokotlin.Utils.getParentDir
 import com.luciasoft.browserjavatokotlin.Utils.toastLong
+import com.luciasoft.browserjavatokotlin.Utils2.directoryIsReadable
 import com.luciasoft.collections.DirectoryItem
 import java.io.File
 
@@ -53,6 +52,12 @@ open class MultiBrowserActivity
     lateinit var OPT: Options
     lateinit var ADV: AdvancedOptions
     lateinit var THM: ThemeOptions
+
+    lateinit var fileFilterArray: Array<Array<String>>
+    lateinit var fileFilterDescripArray: Array<String>
+
+    lateinit var mRecyclerView: MyRecyclerView
+    lateinit var mEditTextSaveFileName: EditText
 
     /*val options: MultiBrowserOptions?
         get()
@@ -104,9 +109,6 @@ open class MultiBrowserActivity
         configureScreenRotation();
     }*/
 
-    lateinit var mRecyclerView: MyRecyclerView
-    lateinit var mEditTextSaveFileName: EditText
-
     fun setEditTextSaveFileName(name: String)
     {
         mEditTextSaveFileName.setText(name)
@@ -125,7 +127,11 @@ open class MultiBrowserActivity
         ADV = DAT.ADV!!
         THM = DAT.THM!!
 
-        //Permissions.requestExternalStoragePermission(this)
+        val pair = FileFilters.getFileFilterArrays(OPT.mFileFilterString)
+        fileFilterArray = pair.first
+        fileFilterDescripArray = pair.second
+
+        if (!Permissions.checkExternalStoragePermission(this)) Permissions.requestExternalStoragePermission(this)
 
         /*if (tmpOptions != null)
         {
@@ -154,11 +160,11 @@ open class MultiBrowserActivity
 
         }
 
-        if (OPT.currentDir != null)
+        if (DAT.currentDir != null)
         {
             try
             {
-                val dir = File(OPT.currentDir!!)
+                val dir = File(DAT.currentDir!!)
                 if (!dir.exists() && OPT.createDirOnActivityStart) try
                 {
                     dir.mkdirs()
@@ -166,12 +172,12 @@ open class MultiBrowserActivity
                 catch (ex2: Exception)
                 {
                 }
-                OPT.currentDir = dir.canonicalPath
+                DAT.currentDir = dir.canonicalPath
             }
             catch (ex: Exception)
             {
             }
-            if (OPT.defaultDir == null) OPT.defaultDir = OPT.currentDir
+            if (OPT.defaultDir == null) OPT.defaultDir = DAT.currentDir
         }
         mRecyclerView = findViewById(R.id.recyclerView)
         mRecyclerView.setHasFixedSize(true)
@@ -302,7 +308,7 @@ open class MultiBrowserActivity
     {
         (findViewById<View>(R.id.parDirLayout) as LinearLayout).setOnClickListener(
             View.OnClickListener {
-                val parentDir = if (OPT.currentDir == null) null else getParentDir(OPT.currentDir!!)
+                val parentDir = if (DAT.currentDir == null) null else getParentDir(DAT.currentDir!!)
                 if (!parentDir.isNullOrEmpty()) refreshView(parentDir, false, false)
             })
         (findViewById<View>(R.id.parentDirIcon) as ImageView).setImageResource(R.mipmap.ic_folder_up)
@@ -328,7 +334,7 @@ open class MultiBrowserActivity
                 }
                 else
                 {
-                    var dir = OPT.currentDir!!
+                    var dir = DAT.currentDir!!
                     if (!dir.endsWith("/")) dir += "/"
                     val fullpath = dir + filename
                     onSelect(true, false, false, true, fullpath)
@@ -343,7 +349,7 @@ open class MultiBrowserActivity
         val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(
             this,
             R.layout.file_filter_popup_item,
-            OPT.mFileFilterDescrips
+            fileFilterDescripArray
         )
         {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View
@@ -355,7 +361,7 @@ open class MultiBrowserActivity
                 return view
             }
 
-            override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View
             {
                 val view = super.getView(position, convertView, parent)
                 val text = view.findViewById<TextView>(R.id.fileFilterPopupItem)
@@ -376,18 +382,18 @@ open class MultiBrowserActivity
                 id: Long
             )
             {
-                if (OPT.fileFilterIndex == position) return
+                if (DAT.fileFilterIndex == position) return
                 if (mEditTextSaveFileName.visibility != View.GONE)
                 {
                     var filename: String =
                         mEditTextSaveFileName.text.toString().trim { it <= ' ' }
                     if (!filename.isEmpty())
                     {
-                        filename = changeFileExt(filename, OPT.fileFilterIndex, position)
+                        filename = changeFileExt(filename, DAT.fileFilterIndex, position)
                     }
                     mEditTextSaveFileName.setText(filename)
                 }
-                OPT.fileFilterIndex = position
+                DAT.fileFilterIndex = position
                 refreshView(false, false)
             }
 
@@ -395,7 +401,7 @@ open class MultiBrowserActivity
             {
             }
         }
-        spinnerFileFilters.setSelection(OPT.fileFilterIndex)
+        spinnerFileFilters.setSelection(DAT.fileFilterIndex)
     }
 
     private fun setupSwipeRefreshLayout()
@@ -414,7 +420,7 @@ open class MultiBrowserActivity
 
     fun refreshView(forceSourceReload: Boolean, refreshLayout: Boolean)
     {
-        refreshView(OPT.currentDir, forceSourceReload, refreshLayout)
+        refreshView(DAT.currentDir, forceSourceReload, refreshLayout)
     }
 
     fun refreshView(dir: String?, forceSourceReload: Boolean, refreshLayout: Boolean)
@@ -446,7 +452,7 @@ open class MultiBrowserActivity
         }
         else
         {
-            if (!galleryView) OPT.currentDir = dir
+            if (!galleryView) DAT.currentDir = dir
             if (refreshLayout) refreshLayoutManager()
             if (items.size == 0) mRecyclerView.text = "no items"
             else mRecyclerView.clearText()
@@ -479,11 +485,11 @@ open class MultiBrowserActivity
         {
             val reload = forceSourceReload || ADV.autoRefreshDirectorySource || (
                 DAT.mFileSystemDirectoryItems == null) || (
-                OPT.currentDir == null) || !dir.equals(OPT.currentDir, ignoreCase = true)
+                DAT.currentDir == null) || !dir.equals(DAT.currentDir, ignoreCase = true)
             if (reload) DAT.mFileSystemDirectoryItems = getDirectoryItemsFromFileSystem(
                 this,
                 dir,
-                OPT.mFileFilters[OPT.fileFilterIndex]
+                fileFilterArray[DAT.fileFilterIndex]
             )
             items = DAT.mFileSystemDirectoryItems
         }
@@ -503,7 +509,7 @@ open class MultiBrowserActivity
         val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         if (!galleryView && showLayouts)
         {
-            val isRoot = (OPT.currentDir == "/")
+            val isRoot = (DAT.currentDir == "/")
             showParentDirLayout = ADV.showParentDirectoryLayoutIfAvailable && !isRoot
             showCurrentDirLayout = ADV.showCurrentDirectoryLayoutIfAvailable
             showSaveFileLayout = ADV.showSaveFileLayoutIfAvailable &&
@@ -515,7 +521,7 @@ open class MultiBrowserActivity
         if (showCurrentDirLayout)
         {
             curDirLayout.visibility = View.VISIBLE
-            (findViewById<View>(R.id.curDirText) as TextView).text = OPT.currentDir
+            (findViewById<View>(R.id.curDirText) as TextView).text = DAT.currentDir
         }
         else
         {
@@ -524,7 +530,7 @@ open class MultiBrowserActivity
         if (showParentDirLayout)
         {
             parDirLayout.visibility = View.VISIBLE
-            (findViewById<View>(R.id.parDirText) as TextView).text = getParentDir(OPT.currentDir!!)
+            (findViewById<View>(R.id.parDirText) as TextView).text = getParentDir(DAT.currentDir!!)
         }
         else
         {
@@ -667,12 +673,12 @@ open class MultiBrowserActivity
     ): String
     {
         var filename = filename
-        val newExts = OPT.mFileFilters[newFileFilterIndex]
+        val newExts = fileFilterArray[newFileFilterIndex]
         if ((newExts[0] == "*")) return filename
         val ext = getFileExtensionLowerCaseWithDot(filename)
         if (ext.isEmpty()) return filename + newExts[0]
         if (arrayContains(newExts, ext)) return filename
-        val oldExts = OPT.mFileFilters[oldFileFilterIndex]
+        val oldExts = fileFilterArray[oldFileFilterIndex]
         if (oldExts.get(0) != "*" && arrayContains(oldExts, ext))
         {
             filename = filename.substring(0, filename.length - ext.length)
@@ -685,7 +691,7 @@ open class MultiBrowserActivity
     {
         //if (!OPTIONS().mAllowHiddenFiles && filename.startsWith(".")) return null;
         val ext = getFileExtensionLowerCaseWithDot(filename)
-        val filters = OPT.mFileFilters[OPT.fileFilterIndex]
+        val filters = fileFilterArray[DAT.fileFilterIndex]
         if ((filters[0] == "*"))
         {
             //if (ext.isEmpty() && !OPTIONS().mAllowUndottedFileExts) return null;

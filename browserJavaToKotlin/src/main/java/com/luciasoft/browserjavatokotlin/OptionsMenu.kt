@@ -95,7 +95,7 @@ internal object OptionsMenu
 
         if (itemId == R.id.menuItemNewFolder)
         {
-            var dir = act.OPT.currentDir ?: return true
+            var dir = act.DAT.currentDir ?: return true
             val dlg = MyInputDialog(
                 act,
                 "Create New Folder",
@@ -198,16 +198,14 @@ internal object OptionsMenu
         }
         if (itemId == R.id.menuItemResetDir)
         {
-            act.OPT.currentDir = act.OPT.defaultDir
+            act.DAT.currentDir = act.OPT.defaultDir
             act.refreshView(true, false)
             return true
         }
         if (itemId == R.id.menuItemSortOrder)
         {
             val index: Int
-            val sortOrder: Options.SortOrder
-            sortOrder =
-                if (act.OPT.browserViewType == Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+            val sortOrder: Options.SortOrder = if (act.OPT.browserViewType == Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
             index = when (sortOrder)
             {
                 Options.SortOrder.PathAscending -> 0

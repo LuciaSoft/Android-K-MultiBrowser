@@ -1,40 +1,38 @@
 package com.luciasoft.browserjavatokotlin
 
 import android.os.Bundle
-import android.widget.Toast
 
 class MainActivity
     : MultiBrowserActivity()
 {
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        val opt1 = Options()
-        val adv1 = AdvancedOptions()
+        //val opt1 = Options()
+        //val adv1 = AdvancedOptions()
         
-        adv1.debugMode = true
-        opt1.setFileFilter(
-            " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
-                " PNG Image Files ( *.png ) |*.png|" +
-                " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
-                " All Files ( *.* ) |*"
-        )
-        opt1.fileFilterIndex = 3
-        opt1.browseMode = Options.BrowseMode.LoadFilesAndOrFolders
-        
-        val opt2 = Options()
-        val adv2 = AdvancedOptions()
-        
-        adv2.debugMode = false
-        adv2.allowLongClickFileForSave = true
-        adv2.allowShortClickFileForSave = false
-        opt2.setFileFilter(
-            " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
-                " PNG Image Files ( *.png ) |*.png|" +
-                " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
-                " All Files ( *.* ) |*"
-        )
-        opt2.fileFilterIndex = 3
-        opt2.browseMode = Options.BrowseMode.SaveFilesAndOrFolders
+        //adv1.debugMode = true
+        //opt1.mFileFilterString =
+        //    " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
+        //        " PNG Image Files ( *.png ) |*.png|" +
+        //        " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
+        //        " All Files ( *.* ) |*"
+        //opt1.startFileFilterIndex = 3
+        //opt1.browseMode = Options.BrowseMode.LoadFilesAndOrFolders
+        //
+        //val opt2 = Options()
+        //val adv2 = AdvancedOptions()
+        //
+        //adv2.debugMode = false
+        //adv2.allowLongClickFileForSave = true
+        //adv2.allowShortClickFileForSave = false
+        //opt2.mFileFilterString
+        //    " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
+        //        " PNG Image Files ( *.png ) |*.png|" +
+        //        " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
+        //        " All Files ( *.* ) |*"
+        //
+        //opt2.startFileFilterIndex = 3
+        //opt2.browseMode = Options.BrowseMode.SaveFilesAndOrFolders
         /*if (true) options2.onSelectFileForSave = object : OnSelectItem
         {
             override fun onSelect(info: SelectedItemInfo)
@@ -43,7 +41,7 @@ class MainActivity
             }
         }*/
         
-        val options3 = Options()
+        //val options3 = Options()
         //options3.advanced().setDebugMode(true);
 
         //setOptions(options3, false);
