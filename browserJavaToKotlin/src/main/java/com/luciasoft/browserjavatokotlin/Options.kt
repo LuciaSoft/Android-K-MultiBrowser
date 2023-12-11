@@ -232,6 +232,10 @@ class Options
     {
         reset()
     }
+    
+    var mFileFilterString: String = ALL_FILES_FILTER
+        get()  = getFileFilterString()
+        set(value) { setFileFilter(value) }
 
     fun setFileFilter(filterString: String)
     {
