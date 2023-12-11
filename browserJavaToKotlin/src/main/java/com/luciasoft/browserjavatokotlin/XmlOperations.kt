@@ -7,6 +7,7 @@ import PropertyInfoTree
 import com.luciasoft.xml.XmlUtils
 import org.w3c.dom.Document
 import org.w3c.dom.Element
+import kotlin.reflect.KMutableProperty1
 
 internal object XmlOperations
 {
