@@ -11,16 +11,16 @@ import kotlin.reflect.KMutableProperty1
 
 internal object XmlOperations
 {
-    fun saveXml(filePath: String, act: MultiBrowserActivity)
+    fun saveXml(act: MultiBrowserActivity, filePath: String)
     {
         val doc = getXml(act)
         XmlUtils.saveXml(doc, filePath)
     }
 
-    fun loadXml(filePath: String, act: MultiBrowserActivity): Array<Int>
+    fun loadXml(act: MultiBrowserActivity, filePath: String): Array<Int>
     {
         val doc = XmlUtils.loadXmlFile(filePath)
-        return loadXml(doc, act)
+        return loadXml(act, doc)
     }
 
     private fun getXml(act: MultiBrowserActivity): Document
@@ -57,7 +57,7 @@ internal object XmlOperations
         return doc
     }
 
-    private fun loadXml(doc: Document, act: MultiBrowserActivity): Array<Int>
+    private fun loadXml(act: MultiBrowserActivity, doc: Document): Array<Int>
     {
         val root = doc.documentElement
         val heads = arrayOf("opt", "adv", "thm")
