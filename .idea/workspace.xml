@@ -9,13 +9,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="APP, Data">
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Data.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Data.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/ListUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/ListUtils.kt" afterDir="false" />
+    <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="C">
       <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MultiBrowserActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MultiBrowserActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MyApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MyApplication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Options.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Options.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/ThemeOptions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/ThemeOptions.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -512,7 +507,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702329653497</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="C">
+      <created>1702331856136</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1702331856136</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -532,9 +534,9 @@
     <MESSAGE value="Perms" />
     <MESSAGE value="XmlOps" />
     <MESSAGE value="DAtaHolder" />
-    <MESSAGE value="C" />
     <MESSAGE value="APP" />
     <MESSAGE value="APP, Data" />
-    <option name="LAST_COMMIT_MESSAGE" value="APP, Data" />
+    <MESSAGE value="C" />
+    <option name="LAST_COMMIT_MESSAGE" value="C" />
   </component>
 </project>

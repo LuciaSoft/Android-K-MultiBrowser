@@ -98,145 +98,89 @@ open class MultiBrowserActivity: AppCompatActivity()
 
         if (DAT.currentDir != null)
         {
-            try
-            {
-                val dir = File(DAT.currentDir!!)
-                if (!dir.exists() && OPT.createDirOnActivityStart) try
-                {
-                    dir.mkdirs()
-                }
-                catch (ex2: Exception)
-                {
-                }
-                DAT.currentDir = dir.canonicalPath
-            }
-            catch (ex: Exception)
-            {
-            }
+            val dir = File(DAT.currentDir!!)
+            try { if (!dir.exists() && OPT.createDirOnActivityStart) dir.mkdirs() } catch (_: Exception) { }
+            try { DAT.currentDir = dir.canonicalPath } catch (_: Exception) { }
             if (OPT.defaultDir == null) OPT.defaultDir = DAT.currentDir
         }
+
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.setHasFixedSize(true)
+
         setupParentDirLayout()
         setupSaveFileLayout()
         setupFileFilterLayout()
         setupSwipeRefreshLayout()
         refreshLayoutManager()
+
         findViewById<View>(R.id.deadSpaceBackground).setBackgroundColor(THM.colorDeadSpaceBackground)
         findViewById<View>(R.id.topAccent).setBackgroundColor(THM.colorTopAccent)
-        (findViewById<View>(R.id.curDirLabel) as TextView).setTypeface(
-            THM.getFontBold(
-                assets
-            )
-        )
-        (findViewById<View>(R.id.curDirLabel) as TextView).setTextColor(THM.colorCurDirLabel)
-        (findViewById<View>(R.id.curDirLabel) as TextView).setBackgroundColor(THM.colorCurDirBackground)
-        (findViewById<View>(R.id.curDirLabel) as TextView).setTextSize(
-            THM.unitSp,
-            THM.sizeCurDirLabel
-        )
-        (findViewById<View>(R.id.curDirText) as TextView).setTypeface(
-            THM.getFontBold(
-                assets
-            )
-        )
-        (findViewById<View>(R.id.curDirText) as TextView).setTextColor(THM.colorCurDirText)
-        (findViewById<View>(R.id.curDirText) as TextView).setBackgroundColor(THM.colorCurDirBackground)
-        (findViewById<View>(R.id.curDirText) as TextView).setTextSize(
-            THM.unitSp,
-            THM.sizeCurDirText
-        )
+        with (findViewById<TextView>(R.id.curDirLabel))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorCurDirLabel)
+            this.setBackgroundColor(THM.colorCurDirBackground)
+            this.setTextSize(THM.unitSp, THM.sizeCurDirLabel)
+        }
+        with (findViewById<TextView>(R.id.curDirText))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorCurDirText)
+            this.setBackgroundColor(THM.colorCurDirBackground)
+            this.setTextSize(THM.unitSp, THM.sizeCurDirText)
+        }
         findViewById<View>(R.id.topAccent2).setBackgroundColor(THM.colorListTopAccent)
         findViewById<View>(R.id.saveFileLayout).setBackgroundColor(THM.colorSaveFileBoxBackground)
         findViewById<View>(R.id.bottomAccent).setBackgroundColor(THM.colorListBottomAccent)
-        (findViewById<View>(R.id.saveFileEditText) as EditText).setTypeface(
-            THM.getFontBold(
-                assets
-            )
-        )
-        (findViewById<View>(R.id.saveFileEditText) as EditText).setTextColor(THM.colorSaveFileBoxText)
-        (findViewById<View>(R.id.saveFileEditText) as EditText).background.setColorFilter(
-            THM.colorSaveFileBoxUnderline,
-            PorterDuff.Mode.SRC_ATOP
-        )
-        (findViewById<View>(R.id.saveFileEditText) as EditText).setTextSize(
-            THM.unitSp,
-            THM.sizeSaveFileText
-        )
-        (findViewById<View>(R.id.saveFileButton) as Button).setTypeface(
-            THM.getFontBold(
-                assets
-            )
-        )
-        (findViewById<View>(R.id.saveFileButton) as Button).setTextColor(THM.colorSaveFileButtonText)
-        (findViewById<View>(R.id.saveFileButton) as Button).setTextSize(
-            THM.unitSp,
-            THM.sizeSaveFileButtonText
-        )
-        ViewCompat.setBackgroundTintList(
-            ((findViewById<View>(R.id.saveFileButton) as Button)),
-            ColorStateList(
-                arrayOf(intArrayOf(android.R.attr.state_enabled)),
-                intArrayOf(THM.colorSaveFileButtonBackground)
-            )
-        )
+        with (findViewById<EditText>(R.id.saveFileEditText))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorSaveFileBoxText)
+            this.background.setColorFilter(THM.colorSaveFileBoxUnderline, PorterDuff.Mode.SRC_ATOP)
+            this.setTextSize(THM.unitSp, THM.sizeSaveFileText)
+        }
+        with (findViewById<Button>(R.id.saveFileButton))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorSaveFileButtonText)
+            this.setTextSize(THM.unitSp, THM.sizeSaveFileButtonText)
+            ViewCompat.setBackgroundTintList(this, ColorStateList(
+                    arrayOf(intArrayOf(android.R.attr.state_enabled)),
+                    intArrayOf(THM.colorSaveFileButtonBackground)))
+        }
         findViewById<View>(R.id.fileFilterLayout).setBackgroundColor(THM.colorFilterBackground)
         findViewById<View>(R.id.bottomAccent2).setBackgroundColor(THM.colorSaveFileBoxBottomAccent)
-        (findViewById<View>(R.id.fileFilterSpinner) as Spinner).background.setColorFilter(
-            THM.colorFilterArrow,
-            PorterDuff.Mode.SRC_ATOP
-        )
+        findViewById<Spinner>(R.id.fileFilterSpinner).background.setColorFilter(THM.colorFilterArrow, PorterDuff.Mode.SRC_ATOP)
         findViewById<View>(R.id.bottomAccent3).setBackgroundColor(THM.colorBottomAccent)
         findViewById<View>(R.id.parDirLayout).setBackgroundColor(THM.colorParDirBackground)
-        (findViewById<View>(R.id.parDirText) as TextView).setTypeface(
-            THM.getFontBold(
-                assets
-            )
-        )
-        (findViewById<View>(R.id.parDirText) as TextView).setTextColor(THM.colorParDirText)
-        (findViewById<View>(R.id.parDirText) as TextView).setTextSize(
-            THM.unitSp,
-            THM.sizeParDirText
-        )
-        (findViewById<View>(R.id.parDirSubText) as TextView).setTypeface(
-            THM.getFontBold(
-                assets
-            )
-        )
-        (findViewById<View>(R.id.parDirSubText) as TextView).setTextColor(THM.colorParDirSubText)
-        (findViewById<View>(R.id.parDirSubText) as TextView).setTextSize(
-            THM.unitSp,
-            THM.sizeParDirSubText
-        )
+        with (findViewById<TextView>(R.id.parDirText))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorParDirText)
+            this.setTextSize(THM.unitSp, THM.sizeParDirText)
+        }
+        with (findViewById<TextView>(R.id.parDirSubText))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorParDirSubText)
+            this.setTextSize(THM.unitSp, THM.sizeParDirSubText)
+        }
         findViewById<View>(R.id.parDirLayoutAccent).setBackgroundColor(THM.colorListAccent)
         refreshView(true, false)
     }
 
     private fun configureScreenRotation()
     {
-        if (DAT.defaultScreenOrientation == null) DAT.defaultScreenOrientation =
-            requestedOrientation
-
-        if (ADV.screenRotationMode == Options.ScreenMode.AllowPortraitUprightOnly)
+        if (DAT.defaultScreenOrientation == null) DAT.defaultScreenOrientation = requestedOrientation
+        fun set(orientation: Int) { requestedOrientation = orientation }
+        when (ADV.screenRotationMode)
         {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        }
-        else if (ADV.screenRotationMode == Options.ScreenMode.AllowPortraitUprightAndLandscape)
-        {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
-        }
-        else if (ADV.screenRotationMode == Options.ScreenMode.AllowLandscapeOnly)
-        {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-        }
-        else if (ADV.screenRotationMode == Options.ScreenMode.AllowAll)
-        {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-        }
-        else if (ADV.screenRotationMode == Options.ScreenMode.SystemDefault)
-        {
-            if (DAT.defaultScreenOrientation != null) requestedOrientation =
-                DAT.defaultScreenOrientation!!
+            Options.ScreenMode.AllowPortraitUprightOnly -> set(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            Options.ScreenMode.AllowPortraitUprightAndLandscape -> set(ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+            Options.ScreenMode.AllowLandscapeOnly -> set(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE)
+            Options.ScreenMode.AllowAll -> set(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR)
+            Options.ScreenMode.SystemDefault -> set(DAT.defaultScreenOrientation!!)
+            else -> { }
         }
     }
 
