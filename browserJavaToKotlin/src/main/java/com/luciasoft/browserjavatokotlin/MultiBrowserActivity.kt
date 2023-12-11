@@ -282,9 +282,7 @@ open class MultiBrowserActivity: AppCompatActivity()
                 refreshView(false, false)
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?)
-            {
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
         spinnerFileFilters.setSelection(DAT.fileFilterIndex!!)
     }
