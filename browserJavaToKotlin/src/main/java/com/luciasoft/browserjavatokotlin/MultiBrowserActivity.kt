@@ -121,9 +121,9 @@ open class MultiBrowserActivity
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(application)
         )[DataHolder::class.java]
-        OPT = DAT.mOptions!!
-        ADV = OPT.mAdvancedOptions
-        THM = OPT.mThemeOptions
+        OPT = DAT.OPT!!
+        ADV = DAT.ADV!!
+        THM = DAT.THM!!
 
         Permissions.requestExternalStoragePermission(this)
 
