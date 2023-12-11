@@ -132,9 +132,9 @@ open class MultiBrowserActivity
             var filePath = Options.extStoragePath
             if (!filePath!!.endsWith(File.separatorChar)) filePath += File.separatorChar
             filePath += "xml-file.xml"
-            XmlOperations.saveXml(filePath, OPT)
+            OPT.saveXml(filePath)
 
-            val array = XmlOperations.loadXml(filePath, OPT)
+            val array = OPT.loadXml(filePath)
             toastLong(this, "NUM SET=" + array[0] + ", NUM SKIPPED=" + array[1])
         }
 

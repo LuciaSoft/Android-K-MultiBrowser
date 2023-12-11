@@ -21,6 +21,11 @@ class Options
         XmlOperations.saveXml(filePath, this)
     }
 
+    fun loadXml(filePath: String): Array<Int>
+    {
+        return XmlOperations.loadXml(filePath, this)
+    }
+
     enum class FontMode(private val value: Int)
     {
         System(1), AppDefault(2), CustomOrSystem(3), CustomOrAppDefault(4);
