@@ -1,15 +1,14 @@
 package com.luciasoft.browserjavatokotlin
 
-class MainActivity
-    : MultiBrowserActivity()
+class MyApplication: AppBase()
 {
-    override fun initialize()
+    override fun initOpts(opt: Options, adv: AdvancedOptions, thm: ThemeOptions)
     {
-        val opt1 = APP.OPT
-        opt1.mFileFilterString =
+        opt.mFileFilterString =
             " Compatible Image Files ( *.png,*.jpg,*.jpeg ) |*.png,*.jpg,*.jpeg|" +
                 " PNG Image Files ( *.png ) |*.png|" +
                 " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
                 " All Files ( *.* ) |*"
     }
+
 }

@@ -43,17 +43,16 @@ import com.luciasoft.browserjavatokotlin.Utils2.directoryIsReadable
 import com.luciasoft.collections.DirectoryItem
 import java.io.File
 
-open class MultiBrowserActivity
-    : AppCompatActivity()
+open class MultiBrowserActivity: AppCompatActivity()
 {
     //private var tmpOptions: MultiBrowserOptions? = null
 
-    lateinit var APP: MultiBrowser
-    lateinit var DAT: Data
+    lateinit var APP: AppBase
 
-    val OPT get() = APP.OPT
-    val ADV get() = APP.ADV
-    val THM get() = APP.THM
+    lateinit var DAT: Data
+    val OPT get() = DAT.OPT!!
+    val ADV get() = DAT.ADV!!
+    val THM get() = DAT.THM!!
 
     lateinit var fileFilterArray: Array<Array<String>>
     lateinit var fileFilterDescripArray: Array<String>
@@ -116,17 +115,11 @@ open class MultiBrowserActivity
         mEditTextSaveFileName.setText(name)
     }
 
-    open fun initialize()
-    {
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        APP = application as MultiBrowser
-        initialize()
-        DAT = Data(APP)
+        APP = application as AppBase
+        DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(APP)).get(Data::class.java)
         setContentView(R.layout.activity_layout)
 
         val pair = FileFilters.getFileFilterArrays(OPT.mFileFilterString)
@@ -391,7 +384,7 @@ open class MultiBrowserActivity
                         mEditTextSaveFileName.text.toString().trim { it <= ' ' }
                     if (!filename.isEmpty())
                     {
-                        filename = changeFileExt(filename, DAT.fileFilterIndex, position)
+                        filename = changeFileExt(filename, DAT.fileFilterIndex!!, position)
                     }
                     mEditTextSaveFileName.setText(filename)
                 }
@@ -403,7 +396,7 @@ open class MultiBrowserActivity
             {
             }
         }
-        spinnerFileFilters.setSelection(DAT.fileFilterIndex)
+        spinnerFileFilters.setSelection(DAT.fileFilterIndex!!)
     }
 
     private fun setupSwipeRefreshLayout()
@@ -491,7 +484,7 @@ open class MultiBrowserActivity
             if (reload) DAT.mFileSystemDirectoryItems = getDirectoryItemsFromFileSystem(
                 this,
                 dir,
-                fileFilterArray[DAT.fileFilterIndex]
+                fileFilterArray[DAT.fileFilterIndex!!]
             )
             items = DAT.mFileSystemDirectoryItems
         }
@@ -693,7 +686,7 @@ open class MultiBrowserActivity
     {
         //if (!OPTIONS().mAllowHiddenFiles && filename.startsWith(".")) return null;
         val ext = getFileExtensionLowerCaseWithDot(filename)
-        val filters = fileFilterArray[DAT.fileFilterIndex]
+        val filters = fileFilterArray[DAT.fileFilterIndex!!]
         if ((filters[0] == "*"))
         {
             //if (ext.isEmpty() && !OPTIONS().mAllowUndottedFileExts) return null;
