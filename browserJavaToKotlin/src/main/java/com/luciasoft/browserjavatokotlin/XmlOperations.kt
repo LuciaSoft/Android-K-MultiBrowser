@@ -32,6 +32,7 @@ internal object XmlOperations
             getPropertyInfoTree(act.OPT, Mutability.Mutable),
             getPropertyInfoTree(act.ADV, Mutability.Mutable),
             getPropertyInfoTree(act.THM, Mutability.Mutable))
+        
         for (i in heads.indices)
         {
             val head = heads[i]
