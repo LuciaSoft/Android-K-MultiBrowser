@@ -125,6 +125,8 @@ open class MultiBrowserActivity
         ADV = OPT.mAdvancedOptions
         THM = OPT.mThemeOptions
 
+        // TEST:
+
         if (!Permissions.checkExternalStoragePermission(this)) Permissions.requestExternalStoragePermission(this)
 
         if (Permissions.checkExternalStoragePermission(this))
