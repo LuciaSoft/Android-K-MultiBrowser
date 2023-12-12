@@ -196,20 +196,20 @@ open class MultiBrowserActivity: AppCompatActivity()
 
     private fun setupParentDirLayout()
     {
-        (findViewById<View>(R.id.parDirLayout) as LinearLayout).setOnClickListener(
+        findViewById<LinearLayout>(R.id.parDirLayout).setOnClickListener(
             View.OnClickListener {
                 val parentDir = if (DAT.currentDir == null) null else getParentDir(DAT.currentDir!!)
                 if (!parentDir.isNullOrEmpty()) refreshView(parentDir, false, false)
             })
-        (findViewById<View>(R.id.parentDirIcon) as ImageView).setImageResource(R.mipmap.ic_folder_up)
-        (findViewById<View>(R.id.parDirSubText) as TextView).text = "(Go Up)"
+        findViewById<ImageView>(R.id.parentDirIcon).setImageResource(R.mipmap.ic_folder_up)
+        findViewById<TextView>(R.id.parDirSubText).text = "(Go Up)"
     }
 
     private fun setupSaveFileLayout()
     {
-        editTextSaveFileName = findViewById<View>(R.id.saveFileEditText) as EditText
+        editTextSaveFileName = findViewById<EditText>(R.id.saveFileEditText)
         if (OPT.defaultSaveFileName != "") editTextSaveFileName.setText(OPT.defaultSaveFileName)
-        val btnSaveFile = findViewById<View>(R.id.saveFileButton) as Button
+        val btnSaveFile = findViewById<Button>(R.id.saveFileButton)
         btnSaveFile.setOnClickListener(object : View.OnClickListener
         {
             override fun onClick(view: View)
