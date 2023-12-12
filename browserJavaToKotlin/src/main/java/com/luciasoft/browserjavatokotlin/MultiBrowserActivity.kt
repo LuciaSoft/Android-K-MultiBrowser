@@ -294,7 +294,7 @@ open class MultiBrowserActivity: AppCompatActivity()
 
     private fun setupSwipeRefreshLayout()
     {
-        val swipeRefreshLayout = findViewById<View>(R.id.swipeRefreshLayout) as SwipeRefreshLayout
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setOnRefreshListener(object : OnRefreshListener
         {
             override fun onRefresh()
@@ -406,7 +406,7 @@ open class MultiBrowserActivity: AppCompatActivity()
         if (showCurrentDirLayout)
         {
             curDirLayout.visibility = View.VISIBLE
-            (findViewById<View>(R.id.curDirText) as TextView).text = DAT.currentDir
+            findViewById<TextView>(R.id.curDirText).text = DAT.currentDir
         }
         else
         {
@@ -415,7 +415,7 @@ open class MultiBrowserActivity: AppCompatActivity()
         if (showParentDirLayout)
         {
             parDirLayout.visibility = View.VISIBLE
-            (findViewById<View>(R.id.parDirText) as TextView).text = getParentDir(DAT.currentDir!!)
+            findViewById<TextView>(R.id.parDirText).text = getParentDir(DAT.currentDir!!)
         }
         else
         {
