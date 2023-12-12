@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -71,12 +72,16 @@ open class MultiBrowserActivity: AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_layout)
-        
-        if (!Permissions.checkExternalStoragePermission(this)) Permissions.requestExternalStoragePermission(this)
+        onCreate()
+    }
 
+    private fun onCreate()
+    {
         val app = application as AppBase
         DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(app))[Data::class.java]
-        
+
+        if (!Permissions.checkExternalStoragePermission(this)) Permissions.requestExternalStoragePermission(this)
+
         val pair = FileFilters.getFileFilterArrays(OPT.fileFilterString)
         fileFilterArray = pair.first
         fileFilterDescripArray = pair.second
@@ -228,9 +233,10 @@ open class MultiBrowserActivity: AppCompatActivity()
         })
     }
 
-    private fun setupFileFilterLayout()
+    private fun setupFileFilterLayout() // ERROR HERE
     {
         val spinnerFileFilters = findViewById<Spinner>(R.id.fileFilterSpinner)
+
         val adapter: ArrayAdapter<String> = object : ArrayAdapter<String>(
             this,
             R.layout.file_filter_popup_item,
@@ -239,7 +245,7 @@ open class MultiBrowserActivity: AppCompatActivity()
         {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View
             {
-                val view = super.getView(position, convertView, parent) // CAST HERE?
+                val view = super.getView(position, convertView, parent)
                 (view as TextView).typeface = THM.getFontNorm(assets)
                 view.setTextColor(THM.colorFilterText)
                 view.setTextSize(THM.unitSp, THM.sizeFileFilterText)
@@ -250,19 +256,20 @@ open class MultiBrowserActivity: AppCompatActivity()
             {
                 val view = super.getView(position, convertView, parent)
                 val text = view.findViewById<TextView>(R.id.fileFilterPopupItem)
-                text.setTypeface(THM.getFontNorm(assets))
+                text.typeface = THM.getFontNorm(assets)
                 text.setTextColor(THM.colorFilterPopupText)
                 text.setBackgroundColor(THM.colorFilterPopupBackground)
                 text.setTextSize(THM.unitSp, THM.sizeFileFilterPopupText)
                 return view
             }
         }
+
         spinnerFileFilters.adapter = adapter
         spinnerFileFilters.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
         {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
-                view: View,
+                view: View?,
                 position: Int,
                 id: Long
             )
@@ -272,9 +279,9 @@ open class MultiBrowserActivity: AppCompatActivity()
                 {
                     var filename: String =
                         editTextSaveFileName.text.toString().trim { it <= ' ' }
-                    if (!filename.isEmpty())
+                    if (filename.isNotEmpty())
                     {
-                        filename = changeFileExt(filename, DAT.fileFilterIndex!!, position)
+                        filename = changeFileExt(filename, DAT.fileFilterIndex, position)
                     }
                     editTextSaveFileName.setText(filename)
                 }
@@ -284,7 +291,7 @@ open class MultiBrowserActivity: AppCompatActivity()
 
             override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
-        spinnerFileFilters.setSelection(DAT.fileFilterIndex!!)
+        spinnerFileFilters.setSelection(DAT.fileFilterIndex)
     }
 
     private fun setupSwipeRefreshLayout()
