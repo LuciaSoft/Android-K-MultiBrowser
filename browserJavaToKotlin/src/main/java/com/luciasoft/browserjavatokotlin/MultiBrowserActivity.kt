@@ -40,7 +40,6 @@ import com.luciasoft.browserjavatokotlin.Utils.getFileExtensionLowerCaseWithDot
 import com.luciasoft.browserjavatokotlin.Utils.getParentDir
 import com.luciasoft.browserjavatokotlin.Utils.toastLong
 import com.luciasoft.browserjavatokotlin.Utils2.directoryIsReadable
-import com.luciasoft.collections.DirectoryItem
 import java.io.File
 
 open class MultiBrowserActivity: AppCompatActivity()
@@ -51,6 +50,16 @@ open class MultiBrowserActivity: AppCompatActivity()
     val OPT get() = DAT.OPT
     val ADV get() = DAT.ADV
     val THM get() = DAT.THM
+
+    val isGalleryView get() = OPT.browserViewType == Options.BrowserViewType.Gallery
+    val isListView get() = OPT.browserViewType == Options.BrowserViewType.List
+    val isTilesView get() = OPT.browserViewType == Options.BrowserViewType.Tiles
+
+    var sortOrder: Options.SortOrder
+        get() { return if (isGalleryView) OPT.galleryViewSortOrder else OPT.normalViewSortOrder }
+        set(value) { if (isGalleryView) OPT.galleryViewSortOrder = value else OPT.normalViewSortOrder = value }
+
+
 
     private lateinit var fileFilterArray: Array<Array<String>>
     private lateinit var fileFilterDescripArray: Array<String>
@@ -311,11 +320,10 @@ open class MultiBrowserActivity: AppCompatActivity()
         val firstLoad = DAT.firstLoad
         DAT.firstLoad = false
         val items = getDirectoryItems(dir, forceSourceReload)
-        val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
         var showLayouts = true
         if (items == null)
         {
-            if (galleryView || dir == null)
+            if (isGalleryView || dir == null)
             {
                 recyclerView.text = "error reading items"
                 showLayouts = false
@@ -335,7 +343,7 @@ open class MultiBrowserActivity: AppCompatActivity()
         }
         else
         {
-            if (!galleryView) DAT.currentDir = dir
+            if (!isGalleryView) DAT.currentDir = dir
             if (refreshLayout) refreshLayoutManager()
             if (items.size == 0) recyclerView.text = "no items"
             else recyclerView.clearText()
@@ -350,17 +358,16 @@ open class MultiBrowserActivity: AppCompatActivity()
     ): ArrayList<DirectoryItem>?
     {
         if (dir == null) return null
-        val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
-        val readable = galleryView || directoryIsReadable(this, dir)
+        val readable = isGalleryView || directoryIsReadable(this, dir)
         if (!readable) return null
-        if (galleryView || OPT.showImagesWhileBrowsingNormal)
+        if (isGalleryView || OPT.showImagesWhileBrowsingNormal)
         {
             val reload = (forceSourceReload ||
                 ADV.autoRefreshDirectorySource || (DAT.mediaStoreImageInfoList == null))
             if (reload) DAT.mediaStoreImageInfoList = getImageInfos(this)
         }
         val items: ArrayList<DirectoryItem>?
-        if (galleryView)
+        if (isGalleryView)
         {
             items = DAT.mediaStoreImageInfoList
         }
@@ -389,8 +396,7 @@ open class MultiBrowserActivity: AppCompatActivity()
         var showParentDirLayout = false
         var showSaveFileLayout = false
         var showFileFilterLayout = false
-        val galleryView = OPT.browserViewType === Options.BrowserViewType.Gallery
-        if (!galleryView && showLayouts)
+        if (!isGalleryView && showLayouts)
         {
             val isRoot = (DAT.currentDir == "/")
             showParentDirLayout = ADV.showParentDirectoryLayoutIfAvailable && !isRoot
@@ -440,14 +446,14 @@ open class MultiBrowserActivity: AppCompatActivity()
     private fun refreshLayoutManager()
     {
         val manager: RecyclerView.LayoutManager
-        if (OPT.browserViewType === Options.BrowserViewType.List)
+        if (isListView)
         {
             manager = LinearLayoutManager(applicationContext)
         }
         else
         {
             val columnCount =
-                if (OPT.browserViewType === Options.BrowserViewType.Tiles) OPT.normalViewColumnCount else OPT.galleryViewColumnCount
+                if (isTilesView) OPT.normalViewColumnCount else OPT.galleryViewColumnCount
             manager = GridLayoutManager(applicationContext, columnCount)
         }
         recyclerView.layoutManager = manager
@@ -476,7 +482,7 @@ open class MultiBrowserActivity: AppCompatActivity()
         if (!skipDialog && !load)
         {
             var showDialog = false
-            if (OPT.browserViewType === Options.BrowserViewType.Gallery)
+            if (isGalleryView)
             {
                 if (OPT.alwaysShowDialogForSavingGalleryItem) showDialog = true
             }

@@ -2,14 +2,12 @@ package com.luciasoft.browserjavatokotlin
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.luciasoft.collections.DirectoryItem
-import com.luciasoft.collections.MediaStoreImageInfoTree
 
 class Data(app: Application): AndroidViewModel(app)
 {
-    var OPT: Options = Options()
-    var ADV: AdvancedOptions = AdvancedOptions()
-    var THM: ThemeOptions = ThemeOptions()
+    val OPT: Options = Options()
+    val ADV: AdvancedOptions = AdvancedOptions()
+    val THM: ThemeOptions = ThemeOptions()
 
     var currentDir: String? = null
     var fileFilterIndex = 0

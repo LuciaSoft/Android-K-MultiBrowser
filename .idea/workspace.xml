@@ -10,7 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="C">
+      <change afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MediaStoreImageInfoTree.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Data.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Data.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/ListUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/ListUtils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MultiBrowserActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MultiBrowserActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MyListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/MyListAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/OptionsMenu.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/OptionsMenu.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collections/src/main/java/com/luciasoft/collections/DirectoryItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/DirectoryItem.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collections/src/main/java/com/luciasoft/collections/PropertyInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/collections/src/main/java/com/luciasoft/collections/PropertyInfo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/src/main/java/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/main/java/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,8 +90,8 @@
       <recent name="C:\Users\dvdcp\AndroidStudioProjects\New-K-MultiBrowser\browser\src\main\java\com\lucerta\multibrowser" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\dvdcp\AndroidStudioProjects\AS-K-MultiBrowser\collections\src\main\java\com\luciasoft\collections" />
       <recent name="C:\Users\dvdcp\AndroidStudioProjects\AS-K-MultiBrowser\browserJavaToKotlin\src\main\java\com\luciasoft\browserjavatokotlin" />
+      <recent name="C:\Users\dvdcp\AndroidStudioProjects\AS-K-MultiBrowser\collections\src\main\java\com\luciasoft\collections" />
       <recent name="C:\Users\dvdcp\AndroidStudioProjects\AS-K-MultiBrowser\browserJavaToKotlin\src\main\java" />
       <recent name="C:\Users\dvdcp\AndroidStudioProjects\New-K-MultiBrowser\browser\src\main\java\com\luciasoft\browser" />
       <recent name="C:\Users\dvdcp\AndroidStudioProjects\New-K-MultiBrowser\browser\src\main\java\com\lucerta\multibrowser" />
@@ -521,7 +530,21 @@
       <option name="project" value="LOCAL" />
       <updated>1702333983627</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="C">
+      <created>1702335259001</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1702335259001</updated>
+    </task>
+    <task id="LOCAL-00049" summary="C">
+      <created>1702335407844</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1702335407844</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

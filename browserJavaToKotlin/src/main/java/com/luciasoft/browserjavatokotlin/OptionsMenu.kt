@@ -19,7 +19,7 @@ internal object OptionsMenu
         var resetDirectoryOptionVisible = false
         var sortOrderOptionVisible = false
         var showHideFileNamesOptionVisible = false
-        if (act.OPT.browserViewType == Options.BrowserViewType.List)
+        if (act.isListView)
         {
             newFolderOptionVisible = true
             listViewOptionVisible = false
@@ -29,7 +29,7 @@ internal object OptionsMenu
             resetDirectoryOptionVisible = true
             sortOrderOptionVisible = true
         }
-        else if (act.OPT.browserViewType == Options.BrowserViewType.Tiles)
+        else if (act.isTilesView)
         {
             newFolderOptionVisible = true
             listViewOptionVisible = true
@@ -39,7 +39,7 @@ internal object OptionsMenu
             resetDirectoryOptionVisible = true
             sortOrderOptionVisible = true
         }
-        else if (act.OPT.browserViewType == Options.BrowserViewType.Gallery)
+        else if (act.isGalleryView)
         {
             newFolderOptionVisible = false
             listViewOptionVisible = true
@@ -146,21 +146,21 @@ internal object OptionsMenu
         }
         if (itemId == R.id.menuItemListView)
         {
-            if (act.OPT.browserViewType == Options.BrowserViewType.List) return false
+            if (act.isListView) return false
             act.OPT.browserViewType = Options.BrowserViewType.List
             act.refreshView(true, true)
             return true
         }
         if (itemId == R.id.menuItemTilesView)
         {
-            if (act.OPT.browserViewType == Options.BrowserViewType.Tiles) return false
+            if (act.isTilesView) return false
             act.OPT.browserViewType = Options.BrowserViewType.Tiles
             act.refreshView(true, true)
             return true
         }
         if (itemId == R.id.menuItemGalleryView)
         {
-            if (act.OPT.browserViewType == Options.BrowserViewType.Gallery) return false
+            if (act.isGalleryView) return false
             act.OPT.browserViewType = Options.BrowserViewType.Gallery
             act.refreshView(true, true)
             return true
@@ -169,14 +169,12 @@ internal object OptionsMenu
         {
             val counts = Array(10) { "" + (it + 1) }
             val listDlg = MyListDialog()
-            val galleryView =
-                act.OPT.browserViewType == Options.BrowserViewType.Gallery
             val columnCount =
-                if (galleryView) act.OPT.galleryViewColumnCount else act.OPT.normalViewColumnCount
+                if (act.isGalleryView) act.OPT.galleryViewColumnCount else act.OPT.normalViewColumnCount
             listDlg.show(act, "Column Count", counts, columnCount - 1) { dialog, which ->
                 val count = listDlg.choice + 1
                 var refresh = false
-                if (galleryView)
+                if (act.isGalleryView)
                 {
                     if (count != act.OPT.galleryViewColumnCount)
                     {
@@ -205,8 +203,7 @@ internal object OptionsMenu
         if (itemId == R.id.menuItemSortOrder)
         {
             val index: Int
-            val sortOrder: Options.SortOrder = if (act.OPT.browserViewType == Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
-            index = when (sortOrder)
+            index = when (act.sortOrder)
             {
                 Options.SortOrder.PathAscending -> 0
                 Options.SortOrder.PathDescending -> 1
@@ -237,21 +234,10 @@ internal object OptionsMenu
                 var refresh = false
                 if (order != null)
                 {
-                    if (act.OPT.browserViewType == Options.BrowserViewType.Gallery)
+                    if (act.sortOrder != order)
                     {
-                        if (act.OPT.galleryViewSortOrder != order)
-                        {
-                            act.OPT.galleryViewSortOrder = order
-                            refresh = true
-                        }
-                    }
-                    else
-                    {
-                        if (act.OPT.normalViewSortOrder != order)
-                        {
-                            act.OPT.normalViewSortOrder = order
-                            refresh = true
-                        }
+                        act.sortOrder = order
+                        refresh = true
                     }
                 }
                 if (refresh) act.refreshView(true, false)

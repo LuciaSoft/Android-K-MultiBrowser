@@ -12,8 +12,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.luciasoft.browserjavatokotlin.Utils.getShortName
-import com.luciasoft.collections.DirectoryItem
-import com.luciasoft.collections.FileItem
 import java.io.File
 
 internal class MyListAdapter(
@@ -43,7 +41,7 @@ internal class MyListAdapter(
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MyViewHolder
     {
         val view: View
-        if (act.OPT.browserViewType == Options.BrowserViewType.List)
+        if (act.isListView)
         {
             view = LayoutInflater.from(viewGroup.context).inflate(
                 R.layout.list_item_list_view, viewGroup, false
@@ -54,7 +52,7 @@ internal class MyListAdapter(
             view = LayoutInflater.from(viewGroup.context).inflate(
                 R.layout.list_item_tiles_view, viewGroup, false
             )
-            if (act.OPT.browserViewType == Options.BrowserViewType.Gallery && !act.OPT.showFileNamesInGalleryView) view.findViewById<View>(
+            if (act.isGalleryView && !act.OPT.showFileNamesInGalleryView) view.findViewById<View>(
                 R.id.listItemText
             ).visibility = View.GONE
             else view.findViewById<View>(R.id.listItemText).visibility = View.VISIBLE
@@ -97,7 +95,7 @@ internal class MyListAdapter(
             }
             image.scaleType = ImageView.ScaleType.FIT_CENTER
             image.setImageBitmap(BitmapFactory.decodeResource(act.resources, iconId))
-            if (act.OPT.browserViewType == Options.BrowserViewType.List)
+            if (act.isListView)
             {
                 val str = "$infoType not found"
                 viewHolder.info!!.text = str
@@ -108,12 +106,11 @@ internal class MyListAdapter(
             listItem.setOnLongClickListener(null)
             return
         }
-        val galleryView = act.OPT.browserViewType == Options.BrowserViewType.Gallery
         val isFile = item is FileItem
         if (isFile)
         {
             var thumb: Bitmap? = null
-            if (galleryView && act.OPT.showImagesWhileBrowsingGallery || !galleryView && act.OPT.showImagesWhileBrowsingNormal)
+            if (act.isGalleryView && act.OPT.showImagesWhileBrowsingGallery || !act.isGalleryView && act.OPT.showImagesWhileBrowsingNormal)
             {
                 val fileItem = item as FileItem
                 val imageId = fileItem.imageId
@@ -160,7 +157,7 @@ internal class MyListAdapter(
             }
         }
         if (hidden) image.imageAlpha = 127 else image.imageAlpha = 255
-        if (act.OPT.browserViewType == Options.BrowserViewType.List) viewHolder.info!!.text =
+        if (act.isListView) viewHolder.info!!.text =
             item.info
         val loadFilesFolders =
             act.OPT.browseMode == Options.BrowseMode.LoadFilesAndOrFolders
@@ -261,7 +258,7 @@ internal class MyViewHolder(view: View, act: MultiBrowserActivity)
         title = view.findViewById(R.id.listItemText)
         title.typeface = act.THM.getFontBdIt(act.assets)
         image = view.findViewById(R.id.listItemIcon)
-        if (act.OPT.browserViewType == Options.BrowserViewType.Gallery)
+        if (act.isGalleryView)
         {
             title.setTextColor(act.THM.colorGalleryItemText)
             title.setTextSize(act.THM.unitSp, act.THM.sizeGalleryViewItemText)
@@ -269,7 +266,7 @@ internal class MyViewHolder(view: View, act: MultiBrowserActivity)
         else
         {
             title.setTextColor(act.THM.colorListItemText)
-            if (act.OPT.browserViewType == Options.BrowserViewType.List)
+            if (act.isListView)
             {
                 title.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemText)
                 info = view.findViewById(R.id.listItemSubText)

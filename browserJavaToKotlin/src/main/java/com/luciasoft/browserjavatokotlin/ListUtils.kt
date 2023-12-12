@@ -8,10 +8,6 @@ import com.luciasoft.browserjavatokotlin.Utils.filePassesFilter
 import com.luciasoft.browserjavatokotlin.Utils.getDateString
 import com.luciasoft.browserjavatokotlin.Utils.getFileSizeString
 import com.luciasoft.browserjavatokotlin.Utils.getValidExts
-import com.luciasoft.collections.DirectoryItem
-import com.luciasoft.collections.FileItem
-import com.luciasoft.collections.FolderItem
-import com.luciasoft.collections.MediaStoreImageInfoTree
 import java.io.File
 import java.util.Collections
 import java.util.Random
@@ -20,8 +16,7 @@ internal object ListUtils
 {
     fun getImageInfos(act: MultiBrowserActivity): ArrayList<DirectoryItem>?
     {
-        val sortOrder =
-            if (act.OPT.browserViewType == Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
+        val sortOrder = act.sortOrder
         val sortOrderString: String = when (sortOrder)
         {
             Options.SortOrder.PathAscending -> MediaStore.Images.Media.DATA
@@ -244,27 +239,26 @@ internal object ListUtils
                 dirItemList.add(FileItem(path, date, size, info, imageId))
             }
         }
-        Collections.sort(dirItemList, DirItemComparator.getComparator(act))
+        Collections.sort(dirItemList, DirItemComparator(act.sortOrder))
         return dirItemList
     }
 }
 
-internal class DirItemComparator(private var act: MultiBrowserActivity) : Comparator<DirectoryItem>
+internal class DirItemComparator(private var order: Options.SortOrder) : Comparator<DirectoryItem>
 {
     override fun compare(item1: DirectoryItem, item2: DirectoryItem): Int
     {
         val item1isDir = item1 is FolderItem
         val item2isDir = item2 is FolderItem
         if (item1isDir && !item2isDir) return -1 else if (item2isDir && !item1isDir) return 1
-        val sortOrder = if (act.OPT.browserViewType == Options.BrowserViewType.Gallery) act.OPT.galleryViewSortOrder else act.OPT.normalViewSortOrder
-        var path = sortOrder == Options.SortOrder.PathAscending ||
-            sortOrder == Options.SortOrder.PathDescending
-        var date = sortOrder == Options.SortOrder.DateAscending ||
-            sortOrder == Options.SortOrder.DateDescending
-        var size = sortOrder == Options.SortOrder.SizeAscending ||
-            sortOrder == Options.SortOrder.SizeDescending
+        var path = order == Options.SortOrder.PathAscending ||
+            order == Options.SortOrder.PathDescending
+        var date = order == Options.SortOrder.DateAscending ||
+            order == Options.SortOrder.DateDescending
+        var size = order == Options.SortOrder.SizeAscending ||
+            order == Options.SortOrder.SizeDescending
         var desc =
-            sortOrder == Options.SortOrder.PathDescending || sortOrder == Options.SortOrder.DateDescending || sortOrder == Options.SortOrder.SizeDescending
+            order == Options.SortOrder.PathDescending || order == Options.SortOrder.DateDescending || order == Options.SortOrder.SizeDescending
         var compare = 0
         if (size && item1isDir)
         {
@@ -310,15 +304,5 @@ internal class DirItemComparator(private var act: MultiBrowserActivity) : Compar
         }
         if (desc) compare = -compare
         return compare
-    }
-
-    companion object
-    {
-        private var comparator: DirItemComparator? = null
-        fun getComparator(act: MultiBrowserActivity): DirItemComparator
-        {
-            if (comparator == null) comparator = DirItemComparator(act)
-            return comparator!!
-        }
     }
 }
