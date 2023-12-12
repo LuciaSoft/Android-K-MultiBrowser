@@ -11,7 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="XmlOps">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Options.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/Options.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/XmlOperations.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browserJavaToKotlin/src/main/java/com/luciasoft/browserjavatokotlin/XmlOperations.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -190,13 +189,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701722466524</updated>
-    </task>
-    <task id="LOCAL-00007" summary="C">
-      <created>1701821254635</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1701821254635</updated>
     </task>
     <task id="LOCAL-00008" summary="C">
       <created>1701899025896</created>
@@ -534,7 +526,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702413059560</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="XmlOps">
+      <created>1702414214134</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1702414214134</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
