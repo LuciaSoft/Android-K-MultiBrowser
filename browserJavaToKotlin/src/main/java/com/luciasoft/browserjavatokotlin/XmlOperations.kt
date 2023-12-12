@@ -7,11 +7,8 @@ import com.luciasoft.xml.XmlUtils
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import kotlin.reflect.KMutableProperty1
-import kotlin.reflect.KProperty1
 import kotlin.reflect.KType
-import kotlin.reflect.javaType
 import kotlin.reflect.jvm.jvmErasure
-import kotlin.reflect.jvm.jvmName
 
 internal object XmlOperations
 {
@@ -44,11 +41,18 @@ internal object XmlOperations
         
             for (info in tree)
             {
-                val element = doc.createElement("$head.${info.name}")
                 val typeStr = getTypeStr(info.type)
-                if (typeStr.lowercase().startsWith("array")) continue
+                val typeStrLower = typeStr.lowercase()
+                if (typeStrLower.startsWith("array")) continue
+                val valStr = when (typeStrLower)
+                {
+                    "char" -> "" + (info.value as Char).code
+                    "char?" -> "" + (info.value as Char?)?.code
+                    else -> "" + info.value
+                }
+                val element = doc.createElement("$head.${info.name}")
                 element.setAttribute("type", typeStr)
-                element.setAttribute("value", "" + info.value)
+                element.setAttribute("value", valStr)
                 root.appendChild(element)
             }
         }
@@ -91,16 +95,16 @@ internal object XmlOperations
         when (type)
         {
             "char" -> {
-                val value = valStr[0]
+                val value = valStr.toInt()
                 val prop = info.prop as KMutableProperty1<Any, Char>
-                prop.set(info.instance, value)
+                prop.set(info.instance, value.toChar())
                 return true
             }
 
             "char?" -> {
-                val value = if (valStr == "null") null else valStr[0]
+                val value = if (valStr == "null") null else valStr.toInt()
                 val prop = info.prop as KMutableProperty1<Any, Char?>
-                prop.set(info.instance, value)
+                prop.set(info.instance, value?.toChar())
                 return true
             }
 
