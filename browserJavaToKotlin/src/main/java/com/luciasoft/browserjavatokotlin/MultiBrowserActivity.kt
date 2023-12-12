@@ -44,7 +44,6 @@ import java.io.File
 
 open class MultiBrowserActivity: AppCompatActivity()
 {
-    private lateinit var APP: AppBase
     lateinit var DAT: Data
     val OPT get() = DAT.OPT
     val ADV get() = DAT.ADV
@@ -71,8 +70,8 @@ open class MultiBrowserActivity: AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        APP = application as AppBase
-        DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(APP))[Data::class.java]
+        val app = application as AppBase
+        DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(app))[Data::class.java]
         setContentView(R.layout.activity_layout)
 
         if (!Permissions.checkExternalStoragePermission(this)) Permissions.requestExternalStoragePermission(this)
