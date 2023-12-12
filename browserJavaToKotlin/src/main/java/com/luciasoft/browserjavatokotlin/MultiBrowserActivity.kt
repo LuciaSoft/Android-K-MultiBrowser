@@ -244,7 +244,7 @@ open class MultiBrowserActivity: AppCompatActivity()
         {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View
             {
-                val view = super.getView(position, convertView, parent)
+                val view = super.getView(position, convertView, parent) // CAST HERE?
                 (view as TextView).typeface = THM.getFontNorm(assets)
                 view.setTextColor(THM.colorFilterText)
                 view.setTextSize(THM.unitSp, THM.sizeFileFilterText)
