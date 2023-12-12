@@ -40,7 +40,7 @@ internal object XmlOperations
             for (info in tree)
             {
                 val element = doc.createElement("$head.${info.name}")
-                val type = getType("" + info.type)
+                val type = "" + getType("" + info.type, info.instance.javaClass.`package`?.name)
                 if (type.lowercase().startsWith("array")) continue
                 element.setAttribute("type", type)
                 element.setAttribute("value", "" + info.value)
@@ -264,15 +264,15 @@ internal object XmlOperations
         return valStr.substring(0, pos).toInt()
     }
 
-    private fun getType(type: String): String
+    private fun getType(type: String, packageName: String?): String
     {
-        val type = type
+        var type = type
+        if (packageName != null) type = type.replace("$packageName.", "")
+        type = type
             .replace("kotlin.", "")
             .replace("<", "[")
             .replace(">", "]")
-        val pos = type.lastIndexOf('.')
-        if (pos == -1 || pos == type.length - 1) return type
-        return type.substring(pos + 1)
+        return type
     }
 
 }
