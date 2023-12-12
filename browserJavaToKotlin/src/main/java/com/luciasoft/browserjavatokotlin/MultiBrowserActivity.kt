@@ -87,14 +87,16 @@ open class MultiBrowserActivity: AppCompatActivity()
         {
             with (supportActionBar!!)
             {
-                val tv = TextView(applicationContext)
-                tv.typeface = THM.getFontBold(assets)
-                tv.text = OPT.browserTitle
-                tv.setTextColor(THM.colorBrowserTitle)
-                tv.setTextSize(THM.unitSp, THM.sizeBrowserTitle)
                 this.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-                this.customView = tv
                 this.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
+                this.customView = with (TextView(applicationContext))
+                {
+                    this.typeface = THM.getFontBold(assets)
+                    this.text = OPT.browserTitle
+                    this.setTextColor(THM.colorBrowserTitle)
+                    this.setTextSize(THM.unitSp, THM.sizeBrowserTitle)
+                    this
+                }
             }
         }
         catch (ex: Exception)
