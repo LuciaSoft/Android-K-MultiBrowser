@@ -51,15 +51,13 @@ open class MultiBrowserActivity: AppCompatActivity()
     val ADV get() = DAT.ADV
     val THM get() = DAT.THM
 
-    val isGalleryView get() = OPT.browserViewType == Options.BrowserViewType.Gallery
     val isListView get() = OPT.browserViewType == Options.BrowserViewType.List
     val isTilesView get() = OPT.browserViewType == Options.BrowserViewType.Tiles
+    val isGalleryView get() = OPT.browserViewType == Options.BrowserViewType.Gallery
 
     var sortOrder: Options.SortOrder
         get() { return if (isGalleryView) OPT.galleryViewSortOrder else OPT.normalViewSortOrder }
         set(value) { if (isGalleryView) OPT.galleryViewSortOrder = value else OPT.normalViewSortOrder = value }
-
-
 
     private lateinit var fileFilterArray: Array<Array<String>>
     private lateinit var fileFilterDescripArray: Array<String>
