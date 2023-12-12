@@ -70,12 +70,13 @@ open class MultiBrowserActivity: AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        val app = application as AppBase
-        DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(app))[Data::class.java]
         setContentView(R.layout.activity_layout)
-
+        
         if (!Permissions.checkExternalStoragePermission(this)) Permissions.requestExternalStoragePermission(this)
 
+        val app = application as AppBase
+        DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(app))[Data::class.java]
+        
         val pair = FileFilters.getFileFilterArrays(OPT.fileFilterString)
         fileFilterArray = pair.first
         fileFilterDescripArray = pair.second
