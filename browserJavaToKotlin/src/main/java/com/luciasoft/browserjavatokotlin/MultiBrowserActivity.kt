@@ -99,10 +99,7 @@ open class MultiBrowserActivity: AppCompatActivity()
                 this.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
             }
         }
-        catch (ex: Exception)
-        {
-
-        }
+        catch (_: Exception) { }
 
         if (DAT.currentDir != null)
         {
