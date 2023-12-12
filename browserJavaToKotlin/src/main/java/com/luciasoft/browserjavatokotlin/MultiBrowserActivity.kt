@@ -85,7 +85,7 @@ open class MultiBrowserActivity: AppCompatActivity()
 
         try
         {
-            with(supportActionBar!!)
+            with (supportActionBar!!)
             {
                 val tv = TextView(applicationContext)
                 tv.typeface = THM.getFontBold(assets)
