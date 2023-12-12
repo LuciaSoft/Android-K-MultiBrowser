@@ -87,8 +87,6 @@ open class MultiBrowserActivity: AppCompatActivity()
         {
             with (supportActionBar!!)
             {
-                this.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-                this.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
                 this.customView = with (TextView(applicationContext))
                 {
                     this.typeface = THM.getFontBold(assets)
@@ -97,6 +95,8 @@ open class MultiBrowserActivity: AppCompatActivity()
                     this.setTextSize(THM.unitSp, THM.sizeBrowserTitle)
                     this
                 }
+                this.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+                this.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
             }
         }
         catch (ex: Exception)
