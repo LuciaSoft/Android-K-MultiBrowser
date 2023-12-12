@@ -62,6 +62,8 @@ class Options
     var startDir: String? = null
     lateinit var fileFilterString: String
 
+    var test = arrayOf("", "")
+
     init
     {
         reset()

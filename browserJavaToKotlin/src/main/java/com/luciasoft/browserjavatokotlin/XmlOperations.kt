@@ -7,6 +7,11 @@ import com.luciasoft.xml.XmlUtils
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import kotlin.reflect.KMutableProperty1
+import kotlin.reflect.KProperty1
+import kotlin.reflect.KType
+import kotlin.reflect.javaType
+import kotlin.reflect.jvm.jvmErasure
+import kotlin.reflect.jvm.jvmName
 
 internal object XmlOperations
 {
@@ -40,9 +45,9 @@ internal object XmlOperations
             for (info in tree)
             {
                 val element = doc.createElement("$head.${info.name}")
-                val type = "" + getType("" + info.type, info.instance.javaClass.`package`?.name)
-                if (type.lowercase().startsWith("array")) continue
-                element.setAttribute("type", type)
+                val typeStr = getTypeStr(info.type)
+                if (typeStr.lowercase().startsWith("array")) continue
+                element.setAttribute("type", typeStr)
                 element.setAttribute("value", "" + info.value)
                 root.appendChild(element)
             }
@@ -264,15 +269,12 @@ internal object XmlOperations
         return valStr.substring(0, pos).toInt()
     }
 
-    private fun getType(type: String, packageName: String?): String
+    private fun getTypeStr(type: KType): String
     {
-        var type = type
-        if (packageName != null) type = type.replace("$packageName.", "")
-        type = type
-            .replace("kotlin.", "")
-            .replace("<", "[")
-            .replace(">", "]")
-        return type
+        var typeStr = "" + type.jvmErasure.simpleName
+        if (type.isMarkedNullable) typeStr += "?"
+        typeStr = typeStr.replace('<', '[').replace('>', ']')
+        return typeStr
     }
 
 }
