@@ -81,7 +81,7 @@ internal object OptionsMenu
         {
             if (Permissions.checkExternalStoragePermission(act))
             {
-                var filePath = Options.extStoragePath
+                var filePath = act.OPT.extStoragePath
                 if (!filePath!!.endsWith(File.separatorChar)) filePath += File.separatorChar
                 filePath += "xml-file.xml"
                 XmlOperations.saveXml(act, filePath)

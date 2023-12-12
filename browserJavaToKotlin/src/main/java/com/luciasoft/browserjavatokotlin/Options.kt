@@ -6,6 +6,10 @@ class Options
 {
     private val ALL_FILES_FILTER = " All Files ( * ) |*"
 
+    val extStoragePath: String?
+        get() = try { Environment.getExternalStorageDirectory().canonicalPath }
+        catch (ex: Exception) { null }
+
     fun reset()
     {
         fileFilterString = ALL_FILES_FILTER
@@ -61,18 +65,5 @@ class Options
     init
     {
         reset()
-    }
-
-    companion object
-    {
-        val extStoragePath: String?
-            get() = try
-            {
-                Environment.getExternalStorageDirectory().canonicalPath
-            }
-            catch (ex: Exception)
-            {
-                null
-            }
     }
 }

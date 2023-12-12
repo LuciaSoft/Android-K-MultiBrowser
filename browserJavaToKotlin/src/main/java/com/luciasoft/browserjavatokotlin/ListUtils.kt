@@ -257,17 +257,9 @@ internal class DirItemComparator(private var order: SortOrder) : Comparator<Dire
         var size = order == SortOrder.SizeAscending || order == SortOrder.SizeDescending
         var desc = order == SortOrder.PathDescending || order == SortOrder.DateDescending || order == SortOrder.SizeDescending
         var compare = 0
-        if (size && item1isDir)
-        {
-            size = false
-            path = true
-            desc = false
-        }
         if (size)
         {
-            val size1 = (item1 as FileItem).size
-            val size2 = (item2 as FileItem).size
-            if (size1 == null || size2 == null)
+            if (item1isDir)
             {
                 size = false
                 path = true
@@ -275,8 +267,19 @@ internal class DirItemComparator(private var order: SortOrder) : Comparator<Dire
             }
             else
             {
-                val cmp = size1 - size2
-                compare = if (cmp < 0) -1 else if (cmp > 0) 1 else 0
+                val size1 = (item1 as FileItem).size
+                val size2 = (item2 as FileItem).size
+                if (size1 == null || size2 == null)
+                {
+                    size = false
+                    path = true
+                    desc = false
+                }
+                else
+                {
+                    val cmp = size1 - size2
+                    compare = if (cmp < 0) -1 else if (cmp > 0) 1 else 0
+                }
             }
         }
         if (date)
@@ -295,10 +298,7 @@ internal class DirItemComparator(private var order: SortOrder) : Comparator<Dire
                 compare = if (cmp < 0) -1 else if (cmp > 0) 1 else 0
             }
         }
-        if (path)
-        {
-            compare = item1.path.compareTo(item2.path, ignoreCase = true)
-        }
+        if (path) compare = item1.path.compareTo(item2.path, ignoreCase = true)
         if (desc) compare = -compare
         return compare
     }
