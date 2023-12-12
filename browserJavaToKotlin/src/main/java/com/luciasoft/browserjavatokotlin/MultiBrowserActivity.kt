@@ -83,7 +83,7 @@ open class MultiBrowserActivity: AppCompatActivity()
 
         configureScreenRotation()
 
-        try
+        try // MAY CAUSE CRASH AND NEED FIXING
         {
             with (supportActionBar!!)
             {
