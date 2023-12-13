@@ -9,8 +9,20 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="MyListAdapter">
+    <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="DebugMode">
+      <change afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/DirectoryItemComparator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/FileItemComparator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/GetDirectoryItems.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/GetImageInfos.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/DirectoryItem.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/DirectoryItem.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Enums.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Enums.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/ListUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MediaStoreImageInfoTree.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MediaStoreImageInfoTree.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MultiBrowserActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MultiBrowserActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyListAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyRecyclerView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyRecyclerView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/SelectAction.kt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +40,7 @@
       <list>
         <option value="Class" />
         <option value="Kotlin Interface" />
+        <option value="Kotlin Object" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -252,20 +265,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701722466524</updated>
-    </task>
-    <task id="LOCAL-00017" summary="C">
-      <created>1702070238039</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1702070238039</updated>
-    </task>
-    <task id="LOCAL-00018" summary="C">
-      <created>1702071326562</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1702071326562</updated>
     </task>
     <task id="LOCAL-00019" summary="C">
       <created>1702071673307</created>
@@ -596,7 +595,21 @@
       <option name="project" value="LOCAL" />
       <updated>1702495893444</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="MyListAdapter">
+      <created>1702495958336</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1702495958336</updated>
+    </task>
+    <task id="LOCAL-00067" summary="DebugMode">
+      <created>1702496187086</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1702496187086</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -622,6 +635,7 @@
     <MESSAGE value="Test" />
     <MESSAGE value="C" />
     <MESSAGE value="MyListAdapter" />
-    <option name="LAST_COMMIT_MESSAGE" value="MyListAdapter" />
+    <MESSAGE value="DebugMode" />
+    <option name="LAST_COMMIT_MESSAGE" value="DebugMode" />
   </component>
 </project>

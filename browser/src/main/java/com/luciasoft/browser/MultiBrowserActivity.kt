@@ -29,8 +29,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.luciasoft.browser.ListUtils.getDirectoryItemsFromFileSystem
-import com.luciasoft.browser.ListUtils.getImageInfos
+import com.luciasoft.browser.GetDirectoryItems.getDirectoryItemsFromFileSystem
+import com.luciasoft.browser.GetImageInfos.getImageInfos
 import com.luciasoft.browser.MyMessageBox.Companion.show
 import com.luciasoft.browser.MyYesNoDialog.show
 import com.luciasoft.browser.OptionsMenu.onMenuOpened

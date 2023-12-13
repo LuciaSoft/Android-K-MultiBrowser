@@ -1,5 +1,10 @@
 package com.luciasoft.browser
 
+enum class SelectAction
+{
+    ShortClick, LongClick, SaveButton
+}
+
 enum class FontMode(private val value: Int)
 {
     System(1), AppDefault(2), CustomOrSystem(3), CustomOrAppDefault(4);

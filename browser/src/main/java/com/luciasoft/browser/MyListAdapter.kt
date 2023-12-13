@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.luciasoft.browser.Utils.getShortName
 import java.io.File
 
-internal class MyListAdapter( // OPTIMIZED
+// OPTIMIZED
+internal class MyListAdapter(
     private val act: MultiBrowserActivity,
     private val itemList: ArrayList<DirectoryItem>)
     : RecyclerView.Adapter<MyViewHolder>()
@@ -219,7 +220,8 @@ internal class MyListAdapter( // OPTIMIZED
     }
 }
 
-internal class MyViewHolder(view: View, act: MultiBrowserActivity) // OPTIMIZED
+// OPTIMIZED
+internal class MyViewHolder(view: View, act: MultiBrowserActivity)
     : RecyclerView.ViewHolder(view)
 {
     val listItem = view as LinearLayout

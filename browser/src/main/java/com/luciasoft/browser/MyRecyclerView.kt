@@ -8,6 +8,7 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
 
+// OPTIMIZED
 class MyRecyclerView : RecyclerView
 {
     constructor(context: Context) : super(context)
@@ -59,8 +60,7 @@ class MyRecyclerView : RecyclerView
             val t = texts[i]
             paint.getTextBounds(t, 0, t.length, r)
             val x = cWidth / 2f - r.width() / 2f - r.left
-            val y =
-                cHeight / 2f + r.height() / 2f - r.bottom - totalTextHeight / 2f + i * textHeight * 1.4f
+            val y = cHeight / 2f + r.height() / 2f - r.bottom - totalTextHeight / 2f + i * textHeight * 1.4f
             canvas.drawText(t, x, y, paint)
         }
     }
