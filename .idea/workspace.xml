@@ -10,18 +10,167 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="C">
-      <change afterPath="$PROJECT_DIR$/BrowserLib/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BrowserLib/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BrowserLib/consumer-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BrowserLib/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BrowserLib/src/androidTest/java/com/luciasoft/browser/ExampleInstrumentedTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BrowserLib/src/test/java/com/luciasoft/browser/ExampleUnitTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/assets/fonts/cambria.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/assets/fonts/cambriab.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/assets/fonts/cambriai.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/assets/fonts/cambriaz.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/AdvancedOptions.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/AppBase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/CustomTypefaceSpan.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/Data.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/DirectoryItem.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/DirectoryItemComparator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/Enums.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/FileFilters.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/FileItemComparator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/GetDirectoryItems.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/GetImageInfos.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MediaStoreImageInfoTree.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MultiBrowserActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MyInputDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MyListAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MyListDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MyMessageBox.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MyRecyclerView.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MyYesNoDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/Options.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/OptionsMenu.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/Permissions.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/ThemeOptions.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/Utils.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/Utils2.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/XmlOperations.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/drawable/ic_launcher_foreground.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/layout/activity_layout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/layout/file_filter_popup_item.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/layout/input_dialog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/layout/list_item_list_view.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/layout/list_item_tiles_view.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/layout/parent_dir_layout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/menu/menu.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-hdpi/ic_file.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-hdpi/ic_file_x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-hdpi/ic_folder.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-hdpi/ic_folder_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-hdpi/ic_folder_x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-mdpi/ic_file.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-mdpi/ic_file_x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-mdpi/ic_folder.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-mdpi/ic_folder_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-mdpi/ic_folder_x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xhdpi/ic_file.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xhdpi/ic_file_x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xhdpi/ic_folder.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xhdpi/ic_folder_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xhdpi/ic_folder_x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxhdpi/ic_file.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxhdpi/ic_file_x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxhdpi/ic_folder.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxhdpi/ic_folder_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxhdpi/ic_folder_x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxxhdpi/ic_file.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxxhdpi/ic_file_x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxxhdpi/ic_folder.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxxhdpi/ic_folder_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxxhdpi/ic_folder_x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/values/colors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/values/strings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/res/values/themes.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/browser/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/browser/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/assets/fonts/cambria.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/assets/fonts/cambriab.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/assets/fonts/cambriai.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/assets/fonts/cambriaz.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/AdvancedOptions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/AppBase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/CustomTypefaceSpan.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Data.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/DirectoryItem.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/DirectoryItemComparator.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Enums.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/FileFilters.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/FileItemComparator.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/GetDirectoryItems.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/GetImageInfos.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MediaStoreImageInfoTree.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MultiBrowserActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyInputDialog.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyListAdapter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyListDialog.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyMessageBox.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyRecyclerView.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/MyYesNoDialog.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Options.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/OptionsMenu.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Permissions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/ThemeOptions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Utils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/Utils2.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/XmlOperations.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/drawable/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/layout/activity_layout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/layout/file_filter_popup_item.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/layout/input_dialog.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/layout/list_item_list_view.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/layout/list_item_tiles_view.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/layout/parent_dir_layout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/menu/menu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-hdpi/ic_file.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-hdpi/ic_file_x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-hdpi/ic_folder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-hdpi/ic_folder_up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-hdpi/ic_folder_x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-mdpi/ic_file.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-mdpi/ic_file_x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-mdpi/ic_folder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-mdpi/ic_folder_up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-mdpi/ic_folder_x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xhdpi/ic_file.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xhdpi/ic_file_x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xhdpi/ic_folder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xhdpi/ic_folder_up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xhdpi/ic_folder_x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxhdpi/ic_file.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxhdpi/ic_file_x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxhdpi/ic_folder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxhdpi/ic_folder_up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxhdpi/ic_folder_x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxxhdpi/ic_file.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxxhdpi/ic_file_x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxxhdpi/ic_folder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxxhdpi/ic_folder_up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxxhdpi/ic_folder_x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/src/main/res/values/themes.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +223,7 @@
     "android-custom-viewC:/Users/dvdcp/AndroidStudioProjects/New-K-MultiBrowser/browser/src/main/java/com/luciasoft/browser/MyRecyclerView.kt_SELECTED": "MyRecyclerView",
     "cidr.known.project.marker": "true",
     "last_opened_file_path": "C:/Users/dvdcp/AndroidStudioProjects/AS-K-MultiBrowser/browser2/src/main/java/com/lucerta2",
-    "project.structure.last.edited": "Dependencies",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
@@ -264,13 +413,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701722466524</updated>
-    </task>
-    <task id="LOCAL-00021" summary="C">
-      <created>1702076491761</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1702076491761</updated>
     </task>
     <task id="LOCAL-00022" summary="C">
       <created>1702078541202</created>
@@ -608,7 +750,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702505601965</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="C">
+      <created>1702506130465</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1702506130465</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
