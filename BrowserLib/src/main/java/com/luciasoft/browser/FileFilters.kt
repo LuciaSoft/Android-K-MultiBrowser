@@ -3,7 +3,7 @@ package com.luciasoft.browser
 import java.util.Arrays
 import java.util.Locale
 
-object FileFilters
+internal object FileFilters
 {
     fun getFileFilterArrays(filterString: String): Pair<Array<Array<String>>, Array<String>>
     {
@@ -67,5 +67,4 @@ object FileFilters
         }
         return result
     }
-
 }
