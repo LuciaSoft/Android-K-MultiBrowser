@@ -1,7 +1,7 @@
 package com.luciasoft.browser
 
 // OPTIMIZED
-object FileItemPathComparator : Comparator<FileItem>
+internal object FileItemPathComparator : Comparator<FileItem>
 {
     override fun compare(fi1: FileItem?, fi2: FileItem?): Int
     {
