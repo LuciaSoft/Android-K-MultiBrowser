@@ -10,7 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="C">
-      <change beforePath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/OptionsMenu.kt" beforeDir="false" afterPath="$PROJECT_DIR$/browser/src/main/java/com/luciasoft/browser/OptionsMenu.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/consumer-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/androidTest/java/com/luciasoft/browser/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BrowserLib/src/test/java/com/luciasoft/browser/ExampleUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/browser/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/browser/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -253,13 +264,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701722466524</updated>
-    </task>
-    <task id="LOCAL-00020" summary="C">
-      <created>1702074676539</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1702074676539</updated>
     </task>
     <task id="LOCAL-00021" summary="C">
       <created>1702076491761</created>
@@ -597,7 +601,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702499910968</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="C">
+      <created>1702505601965</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1702505601965</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

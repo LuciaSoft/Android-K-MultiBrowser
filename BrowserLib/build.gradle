@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
 
@@ -8,11 +8,9 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.luciasoft.browser"
         minSdk 24
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
+
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -46,7 +44,6 @@ dependencies {
     implementation 'androidx.compose.material3:material3'
     implementation 'com.google.android.material:material:1.10.0'
     implementation project(path: ':JavaLib')
-    implementation project(path: ':BrowserLib')
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
     implementation "org.jetbrains.kotlin:kotlin-reflect:2.0.0-Beta"
