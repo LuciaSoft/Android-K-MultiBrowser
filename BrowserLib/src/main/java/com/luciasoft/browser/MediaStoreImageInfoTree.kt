@@ -3,7 +3,7 @@ package com.luciasoft.browser
 import com.luciasoft.collections.BinarySearchTree
 
 // OPTIMIZED
-class MediaStoreImageInfoTree()
+internal class MediaStoreImageInfoTree()
     : BinarySearchTree<FileItem>(false, FileItemPathComparator)
 {
     private fun getFileItem(path: String): FileItem?
