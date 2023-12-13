@@ -19,11 +19,11 @@ internal class MyListAdapter(
     private val itemList: ArrayList<DirectoryItem>)
     : RecyclerView.Adapter<MyViewHolder>()
 {
-    private val mIdMap = HashMap<DirectoryItem, Int>()
+    private val mIdMap = (itemList.indices).associateBy { itemList[it] }
 
     init
     {
-        for (i in itemList.indices) mIdMap[itemList[i]] = i
+        //for (i in itemList.indices) mIdMap[itemList[i]] = i // OLD CODE
         setHasStableIds(true)
     }
 
