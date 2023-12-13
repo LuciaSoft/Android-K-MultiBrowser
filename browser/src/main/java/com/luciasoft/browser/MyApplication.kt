@@ -9,6 +9,8 @@ class MyApplication: AppBase()
                 " PNG Image Files ( *.png ) |*.png|" +
                 " JPG Image Files ( *.jpg,*.jpeg ) |*.jpg,*.jpeg|" +
                 " All Files ( *.* ) |*"
+        opt.startFileFilterIndex = 3
+        adv.debugMode = true
     }
 
 }
