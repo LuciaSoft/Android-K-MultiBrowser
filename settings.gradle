@@ -15,5 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "MultiBrowser"
 include ':test'
-include ':collections'
-include ':browserJavaToKotlin'
+include ':JavaLib'
+include ':browser'

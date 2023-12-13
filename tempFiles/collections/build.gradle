@@ -9,6 +9,5 @@ java {
 }
 
 dependencies {
-    implementation project(path: ':JavaLib')
+    implementation "org.jetbrains.kotlin:kotlin-reflect:2.0.0-Beta1"
 }
-

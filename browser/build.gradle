@@ -13,10 +13,6 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
-        vectorDrawables {
-            useSupportLibrary true
-        }
     }
 
     buildTypes {
@@ -31,17 +27,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '17'
-    }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
-    }
-    packaging {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
     }
 }
 
@@ -59,8 +44,8 @@ dependencies {
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3'
-    implementation project(path: ':collections')
     implementation 'com.google.android.material:material:1.10.0'
+    implementation project(path: ':JavaLib')
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
     implementation "org.jetbrains.kotlin:kotlin-reflect:2.0.0-Beta"
