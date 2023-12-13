@@ -17,7 +17,7 @@ import java.io.File
 internal class MyListAdapter(
     private val act: MultiBrowserActivity,
     private val itemList: ArrayList<DirectoryItem>)
-    : RecyclerView.Adapter<MyViewHolder>()
+    : RecyclerView.Adapter<MyListAdapter.MyViewHolder>()
 {
     private val idMap = (itemList.indices).associateBy { itemList[it] } // .toMap(hashMapOf())
 
@@ -42,15 +42,17 @@ internal class MyListAdapter(
     {
         val view: View =
             if (act.isListView) LayoutInflater.from(viewGroup.context).inflate(
-                R.layout.list_item_list_view, viewGroup, false)
+                R.layout.list_item_list_view, viewGroup, false
+            )
             else LayoutInflater.from(viewGroup.context).inflate(
-                R.layout.list_item_tiles_view, viewGroup, false)
+                R.layout.list_item_tiles_view, viewGroup, false
+            )
 
         view.findViewById<View>(R.id.listItemText).visibility =
             if (act.isGalleryView && !act.OPT.showFileNamesInGalleryView) View.GONE
             else View.VISIBLE
 
-        return MyViewHolder(view, act)
+        return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(viewHolder: MyViewHolder, i: Int)
@@ -60,10 +62,17 @@ internal class MyListAdapter(
         val isFile = item is FileItem
         val path = item.path
         val image = viewHolder.image
-        
+
         viewHolder.title.text = item.name
 
-        val exists = try { File(path).exists() } catch (ex: Exception) { false }
+        val exists = try
+        {
+            File(path).exists()
+        }
+        catch (ex: Exception)
+        {
+            false
+        }
 
         if (!exists)
         {
@@ -102,7 +111,8 @@ internal class MyListAdapter(
                     {
                         MediaStore.Images.Thumbnails.getThumbnail(
                             act.contentResolver, imageId.toLong(),
-                            MediaStore.Images.Thumbnails.MINI_KIND, null)
+                            MediaStore.Images.Thumbnails.MINI_KIND, null
+                        )
                     }
                     catch (ex: Exception)
                     {
@@ -127,7 +137,14 @@ internal class MyListAdapter(
             image.setImageBitmap(BitmapFactory.decodeResource(act.resources, R.mipmap.ic_folder))
         }
 
-        val hidden = try { File(path).isHidden } catch (ex: Exception) { false }
+        val hidden = try
+        {
+            File(path).isHidden
+        }
+        catch (ex: Exception)
+        {
+            false
+        }
         if (hidden) image.imageAlpha = 127 else image.imageAlpha = 255
 
         if (act.isListView) viewHolder.info!!.text = item.info
@@ -219,43 +236,42 @@ internal class MyListAdapter(
             })
         }
     }
-}
 
-// OPTIMIZED
-internal class MyViewHolder(view: View, act: MultiBrowserActivity)
-    : RecyclerView.ViewHolder(view)
-{
-    val listItem = view as LinearLayout
-    val title: TextView = view.findViewById(R.id.listItemText)
-    val image: ImageView = view.findViewById(R.id.listItemIcon)
-    var info: TextView? = null
-
-    init
+    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
     {
-        listItem.setBackgroundColor(act.THM.colorListBackground)
-        title.typeface = act.THM.getFontBdIt(act.assets)
+        val listItem = view as LinearLayout
+        val title: TextView = view.findViewById(R.id.listItemText)
+        val image: ImageView = view.findViewById(R.id.listItemIcon)
+        var info: TextView? = null
 
-        if (act.isGalleryView)
+        init
         {
-            title.setTextColor(act.THM.colorGalleryItemText)
-            title.setTextSize(act.THM.unitSp, act.THM.sizeGalleryViewItemText)
-        }
-        else
-        {
-            title.setTextColor(act.THM.colorListItemText)
+            listItem.setBackgroundColor(act.THM.colorListBackground)
+            title.typeface = act.THM.getFontBdIt(act.assets)
 
-            if (act.isListView)
+            if (act.isGalleryView)
             {
-                title.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemText)
-                info = view.findViewById(R.id.listItemSubText)
-                info!!.typeface = act.THM.getFontNorm(act.assets)
-                info!!.setTextColor(act.THM.colorListItemSubText)
-                info!!.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemSubText)
-                view.findViewById<View>(R.id.listItemAccent).setBackgroundColor(act.THM.colorListAccent)
+                title.setTextColor(act.THM.colorGalleryItemText)
+                title.setTextSize(act.THM.unitSp, act.THM.sizeGalleryViewItemText)
             }
             else
             {
-                title.setTextSize(act.THM.unitSp, act.THM.sizeTilesViewItemText)
+                title.setTextColor(act.THM.colorListItemText)
+
+                if (act.isListView)
+                {
+                    title.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemText)
+                    info = view.findViewById(R.id.listItemSubText)
+                    info!!.typeface = act.THM.getFontNorm(act.assets)
+                    info!!.setTextColor(act.THM.colorListItemSubText)
+                    info!!.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemSubText)
+                    view.findViewById<View>(R.id.listItemAccent)
+                        .setBackgroundColor(act.THM.colorListAccent)
+                }
+                else
+                {
+                    title.setTextSize(act.THM.unitSp, act.THM.sizeTilesViewItemText)
+                }
             }
         }
     }

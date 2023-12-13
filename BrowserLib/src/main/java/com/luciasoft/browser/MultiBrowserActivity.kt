@@ -44,7 +44,7 @@ import java.io.File
 
 open class MultiBrowserActivity: AppCompatActivity()
 {
-    lateinit var DAT: Data
+    internal lateinit var DAT: Data
     val OPT get() = DAT.OPT
     val ADV get() = DAT.ADV
     val THM get() = DAT.THM
