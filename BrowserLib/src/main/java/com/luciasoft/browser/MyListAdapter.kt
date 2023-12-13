@@ -59,8 +59,9 @@ internal class MyListAdapter(
         val item = itemList[i]
         val isFile = item is FileItem
         val path = item.path
-        viewHolder.title.text = item.name
         val image = viewHolder.image
+        
+        viewHolder.title.text = item.name
 
         val exists = try { File(path).exists() } catch (ex: Exception) { false }
 
