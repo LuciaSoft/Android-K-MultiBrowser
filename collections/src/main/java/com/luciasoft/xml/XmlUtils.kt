@@ -13,38 +13,35 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
-object XmlUtils
+@Throws(TransformerException::class, IOException::class)
+fun saveXml(doc: Document, filePath: String)
 {
-    @Throws(TransformerException::class, IOException::class)
-    fun saveXml(doc: Document, filePath: String)
+    with(TransformerFactory.newInstance().newTransformer())
     {
-        with (TransformerFactory.newInstance().newTransformer())
-        {
-            setOutputProperty(OutputKeys.INDENT, "yes")
-            setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
-            transform(DOMSource(doc), StreamResult(FileWriter(filePath)))
-        }
+        setOutputProperty(OutputKeys.INDENT, "yes")
+        setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
+        transform(DOMSource(doc), StreamResult(FileWriter(filePath)))
     }
+}
 
-    @Throws(ParserConfigurationException::class, IOException::class, SAXException::class)
-    fun loadXmlFile(filePath: String): Document
-    {
-        return DocumentBuilderFactory
-            .newInstance()
-            .newDocumentBuilder()
-            .parse(File(filePath))
-    }
+@Throws(ParserConfigurationException::class, IOException::class, SAXException::class)
+fun loadXmlFile(filePath: String): Document
+{
+    return DocumentBuilderFactory
+        .newInstance()
+        .newDocumentBuilder()
+        .parse(File(filePath))
+}
 
-    @Throws(ParserConfigurationException::class)
-    fun createXmlDocument(rootElementName: String?): Document
+@Throws(ParserConfigurationException::class)
+fun createXmlDocument(rootElementName: String?): Document
+{
+    val doc = DocumentBuilderFactory
+        .newInstance().newDocumentBuilder().newDocument()
+    if (rootElementName != null)
     {
-        val doc = DocumentBuilderFactory
-            .newInstance().newDocumentBuilder().newDocument()
-        if (rootElementName != null)
-        {
-            val root = doc.createElement(rootElementName)
-            doc.appendChild(root)
-        }
-        return doc
+        val root = doc.createElement(rootElementName)
+        doc.appendChild(root)
     }
+    return doc
 }

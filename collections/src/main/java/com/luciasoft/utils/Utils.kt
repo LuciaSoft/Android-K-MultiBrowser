@@ -1,4 +1,4 @@
-package com.luciasoft.collections
+package com.luciasoft.utils
 
 import java.io.File
 import kotlin.random.Random

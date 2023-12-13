@@ -1,9 +1,9 @@
 package com.luciasoft.browserjavatokotlin
 
-import com.luciasoft.collections.Mutability
-import com.luciasoft.collections.PropertyInfo
-import com.luciasoft.collections.PropertyInfo.Companion.getPropertyInfoTree
-import com.luciasoft.xml.XmlUtils
+import com.luciasoft.reflection.Mutability
+import com.luciasoft.reflection.PropertyInfo
+import com.luciasoft.reflection.PropertyInfo.Companion.getPropertyInfoTree
+import com.luciasoft.xml.*
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import kotlin.reflect.KMutableProperty1
@@ -15,18 +15,18 @@ internal object XmlOperations
     fun saveXml(act: MultiBrowserActivity, filePath: String)
     {
         val doc = getXml(act)
-        XmlUtils.saveXml(doc, filePath)
+        saveXml(doc, filePath)
     }
 
     fun loadXml(act: MultiBrowserActivity, filePath: String): Array<Int>
     {
-        val doc = XmlUtils.loadXmlFile(filePath)
+        val doc = loadXmlFile(filePath)
         return loadXml(act, doc)
     }
 
     private fun getXml(act: MultiBrowserActivity): Document
     {
-        val doc = XmlUtils.createXmlDocument("options")
+        val doc = createXmlDocument("options")
         val root = doc.documentElement
         val heads = arrayOf("opt", "adv", "thm")
         val trees = arrayOf(

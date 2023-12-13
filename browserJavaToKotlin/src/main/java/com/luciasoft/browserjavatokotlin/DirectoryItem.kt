@@ -1,6 +1,6 @@
 package com.luciasoft.browserjavatokotlin
 
-import com.luciasoft.collections.getShortName
+import com.luciasoft.utils.getShortName
 
 abstract class DirectoryItem(val path: String, var date: Long? = null, var info: String? = null)
 {

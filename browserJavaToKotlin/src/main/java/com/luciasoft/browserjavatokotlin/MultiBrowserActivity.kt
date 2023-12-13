@@ -12,7 +12,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -41,6 +40,7 @@ import com.luciasoft.browserjavatokotlin.Utils.getFileExtensionLowerCaseWithDot
 import com.luciasoft.browserjavatokotlin.Utils.getParentDir
 import com.luciasoft.browserjavatokotlin.Utils.toastLong
 import com.luciasoft.browserjavatokotlin.Utils2.directoryIsReadable
+import com.luciasoft.reflection.test
 import java.io.File
 
 open class MultiBrowserActivity: AppCompatActivity()
@@ -72,10 +72,10 @@ open class MultiBrowserActivity: AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_layout)
-        onCreate()
+        create()
     }
 
-    private fun onCreate()
+    private fun create()
     {
         val app = application as AppBase
         DAT = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(app))[Data::class.java]

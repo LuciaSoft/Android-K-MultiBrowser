@@ -1,5 +1,7 @@
 package com.luciasoft.collections
 
+import com.luciasoft.utils.randomize
+
 class BSTofString(allowDupes: Boolean, ignoreCase: Boolean, special: Boolean)
     : BinarySearchTree<String>(allowDupes, StringComparator(ignoreCase, special))
 {

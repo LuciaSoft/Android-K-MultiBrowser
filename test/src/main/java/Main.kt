@@ -1,4 +1,4 @@
-import com.luciasoft.collections.PropertyInfo.Companion.getPropertyInfoList
+import com.luciasoft.reflection.PropertyInfo.Companion.getPropertyInfoList
 
 data class MyData(val name: String, val age: Int)
 {

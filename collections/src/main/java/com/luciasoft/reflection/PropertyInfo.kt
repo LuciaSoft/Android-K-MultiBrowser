@@ -1,5 +1,7 @@
-package com.luciasoft.collections
+package com.luciasoft.reflection
 
+import com.luciasoft.collections.BinarySearchTree
+import com.luciasoft.collections.StringComparator
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
 import kotlin.reflect.KType
