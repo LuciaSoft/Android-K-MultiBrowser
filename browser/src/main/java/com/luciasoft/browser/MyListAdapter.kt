@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.luciasoft.browser.Utils.getShortName
 import java.io.File
 
-internal class MyListAdapter(
+internal class MyListAdapter( // OPTIMIZED
     private val act: MultiBrowserActivity,
     private val itemList: ArrayList<DirectoryItem>)
     : RecyclerView.Adapter<MyViewHolder>()
@@ -220,7 +219,7 @@ internal class MyListAdapter(
     }
 }
 
-internal class MyViewHolder(view: View, act: MultiBrowserActivity)
+internal class MyViewHolder(view: View, act: MultiBrowserActivity) // OPTIMIZED
     : RecyclerView.ViewHolder(view)
 {
     val listItem = view as LinearLayout
