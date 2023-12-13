@@ -3,7 +3,7 @@ package com.luciasoft.browser
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 
-class Data(app: Application): AndroidViewModel(app)
+internal class Data(app: Application): AndroidViewModel(app)
 {
     val OPT: Options = Options()
     val ADV: AdvancedOptions = AdvancedOptions()
