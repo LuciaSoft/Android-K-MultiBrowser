@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin
+package com.luciasoft.browser
 
 import com.luciasoft.collections.BinarySearchTree
 

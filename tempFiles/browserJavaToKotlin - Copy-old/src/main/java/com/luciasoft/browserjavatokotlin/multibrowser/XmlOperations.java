@@ -1,8 +1,8 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browser.multibrowser;
 
 import android.graphics.Color;
 
-import com.luciasoft.browserjavatokotlin.xml.XmlUtils;
+import com.luciasoft.browser.xml.XmlUtils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

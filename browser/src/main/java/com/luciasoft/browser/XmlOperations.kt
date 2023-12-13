@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin
+package com.luciasoft.browser
 
 import com.luciasoft.reflection.Mutability
 import com.luciasoft.reflection.PropertyInfo

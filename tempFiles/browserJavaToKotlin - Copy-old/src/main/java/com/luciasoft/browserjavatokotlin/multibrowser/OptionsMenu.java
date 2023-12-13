@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browser.multibrowser;
 
 import android.content.DialogInterface;
 import android.view.Menu;
@@ -6,7 +6,7 @@ import android.view.MenuItem;
 
 import java.io.File;
 
-import com.luciasoft.browserjavatokotlin.R;
+import com.luciasoft.browser.R;
 
 class OptionsMenu
 {

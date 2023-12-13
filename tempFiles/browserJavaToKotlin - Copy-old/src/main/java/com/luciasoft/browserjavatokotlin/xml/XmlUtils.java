@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin.xml;
+package com.luciasoft.browser.xml;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

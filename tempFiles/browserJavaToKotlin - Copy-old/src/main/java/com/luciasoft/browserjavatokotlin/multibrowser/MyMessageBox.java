@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browser.multibrowser;
 
 import android.app.AlertDialog;
 import android.content.Context;

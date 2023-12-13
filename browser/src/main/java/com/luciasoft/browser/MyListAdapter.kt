@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin
+package com.luciasoft.browser
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.luciasoft.browserjavatokotlin.Utils.getShortName
+import com.luciasoft.browser.Utils.getShortName
 import java.io.File
 
 internal class MyListAdapter(

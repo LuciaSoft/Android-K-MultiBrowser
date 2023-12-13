@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin
+package com.luciasoft.browser
 
 import android.content.res.AssetManager
 import android.graphics.Color

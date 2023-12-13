@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin.collections;
+package com.luciasoft.browser.collections;
 
 import java.util.ArrayList;
 import java.util.Comparator;

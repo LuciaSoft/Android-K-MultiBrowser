@@ -1,13 +1,13 @@
-package com.luciasoft.browserjavatokotlin
+package com.luciasoft.browser
 
 import android.database.Cursor
 import android.provider.MediaStore
 import androidx.loader.content.CursorLoader
-import com.luciasoft.browserjavatokotlin.Utils2.directoryIsReadable
-import com.luciasoft.browserjavatokotlin.Utils.filePassesFilter
-import com.luciasoft.browserjavatokotlin.Utils.getDateString
-import com.luciasoft.browserjavatokotlin.Utils.getFileSizeString
-import com.luciasoft.browserjavatokotlin.Utils.getValidExts
+import com.luciasoft.browser.Utils2.directoryIsReadable
+import com.luciasoft.browser.Utils.filePassesFilter
+import com.luciasoft.browser.Utils.getDateString
+import com.luciasoft.browser.Utils.getFileSizeString
+import com.luciasoft.browser.Utils.getValidExts
 import java.io.File
 import java.util.Collections
 import java.util.Random

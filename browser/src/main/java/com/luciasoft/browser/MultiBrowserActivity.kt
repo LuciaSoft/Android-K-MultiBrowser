@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin
+package com.luciasoft.browser
 
 import android.content.DialogInterface
 import android.content.pm.ActivityInfo
@@ -29,17 +29,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.luciasoft.browserjavatokotlin.ListUtils.getDirectoryItemsFromFileSystem
-import com.luciasoft.browserjavatokotlin.ListUtils.getImageInfos
-import com.luciasoft.browserjavatokotlin.MyMessageBox.Companion.show
-import com.luciasoft.browserjavatokotlin.MyYesNoDialog.show
-import com.luciasoft.browserjavatokotlin.OptionsMenu.onMenuOpened
-import com.luciasoft.browserjavatokotlin.OptionsMenu.onOptionsItemSelected
-import com.luciasoft.browserjavatokotlin.Utils.arrayContains
-import com.luciasoft.browserjavatokotlin.Utils.getFileExtensionLowerCaseWithDot
-import com.luciasoft.browserjavatokotlin.Utils.getParentDir
-import com.luciasoft.browserjavatokotlin.Utils.toastLong
-import com.luciasoft.browserjavatokotlin.Utils2.directoryIsReadable
+import com.luciasoft.browser.ListUtils.getDirectoryItemsFromFileSystem
+import com.luciasoft.browser.ListUtils.getImageInfos
+import com.luciasoft.browser.MyMessageBox.Companion.show
+import com.luciasoft.browser.MyYesNoDialog.show
+import com.luciasoft.browser.OptionsMenu.onMenuOpened
+import com.luciasoft.browser.OptionsMenu.onOptionsItemSelected
+import com.luciasoft.browser.Utils.arrayContains
+import com.luciasoft.browser.Utils.getFileExtensionLowerCaseWithDot
+import com.luciasoft.browser.Utils.getParentDir
+import com.luciasoft.browser.Utils.toastLong
+import com.luciasoft.browser.Utils2.directoryIsReadable
 import java.io.File
 
 open class MultiBrowserActivity: AppCompatActivity()

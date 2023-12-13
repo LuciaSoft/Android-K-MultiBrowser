@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin
+package com.luciasoft.browser
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog

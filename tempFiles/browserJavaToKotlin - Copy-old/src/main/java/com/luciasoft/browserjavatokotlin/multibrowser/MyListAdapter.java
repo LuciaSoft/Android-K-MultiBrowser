@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browser.multibrowser;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.luciasoft.browserjavatokotlin.R;
+import com.luciasoft.browser.R;
 
 class MyListAdapter extends RecyclerView.Adapter<MyViewHolder>
 {

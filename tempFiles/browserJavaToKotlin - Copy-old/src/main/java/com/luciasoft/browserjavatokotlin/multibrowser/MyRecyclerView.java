@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browser.multibrowser;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.luciasoft.browserjavatokotlin.R;
+import com.luciasoft.browser.R;
 
 public class MyRecyclerView extends RecyclerView
 {

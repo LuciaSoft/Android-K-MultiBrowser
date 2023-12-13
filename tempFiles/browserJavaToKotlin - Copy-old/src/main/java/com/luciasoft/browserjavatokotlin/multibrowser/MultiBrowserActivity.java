@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browser.multibrowser;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,7 +36,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.io.File;
 import java.util.ArrayList;
 
-import com.luciasoft.browserjavatokotlin.R;
+import com.luciasoft.browser.R;
 
 public class MultiBrowserActivity extends AppCompatActivity
 {

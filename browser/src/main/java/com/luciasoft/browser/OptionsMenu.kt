@@ -1,8 +1,8 @@
-package com.luciasoft.browserjavatokotlin
+package com.luciasoft.browser
 
 import android.view.Menu
 import android.view.MenuItem
-import com.luciasoft.browserjavatokotlin.MyMessageBox.Companion.show
+import com.luciasoft.browser.MyMessageBox.Companion.show
 import java.io.File
 
 internal object OptionsMenu

@@ -1,4 +1,4 @@
-package com.luciasoft.browserjavatokotlin
+package com.luciasoft.browser
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

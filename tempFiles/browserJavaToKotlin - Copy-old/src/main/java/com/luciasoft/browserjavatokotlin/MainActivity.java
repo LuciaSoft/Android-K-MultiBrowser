@@ -1,12 +1,12 @@
-package com.luciasoft.browserjavatokotlin;
+package com.luciasoft.browser;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.luciasoft.browserjavatokotlin.multibrowser.MultiBrowserActivity;
-import com.luciasoft.browserjavatokotlin.multibrowser.MultiBrowserOptions;
-import com.luciasoft.browserjavatokotlin.multibrowser.OnSelectItem;
-import com.luciasoft.browserjavatokotlin.multibrowser.SelectedItemInfo;
+import com.luciasoft.browser.multibrowser.MultiBrowserActivity;
+import com.luciasoft.browser.multibrowser.MultiBrowserOptions;
+import com.luciasoft.browser.multibrowser.OnSelectItem;
+import com.luciasoft.browser.multibrowser.SelectedItemInfo;
 
 public class MainActivity extends MultiBrowserActivity
 {

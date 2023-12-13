@@ -1,6 +1,6 @@
-package com.luciasoft.browserjavatokotlin.multibrowser;
+package com.luciasoft.browser.multibrowser;
 
-import com.luciasoft.browserjavatokotlin.collections.BinarySearchTree;
+import com.luciasoft.browser.collections.BinarySearchTree;
 
 import java.util.Comparator;
 

@@ -1,8 +1,8 @@
-package com.luciasoft.browserjavatokotlin
+package com.luciasoft.browser
 
 import android.content.Context
 import android.content.DialogInterface
-import com.luciasoft.browserjavatokotlin.MyMessageBox.Companion.show
+import com.luciasoft.browser.MyMessageBox.Companion.show
 
 internal object MyYesNoDialog
 {

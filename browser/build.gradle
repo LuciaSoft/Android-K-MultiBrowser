@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.luciasoft.browserjavatokotlin'
+    namespace 'com.luciasoft.browser'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.luciasoft.browserjavatokotlin"
+        applicationId "com.luciasoft.browser"
         minSdk 24
         targetSdk 34
         versionCode 1
