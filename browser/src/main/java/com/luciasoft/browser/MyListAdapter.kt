@@ -19,18 +19,18 @@ internal class MyListAdapter(
     private val itemList: ArrayList<DirectoryItem>)
     : RecyclerView.Adapter<MyViewHolder>()
 {
-    private val mIdMap = (itemList.indices).associateBy { itemList[it] } // .toMap(hashMapOf())
+    private val idMap = (itemList.indices).associateBy { itemList[it] } // .toMap(hashMapOf())
 
     init
     {
-        //for (i in itemList.indices) mIdMap[itemList[i]] = i // OLD CODE
+        //for (i in itemList.indices) idMap[itemList[i]] = i // OLD CODE
         setHasStableIds(true)
     }
 
     override fun getItemId(position: Int): Long
     {
         val item = itemList[position]
-        return mIdMap[item]!!.toLong()
+        return idMap[item]!!.toLong()
     }
 
     override fun getItemCount(): Int
@@ -40,23 +40,16 @@ internal class MyListAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MyViewHolder
     {
-        val view: View
-        if (act.isListView)
-        {
-            view = LayoutInflater.from(viewGroup.context).inflate(
-                R.layout.list_item_list_view, viewGroup, false
-            )
-        }
-        else
-        {
-            view = LayoutInflater.from(viewGroup.context).inflate(
-                R.layout.list_item_tiles_view, viewGroup, false
-            )
-            if (act.isGalleryView && !act.OPT.showFileNamesInGalleryView) view.findViewById<View>(
-                R.id.listItemText
-            ).visibility = View.GONE
-            else view.findViewById<View>(R.id.listItemText).visibility = View.VISIBLE
-        }
+        val view: View =
+            if (act.isListView) LayoutInflater.from(viewGroup.context).inflate(
+                R.layout.list_item_list_view, viewGroup, false)
+            else LayoutInflater.from(viewGroup.context).inflate(
+                R.layout.list_item_tiles_view, viewGroup, false)
+
+        view.findViewById<View>(R.id.listItemText).visibility =
+            if (act.isGalleryView && !act.OPT.showFileNamesInGalleryView) View.GONE
+            else View.VISIBLE
+
         return MyViewHolder(view, act)
     }
 
@@ -64,26 +57,18 @@ internal class MyListAdapter(
     {
         val listItem = viewHolder.listItem
         val item = itemList[i]
+        val isFile = item is FileItem
         val path = item.path
-        val name = item.name
-        viewHolder.title.text = name
+        viewHolder.title.text = item.name
         val image = viewHolder.image
-        var exists: Boolean
-        run {
-            exists = try
-            {
-                File(path).exists()
-            }
-            catch (ex: Exception)
-            {
-                false
-            }
-        }
+
+        val exists = try { File(path).exists() } catch (ex: Exception) { false }
+
         if (!exists)
         {
             val infoType: String
             val iconId: Int
-            if (item is FileItem)
+            if (isFile)
             {
                 infoType = "file"
                 iconId = R.mipmap.ic_file_x
@@ -95,18 +80,14 @@ internal class MyListAdapter(
             }
             image.scaleType = ImageView.ScaleType.FIT_CENTER
             image.setImageBitmap(BitmapFactory.decodeResource(act.resources, iconId))
-            if (act.isListView)
-            {
-                val str = "$infoType not found"
-                viewHolder.info!!.text = str
-            }
+            if (act.isListView) viewHolder.info!!.text = "$infoType not found"
             listItem.isClickable = false
             listItem.isLongClickable = false
             listItem.setOnClickListener(null)
             listItem.setOnLongClickListener(null)
             return
         }
-        val isFile = item is FileItem
+
         if (isFile)
         {
             var thumb: Bitmap? = null
@@ -120,8 +101,7 @@ internal class MyListAdapter(
                     {
                         MediaStore.Images.Thumbnails.getThumbnail(
                             act.contentResolver, imageId.toLong(),
-                            MediaStore.Images.Thumbnails.MINI_KIND, null
-                        )
+                            MediaStore.Images.Thumbnails.MINI_KIND, null)
                     }
                     catch (ex: Exception)
                     {
@@ -140,104 +120,101 @@ internal class MyListAdapter(
                 image.setImageBitmap(BitmapFactory.decodeResource(act.resources, R.mipmap.ic_file))
             }
         }
-        else  // item instanceof MultiBrowserDirectoryItem.FolderItem
+        else // item is FolderItem
         {
             image.scaleType = ImageView.ScaleType.FIT_CENTER
             image.setImageBitmap(BitmapFactory.decodeResource(act.resources, R.mipmap.ic_folder))
         }
-        var hidden: Boolean
-        run {
-            hidden = try
-            {
-                File(path).isHidden
-            }
-            catch (ex: Exception)
-            {
-                false
-            }
-        }
+
+        val hidden = try { File(path).isHidden } catch (ex: Exception) { false }
         if (hidden) image.imageAlpha = 127 else image.imageAlpha = 255
-        if (act.isListView) viewHolder.info!!.text =
-            item.info
-        val loadFilesFolders =
-            act.OPT.browseMode == BrowseMode.LoadFilesAndOrFolders
-        val saveFilesFolders =
-            act.OPT.browseMode == BrowseMode.SaveFilesAndOrFolders
+
+        if (act.isListView) viewHolder.info!!.text = item.info
+
+        val loadFilesFolders = act.OPT.browseMode == BrowseMode.LoadFilesAndOrFolders
+        val saveFilesFolders = act.OPT.browseMode == BrowseMode.SaveFilesAndOrFolders
         val loadFolders = act.OPT.browseMode == BrowseMode.LoadFolders
         val saveFolders = act.OPT.browseMode == BrowseMode.SaveFolders
+
         val load = isFile && loadFilesFolders || !isFile && (loadFolders || loadFilesFolders)
         val save = isFile && saveFilesFolders || !isFile && (saveFolders || saveFilesFolders)
+
         val saveBoxVisible = act.findViewById<View>(R.id.saveFileLayout).visibility != View.GONE
-        val sendToSaveBoxShortClick =
-            save && isFile && saveBoxVisible && act.ADV.allowShortClickFileForSave &&
-                act.ADV.debugMode && act.ADV.shortClickSaveFileBehavior != SaveFileBehavior.SaveFile
-        val sendToSaveBoxLongClick =
-            save && isFile && saveBoxVisible && act.ADV.allowLongClickFileForSave &&
-                act.ADV.debugMode && act.ADV.longClickSaveFileBehavior != SaveFileBehavior.SaveFile
-        val shortClickable =
-            act.ADV.debugMode || !isFile || sendToSaveBoxShortClick || load && act.ADV.allowShortClickFileForLoad || save && act.ADV.allowShortClickFileForSave
-        val longClickable =
-            act.ADV.debugMode || sendToSaveBoxLongClick || isFile && (load && act.ADV.allowLongClickFileForLoad || save && act.ADV.allowLongClickFileForSave) || !isFile && (load && act.ADV.allowLongClickFolderForLoad || save && act.ADV.allowLongClickFolderForSave)
+
+        val sendToSaveBoxShortClick = save && isFile && saveBoxVisible &&
+            act.ADV.allowShortClickFileForSave &&
+            act.ADV.shortClickSaveFileBehavior != SaveFileBehavior.SaveFile
+        val sendToSaveBoxLongClick = save && isFile && saveBoxVisible &&
+            act.ADV.allowLongClickFileForSave &&
+            act.ADV.longClickSaveFileBehavior != SaveFileBehavior.SaveFile
+
+        val shortClickable = !isFile || sendToSaveBoxShortClick ||
+            load && act.ADV.allowShortClickFileForLoad ||
+            save && act.ADV.allowShortClickFileForSave
+
+        val longClickable = sendToSaveBoxLongClick ||
+            isFile && (load && act.ADV.allowLongClickFileForLoad || save && act.ADV.allowLongClickFileForSave) ||
+            !isFile && (load && act.ADV.allowLongClickFolderForLoad || save && act.ADV.allowLongClickFolderForSave)
+
         listItem.isClickable = shortClickable
-        if (!shortClickable) listItem.setOnClickListener(null)
+
+        if (!shortClickable)
+        {
+            listItem.setOnClickListener(null)
+        }
         else
         {
             listItem.setOnClickListener(View.OnClickListener {
                 if (!isFile)
                 {
                     act.refreshView(path, false, false)
-                    return@OnClickListener
                 }
-
-                // item istanceof FileItem
-                if (load)
+                else // item is FileItem
                 {
-                    act.onSelect(true, true, false, false, path)
-                }
-                else
-                {
-                    val saveFile =
-                        !saveBoxVisible || act.ADV.shortClickSaveFileBehavior != SaveFileBehavior.SendNameToSaveBoxOrSaveFile
-                    if (sendToSaveBoxShortClick) act.setEditTextSaveFileName(
-                        getShortName(path)
-                    )
-                    if (saveFile) act.onSelect(true, false, false, false, path)
+                    if (load)
+                    {
+                        act.onSelect(true, true, false, false, path)
+                    }
+                    else
+                    {
+                        if (sendToSaveBoxShortClick) act.setEditTextSaveFileName(getShortName(path))
+                        val saveFile = !saveBoxVisible ||
+                            act.ADV.shortClickSaveFileBehavior != SaveFileBehavior.SendNameToSaveBoxOrSaveFile
+                        if (saveFile) act.onSelect(true, false, false, false, path)
+                    }
                 }
             })
         }
+
         listItem.isLongClickable = longClickable
-        if (!longClickable) listItem.setOnLongClickListener(null)
+
+        if (!longClickable)
+        {
+            listItem.setOnLongClickListener(null)
+        }
         else
         {
-            listItem.setOnLongClickListener(OnLongClickListener {
+            listItem.setOnLongClickListener(View.OnLongClickListener {
                 if (!isFile)
                 {
                     if (load) act.onSelect(false, true, true, false, path)
-                    else act.onSelect(
-                        false,
-                        false,
-                        true,
-                        false,
-                        path
-                    )
-                    return@OnLongClickListener true
+                    else act.onSelect(false, false, true, false, path)
                 }
-
-                // item istanceof FileItem
-                if (load)
+                else // item is FileItem
                 {
-                    act.onSelect(true, true, true, false, path)
+                    if (load)
+                    {
+                        act.onSelect(true, true, true, false, path)
+                    }
+                    else
+                    {
+                        if (sendToSaveBoxLongClick) act.setEditTextSaveFileName(getShortName(path))
+                        val saveFile = !saveBoxVisible ||
+                            act.ADV.longClickSaveFileBehavior != SaveFileBehavior.SendNameToSaveBoxOrSaveFile
+                        if (saveFile) act.onSelect(true, false, true, false, path)
+                    }
                 }
-                else
-                {
-                    val saveFile =
-                        !saveBoxVisible || act.ADV.longClickSaveFileBehavior != SaveFileBehavior.SendNameToSaveBoxOrSaveFile
-                    if (sendToSaveBoxLongClick) act.setEditTextSaveFileName(
-                        getShortName(path)
-                    )
-                    if (saveFile) act.onSelect(true, false, true, false, path)
-                }
-                true
+                return@OnLongClickListener true
             })
         }
     }
@@ -246,18 +223,16 @@ internal class MyListAdapter(
 internal class MyViewHolder(view: View, act: MultiBrowserActivity)
     : RecyclerView.ViewHolder(view)
 {
-    var listItem: LinearLayout
-    var title: TextView
-    var image: ImageView
+    val listItem = view as LinearLayout
+    val title: TextView = view.findViewById(R.id.listItemText)
+    val image: ImageView = view.findViewById(R.id.listItemIcon)
     var info: TextView? = null
 
     init
     {
-        listItem = view as LinearLayout
         listItem.setBackgroundColor(act.THM.colorListBackground)
-        title = view.findViewById(R.id.listItemText)
         title.typeface = act.THM.getFontBdIt(act.assets)
-        image = view.findViewById(R.id.listItemIcon)
+
         if (act.isGalleryView)
         {
             title.setTextColor(act.THM.colorGalleryItemText)
@@ -266,6 +241,7 @@ internal class MyViewHolder(view: View, act: MultiBrowserActivity)
         else
         {
             title.setTextColor(act.THM.colorListItemText)
+
             if (act.isListView)
             {
                 title.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemText)
@@ -273,8 +249,7 @@ internal class MyViewHolder(view: View, act: MultiBrowserActivity)
                 info!!.typeface = act.THM.getFontNorm(act.assets)
                 info!!.setTextColor(act.THM.colorListItemSubText)
                 info!!.setTextSize(act.THM.unitSp, act.THM.sizeListViewItemSubText)
-                val accent = view.findViewById<View>(R.id.listItemAccent)
-                accent.setBackgroundColor(act.THM.colorListAccent)
+                view.findViewById<View>(R.id.listItemAccent).setBackgroundColor(act.THM.colorListAccent)
             }
             else
             {
