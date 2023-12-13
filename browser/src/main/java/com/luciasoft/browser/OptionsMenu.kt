@@ -9,7 +9,7 @@ internal object OptionsMenu
 {
     fun onMenuOpened(act: MultiBrowserActivity, menu: Menu)
     {
-        var testVisible = true
+        val testVisible = act.ADV.debugMode
 
         var newFolderOptionVisible = false
         var listViewOptionVisible = false
