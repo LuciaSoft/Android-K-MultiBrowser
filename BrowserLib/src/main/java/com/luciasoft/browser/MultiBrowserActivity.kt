@@ -385,8 +385,9 @@ open class MultiBrowserActivity: AppCompatActivity()
         if (!readable) return null
         if (isGalleryView || OPT.showImagesWhileBrowsingNormal)
         {
-            val reload = (forceSourceReload ||
-                ADV.autoRefreshDirectorySource || (DAT.mediaStoreImageInfoList == null))
+            val reload = forceSourceReload ||
+                ADV.autoRefreshDirectorySource ||
+                DAT.mediaStoreImageInfoList == null
             if (reload) DAT.mediaStoreImageInfoList = getImageInfos(this)
         }
         val items: ArrayList<DirectoryItem>?
@@ -396,14 +397,14 @@ open class MultiBrowserActivity: AppCompatActivity()
         }
         else
         {
-            val reload = forceSourceReload || ADV.autoRefreshDirectorySource || (
-                DAT.fileSystemDirectoryItems == null) || (
-                DAT.currentDir == null) || !dir.equals(DAT.currentDir, ignoreCase = true)
-            if (reload) DAT.fileSystemDirectoryItems = getDirectoryItemsFromFileSystem(
-                this,
-                dir,
-                fileFilterArray[DAT.fileFilterIndex!!]
-            )
+            val reload = forceSourceReload ||
+                ADV.autoRefreshDirectorySource ||
+                DAT.fileSystemDirectoryItems == null ||
+                DAT.currentDir == null ||
+                !dir.equals(DAT.currentDir, ignoreCase = true)
+            if (reload) DAT.fileSystemDirectoryItems =
+                getDirectoryItemsFromFileSystem(this, dir,
+                fileFilterArray[DAT.fileFilterIndex!!])
             items = DAT.fileSystemDirectoryItems
         }
         return items
