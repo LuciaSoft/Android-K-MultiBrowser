@@ -81,12 +81,41 @@ open class MultiBrowserActivity: AppCompatActivity()
 
         if (!Permissions.checkExternalStoragePermission(this)) Permissions.requestExternalStoragePermission(this)
 
+        initFileFilterArrays()
+        configureScreenRotation()
+        initActionBar()
+        initDirs()
+        setupRecyclerView()
+        setupParentDirLayout()
+        setupSaveFileLayout()
+        setupFileFilterLayout()
+        setupSwipeRefreshLayout()
+        refreshLayoutManager()
+        setupViews()
+
+        refreshView(true, false)
+    }
+    
+    private fun initFileFilterArrays()
+    {
         val pair = FileFilters.getFileFilterArrays(OPT.fileFilterString)
         fileFilterArray = pair.first
         fileFilterDescripArray = pair.second
-
-        configureScreenRotation()
-
+    }
+    
+    private fun initDirs()
+    {
+        if (DAT.currentDir != null)
+        {
+            val dir = File(DAT.currentDir!!)
+            try { if (!dir.exists() && OPT.createDirOnActivityStart) dir.mkdirs() } catch (_: Exception) { }
+            try { DAT.currentDir = dir.canonicalPath } catch (_: Exception) { }
+            if (OPT.defaultDir == null) OPT.defaultDir = DAT.currentDir
+        }
+    }
+    
+    private fun initActionBar()
+    {
         val actionBar = supportActionBar
         if (actionBar != null)
         {
@@ -99,26 +128,12 @@ open class MultiBrowserActivity: AppCompatActivity()
             actionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
             actionBar.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
         }
-
-        if (DAT.currentDir != null)
-        {
-            val dir = File(DAT.currentDir!!)
-            try { if (!dir.exists() && OPT.createDirOnActivityStart) dir.mkdirs() } catch (_: Exception) { }
-            try { DAT.currentDir = dir.canonicalPath } catch (_: Exception) { }
-            if (OPT.defaultDir == null) OPT.defaultDir = DAT.currentDir
-        }
-
+    }
+    
+    private fun setupRecyclerView()
+    {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.setHasFixedSize(true)
-
-        setupParentDirLayout()
-        setupSaveFileLayout()
-        setupFileFilterLayout()
-        setupSwipeRefreshLayout()
-        refreshLayoutManager()
-        setupViews()
-
-        refreshView(true, false)
     }
 
     private fun configureScreenRotation()
