@@ -375,10 +375,7 @@ open class MultiBrowserActivity: AppCompatActivity()
         configureLayouts(showLayouts)
     }
 
-    private fun getDirectoryItems(
-        dir: String?,
-        forceSourceReload: Boolean
-    ): ArrayList<DirectoryItem>?
+    private fun getDirectoryItems(dir: String?, forceSourceReload: Boolean): ArrayList<DirectoryItem>?
     {
         if (dir == null) return null
         val readable = isGalleryView || directoryIsReadable(this, dir)
