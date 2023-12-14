@@ -47,18 +47,16 @@ internal object GetImageInfos
 
         while (cursor.moveToNext())
         {
-            var imagePath: String
-            val imageFile = try
+            var imagePath = try
             {
                 val imagePathCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-                imagePath = cursor.getString(imagePathCol)
-                File(imagePath)
+                var ipath = cursor.getString(imagePathCol)
+                val ifile = File(ipath)
+                try { ipath = ifile.canonicalPath } catch (ex: Exception)
+                { try { ipath = ifile.absolutePath } catch (_: Exception) { } }
+                ipath
             }
             catch (ex: Exception) { continue }
-
-            val ipath = try { imageFile.canonicalPath }
-            catch (ex2: Exception) { try { imageFile.absolutePath } catch (ex3: Exception) { null } }
-            if (ipath != null) imagePath = ipath
 
             if (!Utils.filePassesFilter(exts, imagePath)) continue
 
