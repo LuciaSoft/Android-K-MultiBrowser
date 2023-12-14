@@ -72,9 +72,7 @@ internal object GetDirectoryItems
                     else Utils.getFileSizeString(size)
 
                 val imageId =
-                    if (act.OPT.showImagesWhileBrowsingNormal &&
-                        act.DAT.mediaStoreImageInfoTree != null)
-                        act.DAT.mediaStoreImageInfoTree!!.getImageId(path)
+                    if (act.OPT.showImagesWhileBrowsingNormal) act.DAT.mediaStoreImageInfoMap[path]
                     else null
 
                 dirItemList.add(FileItem(path, date, size, info, imageId))

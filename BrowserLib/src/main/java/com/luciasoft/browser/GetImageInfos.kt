@@ -43,6 +43,8 @@ internal object GetImageInfos
         val list = ArrayList<DirectoryItem>()
         val exts = Utils.getValidExts(act.ADV.mediaStoreImageExts)
 
+        act.DAT.mediaStoreImageInfoMap.clear()
+
         for (i in 0 until cursor.count)
         {
             var imagePath: String
@@ -66,15 +68,11 @@ internal object GetImageInfos
                 val imageIdCol = cursor.getColumnIndex(MediaStore.Images.Media._ID)
                 val imageId = cursor.getInt(imageIdCol)
                 list.add(FileItem(imagePath, null, null, null, imageId))
+
+                act.DAT.mediaStoreImageInfoMap[imagePath] = imageId
             }
             catch (_: Exception) { }
         }
-
-        if (act.DAT.mediaStoreImageInfoTree == null) act.DAT.mediaStoreImageInfoTree = MediaStoreImageInfoTree()
-        else act.DAT.mediaStoreImageInfoTree!!.reset()
-
-        val randomized = randomize(list)
-        for (info in randomized) act.DAT.mediaStoreImageInfoTree!!.add(info as FileItem)
 
         return list
     }

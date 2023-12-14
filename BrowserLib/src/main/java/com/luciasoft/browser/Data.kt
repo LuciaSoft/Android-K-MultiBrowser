@@ -23,6 +23,12 @@ internal class Data(app: Application): AndroidViewModel(app)
     var defaultScreenOrientation: Int? = null
     var fileSystemDirectoryItems: ArrayList<DirectoryItem>? = null
     var mediaStoreImageInfoList: ArrayList<DirectoryItem>? = null
-    var mediaStoreImageInfoTree: MediaStoreImageInfoTree? = null
+    var mediaStoreImageInfoMap: HashMap<String, Int> = HashMap()
     var firstLoad = true
+
+    override fun onCleared()
+    {
+        super.onCleared()
+        mediaStoreImageInfoMap.clear()
+    }
 }
