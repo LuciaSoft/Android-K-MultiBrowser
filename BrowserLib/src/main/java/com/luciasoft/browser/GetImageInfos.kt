@@ -45,12 +45,11 @@ internal object GetImageInfos
 
         act.DAT.mediaStoreImageInfoMap.clear()
 
-        for (i in 0 until cursor.count)
+        while (cursor.moveToNext())
         {
             var imagePath: String
             val imageFile = try
             {
-                cursor.moveToPosition(i)
                 val imagePathCol = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
                 imagePath = cursor.getString(imagePathCol)
                 File(imagePath)
