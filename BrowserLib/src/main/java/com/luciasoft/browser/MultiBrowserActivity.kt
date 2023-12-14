@@ -62,11 +62,6 @@ open class MultiBrowserActivity: AppCompatActivity()
     private lateinit var recyclerView: MyRecyclerView
     private lateinit var editTextSaveFileName: EditText
 
-    fun setEditTextSaveFileName(name: String)
-    {
-        editTextSaveFileName.setText(name)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -81,9 +76,9 @@ open class MultiBrowserActivity: AppCompatActivity()
 
         if (!Permissions.checkExternalStoragePermission(this)) Permissions.requestExternalStoragePermission(this)
 
-        initFileFilterArrays()
-        configureScreenRotation()
         initActionBar()
+        configureScreenRotation()
+        initFileFilterArrays()
         initDirs()
         setupRecyclerView()
         setupParentDirLayout()
@@ -95,25 +90,7 @@ open class MultiBrowserActivity: AppCompatActivity()
 
         refreshView(true, false)
     }
-    
-    private fun initFileFilterArrays()
-    {
-        val pair = FileFilters.getFileFilterArrays(OPT.fileFilterString)
-        fileFilterArray = pair.first
-        fileFilterDescripArray = pair.second
-    }
-    
-    private fun initDirs()
-    {
-        if (DAT.currentDir != null)
-        {
-            val dir = File(DAT.currentDir!!)
-            try { if (!dir.exists() && OPT.createDirOnActivityStart) dir.mkdirs() } catch (_: Exception) { }
-            try { DAT.currentDir = dir.canonicalPath } catch (_: Exception) { }
-            if (OPT.defaultDir == null) OPT.defaultDir = DAT.currentDir
-        }
-    }
-    
+
     private fun initActionBar()
     {
         val actionBar = supportActionBar
@@ -128,12 +105,6 @@ open class MultiBrowserActivity: AppCompatActivity()
             actionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
             actionBar.setBackgroundDrawable(ColorDrawable(THM.colorActionBar))
         }
-    }
-    
-    private fun setupRecyclerView()
-    {
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.setHasFixedSize(true)
     }
 
     private fun configureScreenRotation()
@@ -151,61 +122,28 @@ open class MultiBrowserActivity: AppCompatActivity()
         }
     }
 
-    private fun setupViews()
+    private fun initFileFilterArrays()
     {
-        findViewById<View>(R.id.deadSpaceBackground).setBackgroundColor(THM.colorDeadSpaceBackground)
-        findViewById<View>(R.id.topAccent).setBackgroundColor(THM.colorTopAccent)
-        with (findViewById<TextView>(R.id.curDirLabel))
+        val pair = FileFilters.getFileFilterArrays(OPT.fileFilterString)
+        fileFilterArray = pair.first
+        fileFilterDescripArray = pair.second
+    }
+
+    private fun initDirs()
+    {
+        if (DAT.currentDir != null)
         {
-            this.typeface = THM.getFontBold(assets)
-            this.setTextColor(THM.colorCurDirLabel)
-            this.setBackgroundColor(THM.colorCurDirBackground)
-            this.setTextSize(THM.unitSp, THM.sizeCurDirLabel)
+            val dir = File(DAT.currentDir!!)
+            try { if (!dir.exists() && OPT.createDirOnActivityStart) dir.mkdirs() } catch (_: Exception) { }
+            try { DAT.currentDir = dir.canonicalPath } catch (_: Exception) { }
+            if (OPT.defaultDir == null) OPT.defaultDir = DAT.currentDir
         }
-        with (findViewById<TextView>(R.id.curDirText))
-        {
-            this.typeface = THM.getFontBold(assets)
-            this.setTextColor(THM.colorCurDirText)
-            this.setBackgroundColor(THM.colorCurDirBackground)
-            this.setTextSize(THM.unitSp, THM.sizeCurDirText)
-        }
-        findViewById<View>(R.id.topAccent2).setBackgroundColor(THM.colorListTopAccent)
-        findViewById<View>(R.id.saveFileLayout).setBackgroundColor(THM.colorSaveFileBoxBackground)
-        findViewById<View>(R.id.bottomAccent).setBackgroundColor(THM.colorListBottomAccent)
-        with (findViewById<EditText>(R.id.saveFileEditText))
-        {
-            this.typeface = THM.getFontBold(assets)
-            this.setTextColor(THM.colorSaveFileBoxText)
-            this.background.setColorFilter(THM.colorSaveFileBoxUnderline, PorterDuff.Mode.SRC_ATOP)
-            this.setTextSize(THM.unitSp, THM.sizeSaveFileText)
-        }
-        with (findViewById<Button>(R.id.saveFileButton))
-        {
-            this.typeface = THM.getFontBold(assets)
-            this.setTextColor(THM.colorSaveFileButtonText)
-            this.setTextSize(THM.unitSp, THM.sizeSaveFileButtonText)
-            ViewCompat.setBackgroundTintList(this, ColorStateList(
-                arrayOf(intArrayOf(android.R.attr.state_enabled)),
-                intArrayOf(THM.colorSaveFileButtonBackground)))
-        }
-        findViewById<View>(R.id.fileFilterLayout).setBackgroundColor(THM.colorFilterBackground)
-        findViewById<View>(R.id.bottomAccent2).setBackgroundColor(THM.colorSaveFileBoxBottomAccent)
-        findViewById<Spinner>(R.id.fileFilterSpinner).background.setColorFilter(THM.colorFilterArrow, PorterDuff.Mode.SRC_ATOP)
-        findViewById<View>(R.id.bottomAccent3).setBackgroundColor(THM.colorBottomAccent)
-        findViewById<View>(R.id.parDirLayout).setBackgroundColor(THM.colorParDirBackground)
-        with (findViewById<TextView>(R.id.parDirText))
-        {
-            this.typeface = THM.getFontBold(assets)
-            this.setTextColor(THM.colorParDirText)
-            this.setTextSize(THM.unitSp, THM.sizeParDirText)
-        }
-        with (findViewById<TextView>(R.id.parDirSubText))
-        {
-            this.typeface = THM.getFontBold(assets)
-            this.setTextColor(THM.colorParDirSubText)
-            this.setTextSize(THM.unitSp, THM.sizeParDirSubText)
-        }
-        findViewById<View>(R.id.parDirLayoutAccent).setBackgroundColor(THM.colorListAccent)
+    }
+
+    private fun setupRecyclerView()
+    {
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.setHasFixedSize(true)
     }
 
     private fun setupParentDirLayout()
@@ -320,6 +258,79 @@ open class MultiBrowserActivity: AppCompatActivity()
                 swipeRefreshLayout.isRefreshing = false
             }
         })
+    }
+
+    private fun refreshLayoutManager()
+    {
+        val manager: RecyclerView.LayoutManager
+        if (isListView)
+        {
+            manager = LinearLayoutManager(applicationContext)
+        }
+        else
+        {
+            val columnCount =
+                if (isTilesView) OPT.normalViewColumnCount else OPT.galleryViewColumnCount
+            manager = GridLayoutManager(applicationContext, columnCount)
+        }
+        recyclerView.layoutManager = manager
+    }
+
+    private fun setupViews()
+    {
+        findViewById<View>(R.id.deadSpaceBackground).setBackgroundColor(THM.colorDeadSpaceBackground)
+        findViewById<View>(R.id.topAccent).setBackgroundColor(THM.colorTopAccent)
+        with (findViewById<TextView>(R.id.curDirLabel))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorCurDirLabel)
+            this.setBackgroundColor(THM.colorCurDirBackground)
+            this.setTextSize(THM.unitSp, THM.sizeCurDirLabel)
+        }
+        with (findViewById<TextView>(R.id.curDirText))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorCurDirText)
+            this.setBackgroundColor(THM.colorCurDirBackground)
+            this.setTextSize(THM.unitSp, THM.sizeCurDirText)
+        }
+        findViewById<View>(R.id.topAccent2).setBackgroundColor(THM.colorListTopAccent)
+        findViewById<View>(R.id.saveFileLayout).setBackgroundColor(THM.colorSaveFileBoxBackground)
+        findViewById<View>(R.id.bottomAccent).setBackgroundColor(THM.colorListBottomAccent)
+        with (findViewById<EditText>(R.id.saveFileEditText))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorSaveFileBoxText)
+            this.background.setColorFilter(THM.colorSaveFileBoxUnderline, PorterDuff.Mode.SRC_ATOP)
+            this.setTextSize(THM.unitSp, THM.sizeSaveFileText)
+        }
+        with (findViewById<Button>(R.id.saveFileButton))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorSaveFileButtonText)
+            this.setTextSize(THM.unitSp, THM.sizeSaveFileButtonText)
+            ViewCompat.setBackgroundTintList(this, ColorStateList(
+                arrayOf(intArrayOf(android.R.attr.state_enabled)),
+                intArrayOf(THM.colorSaveFileButtonBackground)))
+        }
+        findViewById<View>(R.id.fileFilterLayout).setBackgroundColor(THM.colorFilterBackground)
+        findViewById<View>(R.id.bottomAccent2).setBackgroundColor(THM.colorSaveFileBoxBottomAccent)
+        findViewById<Spinner>(R.id.fileFilterSpinner).background.setColorFilter(THM.colorFilterArrow, PorterDuff.Mode.SRC_ATOP)
+        findViewById<View>(R.id.bottomAccent3).setBackgroundColor(THM.colorBottomAccent)
+        findViewById<View>(R.id.parDirLayout).setBackgroundColor(THM.colorParDirBackground)
+        with (findViewById<TextView>(R.id.parDirText))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorParDirText)
+            this.setTextSize(THM.unitSp, THM.sizeParDirText)
+        }
+        with (findViewById<TextView>(R.id.parDirSubText))
+        {
+            this.typeface = THM.getFontBold(assets)
+            this.setTextColor(THM.colorParDirSubText)
+            this.setTextSize(THM.unitSp, THM.sizeParDirSubText)
+        }
+        findViewById<View>(R.id.parDirLayoutAccent).setBackgroundColor(THM.colorListAccent)
     }
 
     fun refreshView(forceSourceReload: Boolean, refreshLayout: Boolean)
@@ -455,20 +466,9 @@ open class MultiBrowserActivity: AppCompatActivity()
         }
     }
 
-    private fun refreshLayoutManager()
+    fun setEditTextSaveFileName(name: String)
     {
-        val manager: RecyclerView.LayoutManager
-        if (isListView)
-        {
-            manager = LinearLayoutManager(applicationContext)
-        }
-        else
-        {
-            val columnCount =
-                if (isTilesView) OPT.normalViewColumnCount else OPT.galleryViewColumnCount
-            manager = GridLayoutManager(applicationContext, columnCount)
-        }
-        recyclerView.layoutManager = manager
+        editTextSaveFileName.setText(name)
     }
 
     fun onSelect(

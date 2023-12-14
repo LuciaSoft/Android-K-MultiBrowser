@@ -9,9 +9,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="BrowserLib">
+    <list default="true" id="c71a1071-7d5d-4eb3-b700-90b80a339676" name="Changes" comment="C">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MultiBrowserActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MultiBrowserActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MyListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/BrowserLib/src/main/java/com/luciasoft/browser/MyListAdapter.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -255,13 +255,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701722466524</updated>
-    </task>
-    <task id="LOCAL-00023" summary="C">
-      <created>1702138524641</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1702138524641</updated>
     </task>
     <task id="LOCAL-00024" summary="C">
       <created>1702141755232</created>
@@ -599,7 +592,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702506619874</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="C">
+      <created>1702511904434</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1702511904434</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -625,8 +625,8 @@
     <MESSAGE value="Test" />
     <MESSAGE value="MyListAdapter" />
     <MESSAGE value="DebugMode" />
-    <MESSAGE value="C" />
     <MESSAGE value="BrowserLib" />
-    <option name="LAST_COMMIT_MESSAGE" value="BrowserLib" />
+    <MESSAGE value="C" />
+    <option name="LAST_COMMIT_MESSAGE" value="C" />
   </component>
 </project>
