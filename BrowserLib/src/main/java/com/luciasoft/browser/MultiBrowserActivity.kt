@@ -185,7 +185,7 @@ open class MultiBrowserActivity: AppCompatActivity()
         })
     }
 
-    private fun setupFileFilterLayout() // ERROR HERE
+    private fun setupFileFilterLayout()
     {
         val spinnerFileFilters = findViewById<Spinner>(R.id.fileFilterSpinner)
 
