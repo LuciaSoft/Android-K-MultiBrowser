@@ -19,7 +19,7 @@ internal class MyListAdapter(
     private val itemList: ArrayList<DirectoryItem>)
     : RecyclerView.Adapter<MyListAdapter.MyViewHolder>()
 {
-    private val idMap = (itemList.indices).associateBy { itemList[it] } // .toMap(hashMapOf())
+    private val idMap = (itemList.indices).associateBy { itemList[it] } // HasMap(...)
 
     init
     {
